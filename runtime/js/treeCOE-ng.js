@@ -15,10 +15,8 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
       scope: {
         incomingdataField : '=',
         modelnameField : '@',
-        metadataField : '@',
         widthField : '@',
         heightField : '@',
-        outjsonField: '=',
         delegateField: '='
       },
       template: '<div></div>',
