@@ -1,8 +1,8 @@
 class Tree {
 
-    constructor( vuforiaScope, data, width , height , renderer ) {
+    constructor( vuforiaScope, data, width , height ,  renderer , modelname) {
 
-        let metadata = new Metadata(vuforiaScope , "myModel", renderer);
+        let metadata = new Metadata(vuforiaScope ,  renderer, modelname);
         let customUI = new CustomUI(width,height,data, metadata );
     }
 }
@@ -60,7 +60,33 @@ class CustomUI {
         UIContainer.style.backgroundColor = "transparent";
         UIContainer.style.display = "flex";
         UIContainer.style.flexDirection = "column";
-        UIContainer.style.zIndex =  '999';
+        UIContainer.style.zIndex =  '900';
+
+        var ToolbarContainer = document.createElement('div');
+        ToolbarContainer.id = 'markup-toolbar--container'; 
+        ToolbarContainer.style.position = "absolute";
+        ToolbarContainer.style.width = this.width;
+        ToolbarContainer.style.height = "50px";
+        ToolbarContainer.style.border = 'solid 1px rgba(0,0,0,0.1)';
+        ToolbarContainer.style.backgroundColor = "rgba(74,187,7)";
+        ToolbarContainer.style.top = "50px";
+        UIContainer.style.zIndex =  '910';
+
+
+        var CloseButton = document.createElement('img');
+        CloseButton.style.height = "48px";
+        CloseButton.style.width = "48px";
+        CloseButton.style.position = "absolute";
+        CloseButton.style.top = "2px";
+        CloseButton.style.left = "2px";
+        CloseButton.src = "extensions/images/tree_close.png";
+        CloseButton.style.backgroundColor = "rgba(74,187,7)";
+    
+        CloseButton.addEventListener("click",  () => { 
+            UIContainer.innerHTML = "" ;
+        });
+
+        ToolbarContainer.appendChild(CloseButton);
 
         var TreeContainer = document.createElement('div');
         TreeContainer.id = 'tree-container'; 
@@ -70,7 +96,7 @@ class CustomUI {
         TreeContainer.style.height = this.height+"vh" ;//this.height+ "px";
         TreeContainer.style.border = 'solid 1px rgba(0,0,0,0.1)';
         TreeContainer.style.backgroundColor = "rgba(154,163,154,0.25)";
-        TreeContainer.style.top = "50px";
+        TreeContainer.style.top = "102px";
         TreeContainer.style.overflowX = "scroll";
         TreeContainer.style.overflowY = "scroll";
         
@@ -90,6 +116,7 @@ class CustomUI {
         TreeContainer.appendChild(topUL);
 
         //Append the div to the higher level div 
+        UIContainer.appendChild(ToolbarContainer);
         UIContainer.appendChild(TreeContainer);
         //Append the div to the higher level div  
         LeftPanelSelector.appendChild(UIContainer);
@@ -195,7 +222,7 @@ class Metadata {
 
 
 
-  constructor( vuforiaScope , modelName , renderer) {
+  constructor( vuforiaScope ,  renderer , modelName ,) {
 
     this.#vuforiaScope = vuforiaScope;
     this.#renderer = renderer;

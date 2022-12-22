@@ -14,7 +14,8 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
       restrict: 'EA',
       scope: {
         incomingdataField : '=',
-        metadata : '@',
+        modelnameField : '@',
+        metadataField : '@',
         widthField : '@',
         heightField : '@',
         outjsonField: '=',
@@ -35,7 +36,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
         var executeTree = function() {
           console.log('do the custom activities here');
           if (!scope.data.disabled) {
-            let tree = new Tree(scope,scope.incomingdataField , scope.widthField, scope.heightField , scope.renderer );
+            let tree = new Tree(scope,scope.incomingdataField , scope.widthField, scope.heightField , scope.renderer , scope.modelnameField );
 
           } else {
             console.log('disabled');

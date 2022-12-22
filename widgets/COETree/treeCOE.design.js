@@ -67,7 +67,16 @@
           isBindingTarget: false,
           isBindingSource: true,
           showInput: false
-        }
+        },
+        {
+          name: 'modelname',
+          label: 'model name',
+          datatype: 'string',
+          default: '',
+          isBindingTarget: true,
+          isBindingSource: false,
+          showInput: true
+        },
       ],
 
       services: [
@@ -88,7 +97,7 @@
       ],
 
       dependencies: {
-        files         : ['js/treeCOE-ng.js','js/tree.js', 'images/Markup_arrow.png', 'images/Markup_arrowSelected.png', 'images/Markup_blackspot.png', 'images/Markup_blackspotSelected.png', 'images/Markup_bluespot.png', 'images/Markup_bluespotSelected.png','images/Markup_redspot.png', 'images/Markup_redspotSelected.png','images/Markup_yellowspot.png', 'images/Markup_yellowspotSelected.png','images/Markup_marker.png', 'images/Markup_markerSelected.png','images/Markup_reset.png', 'images/Markup_save.png'],
+        files         : ['js/treeCOE-ng.js','js/tree.js', 'images/tree_close.png', 'images/Markup_arrowSelected.png'],
         angularModules: ['treecoe-ng']
       },
 
@@ -98,7 +107,7 @@
       },
 
       runtimeTemplate: function (props) {
-        var tmpl = '<div ng-treecoe  incomingdata-field="me.incomingdata" width-field={{me.width}} height-field={{me.height}} metadata-field={{me.metadata}}  outjson-field="me.outjson" delegate-field="delegate"></div>' ; //original-field="me.original" markedup-field="me.markedup" delegate-field="delegate"></div>';
+        var tmpl = '<div ng-treecoe  incomingdata-field="me.incomingdata" width-field={{me.width}} height-field={{me.height}} modelname-field={{me.modelname}} metadata-field={{me.metadata}}  outjson-field="me.outjson" delegate-field="delegate"></div>' ; //original-field="me.original" markedup-field="me.markedup" delegate-field="delegate"></div>';
         return tmpl;
       }
     };
