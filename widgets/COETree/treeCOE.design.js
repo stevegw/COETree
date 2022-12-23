@@ -33,13 +33,22 @@
           showInput: false
         },
         {
-          name: 'metadata',
-          label: 'PTC.Metadata',
+          name: 'propertyname',
+          label: 'Property name',
           datatype: 'string',
-          default: '',
+          default: 'Part Name',
           isBindingTarget: true,
           isBindingSource: false,
-          showInput: false
+          showInput: true
+        },
+        {
+          name: 'displayname',
+          label: 'Display name',
+          datatype: 'string',
+          default: 'Display Name',
+          isBindingTarget: true,
+          isBindingSource: false,
+          showInput: true
         },
         {
           name: 'width',
@@ -60,15 +69,6 @@
           showInput: true
         },
         {
-          name: 'outjson',
-          label: 'JSON data',
-          datatype: 'string',
-          default: '',
-          isBindingTarget: false,
-          isBindingSource: true,
-          showInput: false
-        },
-        {
           name: 'modelname',
           label: 'model name',
           datatype: 'string',
@@ -83,7 +83,12 @@
         {
           name: 'start',
           label: 'Start'
-        }
+        },
+        {
+          name: 'stop',
+          label: 'Stop'
+        },
+
 
       ],
 
@@ -92,12 +97,13 @@
         {
           name: 'started',
           label: 'Started'
-        }
+        },
+        
 
       ],
 
       dependencies: {
-        files         : ['js/treeCOE-ng.js','js/tree.js', 'images/tree_close.png', 'images/Markup_arrowSelected.png'],
+        files         : ['js/treeCOE-ng.js','js/treeCOE.js', 'images/treeCOE_close.png', 'images/Markup_arrowSelected.png'],
         angularModules: ['treecoe-ng']
       },
 
@@ -107,7 +113,7 @@
       },
 
       runtimeTemplate: function (props) {
-        var tmpl = '<div ng-treecoe  incomingdata-field="me.incomingdata" width-field={{me.width}} height-field={{me.height}} modelname-field={{me.modelname}} metadata-field={{me.metadata}}  outjson-field="me.outjson" delegate-field="delegate"></div>' ; //original-field="me.original" markedup-field="me.markedup" delegate-field="delegate"></div>';
+        var tmpl = '<div ng-treecoe  incomingdata-field="me.incomingdata" propertyname-field={{me.propertyname}} displayname-field={{me.displayname}} width-field={{me.width}} height-field={{me.height}} modelname-field={{me.modelname}} metadata-field={{me.metadata}}   delegate-field="delegate"></div>' ; //original-field="me.original" markedup-field="me.markedup" delegate-field="delegate"></div>';
         return tmpl;
       }
     };

@@ -14,6 +14,8 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
       restrict: 'EA',
       scope: {
         incomingdataField : '=',
+        propertynameField : '@',
+        displaynameField : '@',
         modelnameField : '@',
         widthField : '@',
         heightField : '@',
@@ -23,6 +25,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
       link: function (scope, element, attr) {
 
         var lastUpdated = 'unknown';
+        var tree = undefined ;
         scope.data = { name: undefined, 
                    disabled: false, 
                         outjson: undefined,
@@ -34,8 +37,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
         var executeTree = function() {
           console.log('do the custom activities here');
           if (!scope.data.disabled) {
-            let tree = new Tree(scope,scope.incomingdataField , scope.widthField, scope.heightField , scope.renderer , scope.modelnameField );
-
+            tree = new TreeCOE(scope,scope.incomingdataField , scope.widthField, scope.heightField , scope.renderer , scope.modelnameField , scope.propertynameField, scope.displaynameField );
           } else {
             console.log('disabled');
 
@@ -48,13 +50,19 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
           executeTree();
         }
 
+        var stop = function() {
+          console.log('Stopped');
+          scope.data.disabled = false;
+          scope.$parent.fireEvent('stop');
+
+        }
+
         scope.$watch('incomingdataField', function () {
           console.log('dataField='+ scope.incomingdataField);
 
           if (scope.incomingdataField != undefined && scope.incomingdataField != '') {
             scope.data.incomingdata = scope.incomingdataField;
 
-            //start();
           }
 
         });
@@ -73,6 +81,9 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
           if (delegate) {
             delegate.start = function () { 
               start(); 
+            };
+            delegate.stop = function () { 
+              stop(); 
             };
           }
         });

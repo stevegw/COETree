@@ -1,8 +1,10 @@
-class Tree {
 
-    constructor( vuforiaScope, data, width , height ,  renderer , modelname) {
+let SELECTED_ITEMS = [];
+class TreeCOE {
 
-        let metadata = new Metadata(vuforiaScope ,  renderer, modelname);
+    constructor( vuforiaScope, data, width , height ,  renderer , modelname , propertyname , displayname) {
+
+        let metadata = new Metadata(vuforiaScope ,  renderer, modelname , propertyname , displayname);
         let customUI = new CustomUI(width,height,data, metadata );
     }
 }
@@ -13,6 +15,7 @@ class CustomUI {
     width;
     height;
     tagIndex;
+    currentEvent;
 
     constructor(  width, height , data , metadata ) {
 
@@ -20,6 +23,7 @@ class CustomUI {
         this.height = height;
         this.data = data;
         this.metadata = metadata;
+        this.currentEvent = "NOSET";
 
         console.log("Data IN="+ data);
         this.buildUI();
@@ -79,7 +83,7 @@ class CustomUI {
         CloseButton.style.position = "absolute";
         CloseButton.style.top = "2px";
         CloseButton.style.left = "2px";
-        CloseButton.src = "extensions/images/tree_close.png";
+        CloseButton.src = "extensions/images/treeCOE_close.png";
         CloseButton.style.backgroundColor = "rgba(74,187,7)";
     
         CloseButton.addEventListener("click",  () => { 
@@ -164,8 +168,11 @@ class CustomUI {
             //selected = selected.replace(expandString, "");
             this.setSelected(e);
         
-            if (selected != "Items") {
-                this.metadata.findAndHighLightOccurences("Part Name", selected);
+            if (selected != "Items" ) {
+              if (this.currentEvent != selected) {
+                this.metadata.findAndHighLightOccurences(selected);
+                this.currentEvent = selected;
+              }
             }
 
 
@@ -213,97 +220,88 @@ class CustomUI {
 
 class Metadata {
 
-  #SELECTED_ITEMS ;
-  #vuforiaScope;
-  #renderer;
-  #modelName;
-  #RGB_GREEN ;
- 
 
+  constructor( vuforiaScope ,  renderer , modelName , propertyName, displayName ) {
 
-
-  constructor( vuforiaScope ,  renderer , modelName ,) {
-
-    this.#vuforiaScope = vuforiaScope;
-    this.#renderer = renderer;
-    this.#modelName = modelName;
-    this.#SELECTED_ITEMS =[];
-    this.#RGB_GREEN = 'rgba(75, 255, 0, 1)';
-
+    this.vuforiaScope = vuforiaScope;
+    this.renderer = renderer;
+    this.modelName = modelName;
+    this.propertyName = propertyName;
+    this.displayName = displayName;
 
   }
 
-  findAndHighLightOccurences = function( selectedAttribute , searchText) {
+  findAndHighLightOccurences = function(searchText) {
   
-    console.log("Searching for "+searchText);
+    console.log("Using Model name:"+this.modelName + " Searching for "+searchText);
+    console.log("propertyName:"+this.propertyName + " displayName:"+this.displayName);
   
-    if (selectedAttribute != "" && searchText != "") {
+    if (searchText != "") {
 
-      var modelName =   this.#modelName;
-      var highlightColor = this.#RGB_GREEN;
-      var tmlrenderer = this.#renderer;
+      let pName = this.propertyName;
 
-      PTC.Metadata.fromId(modelName).then((metadata) => {
+      PTC.Metadata.fromId(this.modelName).then((mdata) => {
   
-          var occuranceItems = metadata.find(selectedAttribute).like(searchText).getSelected();
-          var namesArray = [];
+          var occuranceItems = mdata.find(pName).like(searchText).getSelected();
           var hiliteArray = [];
-    
+
           if (occuranceItems.length > 0)  {
 
+            this.resetHighlight(this.renderer);
+            
+            var self = this;
             occuranceItems.forEach(function (occurence) {
-    
-              var displayName = metadata.get(occurence, 'Display Name');
-              var jsonArg1 = {};
-      
-              jsonArg1.display = displayName;
-              jsonArg1.value = occurence;
-              namesArray.push(jsonArg1);
-              hiliteArray.push(modelName + '-' + occurence);
-         
-    
+              hiliteArray.push(self.modelName + '-' + occurence);
+              SELECTED_ITEMS.push(self.modelName + '-' + occurence);
+
             });
       
             if (hiliteArray.length > 0) {
-  
-              this.setColor(hiliteArray, highlightColor , tmlrenderer);
+              this.hilite(hiliteArray, true , this.renderer);
             }
-
           } else {
 
-            console.log('Nothing found in Metadata for Item : ' + searchText)
+            console.log('Nothing found in Metadata when searching for : ' + searchText );
 
           }
-
-    
-
-    
       })
-        .catch((err) => { console.log('metadata extraction failed with reason : ' + err); });
-    
-    
+        .catch((err) => { console.log('Metadata extraction failed with reason : ' + err); })
+        .finally( () => { console.log('Metadata done') } 
+          
+        );
     }
   
   }
 
-  setColor = function (items, color , tmlrenderer) {
-    items.forEach(function (item) {
-        console.log("Starting render");
-        tmlrenderer.setColor(item, color);
+  // setColor = function (items,  tmlrenderer) {
+  //   items.forEach(function (item) {
+  //       console.log("Starting render");
+  //       tmlrenderer.setColor(item, 'rgba(75, 255, 0, 1)');
 
+  //   });
+  // }
+
+  hilite = function(items,hilite , tmlrenderer) {
+    items.forEach(function(item) {
+      
+      if (hilite === true ) {
+        tmlrenderer.setProperties (item , { shader:"green", hidden:false, opacity:0.9, phantom:false, decal:true }); //,  hidden:false, opacity:0.9, phantom:false, decal:true });
+       // tmlrenderer.setProperties (item , { shader:"xray;r f 1.0;g f 0.031;b f 0.03",  hidden:false, opacity:0.9, phantom:false, decal:true });
+      } else {
+        tmlrenderer.setProperties (item , { shader:null,  hidden:false, opacity:1.0, phantom:false, decal:false });
+      }
+      
     });
   }
 
-  hilite = function(nodeId,rd) {
-    rd.setProperties(nodeId,
-      {
-        shader:"green" , 
-        hidden:false,
-        opacity:0.9,
-        phantom:false,
-        decal:false
-      });      
-  };
+
+  resetHighlight = function( tmlrenderer) {
+
+    if (SELECTED_ITEMS != undefined && SELECTED_ITEMS.length > 0) {
+        this.hilite(SELECTED_ITEMS,false , tmlrenderer);
+      }
+      SELECTED_ITEMS =[];
+    }
   
   toHolo = function () {
     return (toBool(scope.isholoField) && !twx.app.isPreview())?'hl':'gl';
