@@ -59,8 +59,8 @@ class CustomUI {
 
         UIContainer.style.top = "1px"; 
         UIContainer.style.left = leftposition + "px";
-        UIContainer.style.width = this.width;
-        UIContainer.style.height = this.height;
+        UIContainer.style.width = this.width+"vw";
+        UIContainer.style.height = this.height+"vh";
         UIContainer.style.backgroundColor = "transparent";
         UIContainer.style.display = "flex";
         UIContainer.style.flexDirection = "column";
@@ -69,20 +69,28 @@ class CustomUI {
         var ToolbarContainer = document.createElement('div');
         ToolbarContainer.id = 'markup-toolbar--container'; 
         ToolbarContainer.style.position = "absolute";
-        ToolbarContainer.style.width = this.width;
-        ToolbarContainer.style.height = "50px";
-        ToolbarContainer.style.border = 'solid 1px rgba(0,0,0,0.1)';
-        ToolbarContainer.style.backgroundColor = "rgba(74,187,7)";
+        ToolbarContainer.style.width = this.width+"vw";
+        ToolbarContainer.style.height = "54px";
+        ToolbarContainer.style.border = 'solid 5px rgba(0,0,0,0.25)';
+        ToolbarContainer.style.backgroundColor = "rgba(74,187,7,0.25)";
         ToolbarContainer.style.top = "50px";
+        ToolbarContainer.style.overflow = "hidden";
         UIContainer.style.zIndex =  '910';
+
+    
+        var ItemLabel = document.createElement('label');
+        ItemLabel.style.position = "absolute";
+        ItemLabel.style.top = "10px";
+        ItemLabel.style.left =  "2px";
+        ItemLabel.style.backgroundColor = "rgba(74,187,7)";
 
 
         var CloseButton = document.createElement('img');
-        CloseButton.style.height = "48px";
-        CloseButton.style.width = "48px";
+        CloseButton.style.height = "42px";
+        CloseButton.style.width = "42px";
         CloseButton.style.position = "absolute";
-        CloseButton.style.top = "2px";
-        CloseButton.style.left = "2px";
+        CloseButton.style.top = "1px";
+        CloseButton.style.right =  "2px";
         CloseButton.src = "extensions/images/treeCOE_close.png";
         CloseButton.style.backgroundColor = "rgba(74,187,7)";
     
@@ -90,6 +98,7 @@ class CustomUI {
             UIContainer.innerHTML = "" ;
         });
 
+        ToolbarContainer.appendChild(ItemLabel);
         ToolbarContainer.appendChild(CloseButton);
 
         var TreeContainer = document.createElement('div');
@@ -113,6 +122,9 @@ class CustomUI {
         //topUL.style.overflowY = "scroll";
         topUL.setAttribute("class", "tree");
         this.tagIndex = 1;
+        var partName = this.data.PartName ;
+
+        ItemLabel.innerHTML = partName;
         this.createSublist(topUL,this.data.Components);
         //this.createSublist(topUL,testData2.Components);
         
