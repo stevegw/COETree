@@ -15,10 +15,11 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
       scope: {
         incomingdataField : '=',
         propertynameField : '@',
-        displaynameField : '@',
+        hilitemodelField : '@',
         modelnameField : '@',
         widthField : '@',
         heightField : '@',
+        selectedvalueField : '=',
         delegateField: '='
       },
       template: '<div></div>',
@@ -37,7 +38,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
         var executeTree = function() {
           console.log('do the custom activities here');
           if (!scope.data.disabled) {
-            tree = new TreeCOE(scope,scope.incomingdataField , scope.widthField, scope.heightField , scope.renderer , scope.modelnameField , scope.propertynameField, scope.displaynameField );
+            tree = new TreeCOE(scope,scope.incomingdataField , scope.widthField, scope.heightField , scope.renderer , scope.modelnameField , scope.propertynameField, scope.hilitemodelField );
           } else {
             console.log('disabled');
 
@@ -50,12 +51,6 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
           executeTree();
         }
 
-        var stop = function() {
-          console.log('Stopped');
-          scope.data.disabled = false;
-          scope.$parent.fireEvent('stop');
-
-        }
 
         scope.$watch('incomingdataField', function () {
           console.log('dataField='+ scope.incomingdataField);
@@ -67,13 +62,8 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
 
         });
 
-        scope.$watch('outjsonField', function () {
-          console.log('outjsonField='+ scope.outjsonField);
-
-          if (scope.outjsonField != undefined && scope.outjsonField != '') {
-            scope.data.outjson = scope.outjsonField;
-
-          }
+        scope.$watch('selectedvalueField', function () {
+          console.log('selectedvalueField='+ scope.selectedvalueField);
 
         });
 
@@ -82,9 +72,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
             delegate.start = function () { 
               start(); 
             };
-            delegate.stop = function () { 
-              stop(); 
-            };
+
           }
         });
 

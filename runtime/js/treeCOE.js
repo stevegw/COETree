@@ -2,9 +2,9 @@
 let SELECTED_ITEMS = [];
 class TreeCOE {
 
-    constructor( vuforiaScope, data, width , height ,  renderer , modelname , propertyname , displayname) {
+    constructor( vuforiaScope, data, width , height ,  renderer , modelname , propertyname , hilitemodel) {
 
-        let metadata = new Metadata(vuforiaScope ,  renderer, modelname , propertyname , displayname);
+        let metadata = new Metadata(vuforiaScope ,  renderer, modelname , propertyname , hilitemodel);
         let customUI = new CustomUI(width,height,data, metadata );
     }
 }
@@ -49,6 +49,7 @@ class CustomUI {
 		'twx-container-content > twx-widget:nth-child(2) > twx-widget-content > div > twx-container-content > div.panel.body.undefined > div.panel.undefined.left';
   
 	    let LeftPanelSelector = document.querySelector(LeftPanelQuery); 
+      let backgroundColor = "rgba(78,194,50,0.65)";
 
         var UIContainer = document.createElement('div');
         UIContainer.id = 'ui-container';
@@ -61,9 +62,11 @@ class CustomUI {
         UIContainer.style.left = leftposition + "px";
         UIContainer.style.width = this.width+"vw";
         UIContainer.style.height = this.height+"vh";
-        UIContainer.style.backgroundColor = "transparent";
+        UIContainer.style.backgroundColor = backgroundColor;
         UIContainer.style.display = "flex";
         UIContainer.style.flexDirection = "column";
+        UIContainer.style.position = "absolute";
+        UIContainer.style.top = "50px";
         UIContainer.style.zIndex =  '900';
 
         var ToolbarContainer = document.createElement('div');
@@ -72,8 +75,8 @@ class CustomUI {
         ToolbarContainer.style.width = this.width+"vw";
         ToolbarContainer.style.height = "54px";
         ToolbarContainer.style.border = 'solid 5px rgba(0,0,0,0.25)';
-        ToolbarContainer.style.backgroundColor = "rgba(74,187,7,0.25)";
-        ToolbarContainer.style.top = "50px";
+        ToolbarContainer.style.backgroundColor = backgroundColor;
+        ToolbarContainer.style.top = "0px";
         ToolbarContainer.style.overflow = "hidden";
         UIContainer.style.zIndex =  '910';
 
@@ -88,9 +91,11 @@ class CustomUI {
         var CloseButton = document.createElement('img');
         CloseButton.style.height = "42px";
         CloseButton.style.width = "42px";
+        CloseButton.style.borderRadius = "5px";
+        CloseButton.style.borderColor = "rgba(0,0,0)";
         CloseButton.style.position = "absolute";
         CloseButton.style.top = "1px";
-        CloseButton.style.right =  "2px";
+        CloseButton.style.right =  "0px";
         CloseButton.src = "extensions/images/treeCOE_close.png";
         CloseButton.style.backgroundColor = "rgba(74,187,7)";
     
@@ -108,8 +113,8 @@ class CustomUI {
         TreeContainer.style.width = this.width+"vw";//this.width+ "px";;
         TreeContainer.style.height = this.height+"vh" ;//this.height+ "px";
         TreeContainer.style.border = 'solid 1px rgba(0,0,0,0.1)';
-        TreeContainer.style.backgroundColor = "rgba(154,163,154,0.25)";
-        TreeContainer.style.top = "102px";
+        TreeContainer.style.backgroundColor = backgroundColor;
+        TreeContainer.style.top = "52px";
         TreeContainer.style.overflowX = "scroll";
         TreeContainer.style.overflowY = "scroll";
         
@@ -178,12 +183,17 @@ class CustomUI {
             selected = selected.replace( /[\r\n]+/gm, "" );
             selected = selected.trim();
             //selected = selected.replace(expandString, "");
+
             this.setSelected(e);
         
             if (selected != "Items" ) {
-              if (this.currentEvent != selected) {
-                this.metadata.findAndHighLightOccurences(selected);
-                this.currentEvent = selected;
+              if (this.currentEvent != e.target.id) {
+                if (this.metadata.hilitemodel === "true") {
+                  this.metadata.findAndHighLightOccurences(selected);
+                }
+                this.currentEvent = e.target.id;
+                this.metadata.vuforiaScope.$parent.fireEvent('clicked');
+                this.metadata.vuforiaScope.selectedvalueField = selected;
               }
             }
 
@@ -233,20 +243,19 @@ class CustomUI {
 class Metadata {
 
 
-  constructor( vuforiaScope ,  renderer , modelName , propertyName, displayName ) {
+  constructor( vuforiaScope ,  renderer , modelName , propertyName, hilitemodel ) {
 
     this.vuforiaScope = vuforiaScope;
     this.renderer = renderer;
     this.modelName = modelName;
     this.propertyName = propertyName;
-    this.displayName = displayName;
+    this.hilitemodel = hilitemodel;
 
   }
 
   findAndHighLightOccurences = function(searchText) {
   
     console.log("Using Model name:"+this.modelName + " Searching for "+searchText);
-    console.log("propertyName:"+this.propertyName + " displayName:"+this.displayName);
   
     if (searchText != "") {
 
