@@ -53,51 +53,24 @@ class CustomUI {
 
         var UIContainer = document.createElement('div');
         UIContainer.id = 'ui-container';
-        UIContainer.className = '';
-        UIContainer.style.position = "absolute"; //Allowed values: static, absolute, fixed, relative, sticky, initial, inherit;  
-        
-        let leftposition =  1 ; 
-
-        UIContainer.style.top = "1px"; 
-        UIContainer.style.left = leftposition + "px";
+        UIContainer.className = 'uicontainer'; 
         UIContainer.style.width = this.width+"vw";
         UIContainer.style.height = this.height+"vh";
-        UIContainer.style.backgroundColor = backgroundColor;
-        UIContainer.style.display = "flex";
-        UIContainer.style.flexDirection = "column";
-        UIContainer.style.position = "absolute";
-        UIContainer.style.top = "50px";
-        UIContainer.style.zIndex =  '900';
+
 
         var ToolbarContainer = document.createElement('div');
-        ToolbarContainer.id = 'markup-toolbar--container'; 
-        ToolbarContainer.style.position = "absolute";
+        ToolbarContainer.id = 'markup-toolbar--container';  
+        ToolbarContainer.className = 'toolbarcontainer';
         ToolbarContainer.style.width = this.width+"vw";
         ToolbarContainer.style.height = "54px";
-        ToolbarContainer.style.border = 'solid 5px rgba(0,0,0,0.25)';
-        ToolbarContainer.style.backgroundColor = backgroundColor;
-        ToolbarContainer.style.top = "0px";
-        ToolbarContainer.style.overflow = "hidden";
-        UIContainer.style.zIndex =  '910';
 
-    
         var ItemLabel = document.createElement('label');
-        ItemLabel.style.position = "absolute";
-        ItemLabel.style.top = "10px";
-        ItemLabel.style.left =  "2px";
-        ItemLabel.style.backgroundColor = "rgba(74,187,7)";
+        ItemLabel.className = 'itemlabel';
 
 
         var CloseButton = document.createElement('img');
-        CloseButton.style.height = "42px";
-        CloseButton.style.width = "42px";
-        CloseButton.style.borderRadius = "5px";
-        CloseButton.style.borderColor = "rgba(0,0,0)";
-        CloseButton.style.position = "absolute";
-        CloseButton.style.top = "1px";
-        CloseButton.style.right =  "0px";
+        CloseButton.className = 'closebutton';
         CloseButton.src = "extensions/images/treeCOE_close.png";
-        CloseButton.style.backgroundColor = "rgba(74,187,7)";
     
         CloseButton.addEventListener("click",  () => { 
             UIContainer.innerHTML = "" ;
@@ -108,16 +81,9 @@ class CustomUI {
 
         var TreeContainer = document.createElement('div');
         TreeContainer.id = 'tree-container'; 
-        TreeContainer.style.position = "absolute";
-        TreeContainer.style.display = "block";
+        TreeContainer.className = 'treecontainer'; 
         TreeContainer.style.width = this.width+"vw";//this.width+ "px";;
         TreeContainer.style.height = this.height+"vh" ;//this.height+ "px";
-        TreeContainer.style.border = 'solid 1px rgba(0,0,0,0.1)';
-        TreeContainer.style.backgroundColor = backgroundColor;
-        TreeContainer.style.top = "52px";
-        TreeContainer.style.overflowX = "scroll";
-        TreeContainer.style.overflowY = "scroll";
-        
 
         //
         // Ideas on tree creation found https://iamkate.com/code/tree-views/

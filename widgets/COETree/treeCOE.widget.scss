@@ -112,3 +112,61 @@
   content : '−';
 }
 
+.uicontainer {
+
+  left : 1px;
+  background-color : "rgba(78,194,50,0.65)";
+  display : flex;
+  flex-direction : column;
+  position : absolute; //Allowed values: static, absolute, fixed, relative, sticky, initial, inherit;  
+  top : 50px;
+  z-index:  900;
+
+}
+
+.toolbarcontainer{
+  position : absolute;
+  border-style: solid;
+  border : rgba(0,0,0,0.25);
+  background-color:  rgba(78,194,50,0.65);
+  top : 0px;
+  overflow : hidden;
+  z-Index :  910;
+}
+
+.treecontainer {
+  position : absolute;
+  display : block;
+  border  : rgba(0,0,0,0.1);
+  border-style: solid;
+  background-color : rgba(78,194,50,0.65);
+  top : 52px;
+  overflow-x : scroll;
+  overflow-y : scroll;
+
+
+}
+
+.itemlabel{
+  position : absolute;
+  top : 10px;
+  left :  2px;
+  background-color : rgb(74,187,7);
+
+
+}
+
+.closebutton {
+
+
+  height : 42px;
+  width : 42px;
+  border-radius :5px;
+  border-color: rgb(0,0,0);
+  position : absolute;
+  top : 1px;
+  right :  0px;
+  background-color : rgb(74,187,7);
+
+}
+
