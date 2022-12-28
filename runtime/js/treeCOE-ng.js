@@ -15,6 +15,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
       scope: {
         incomingdataField : '=',
         propertynameField : '@',
+        jsonarrayidentifierField : '@',
         hilitemodelField : '@',
         modelnameField : '@',
         widthField : '@',
@@ -38,7 +39,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
         var executeTree = function() {
           console.log('do the custom activities here');
           if (!scope.data.disabled) {
-            tree = new TreeCOE(scope,scope.incomingdataField , scope.widthField, scope.heightField , scope.renderer , scope.modelnameField , scope.propertynameField, scope.hilitemodelField );
+            tree = new TreeCOE(scope,scope.incomingdataField , scope.widthField, scope.heightField , scope.renderer , scope.modelnameField , scope.propertynameField, scope.hilitemodelField , scope.jsonarrayidentifierField );
           } else {
             console.log('disabled');
 

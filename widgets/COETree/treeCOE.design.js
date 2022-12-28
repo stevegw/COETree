@@ -51,6 +51,15 @@
           showInput: true
         },
         {
+          name: 'jsonarrayidentifier',
+          label: 'JSON array Identifier',
+          datatype: 'string',
+          default: 'Components',
+          isBindingTarget: true,
+          isBindingSource: false,
+          showInput: true
+        },
+        {
           name: 'modelname',
           label: 'model name',
           datatype: 'string',
@@ -114,7 +123,7 @@
       },
 
       runtimeTemplate: function (props) {
-        var tmpl = '<div ng-treecoe  incomingdata-field="me.incomingdata" selectedvalue-field="me.selectedvalue" propertyname-field={{me.propertyname}} hilitemodel-field={{me.hilitemodel}} width-field={{me.width}} height-field={{me.height}} modelname-field={{me.modelname}} metadata-field={{me.metadata}}   delegate-field="delegate"></div>' ; //original-field="me.original" markedup-field="me.markedup" delegate-field="delegate"></div>';
+        var tmpl = '<div ng-treecoe  incomingdata-field="me.incomingdata" selectedvalue-field="me.selectedvalue" propertyname-field={{me.propertyname}}  jsonarrayidentifier-field={{me.jsonarrayidentifier}}     hilitemodel-field={{me.hilitemodel}} width-field={{me.width}} height-field={{me.height}} modelname-field={{me.modelname}} metadata-field={{me.metadata}}   delegate-field="delegate"></div>' ; //original-field="me.original" markedup-field="me.markedup" delegate-field="delegate"></div>';
         return tmpl;
       }
     };

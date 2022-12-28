@@ -2,9 +2,9 @@
 let SELECTED_ITEMS = [];
 class TreeCOE {
 
-    constructor( vuforiaScope, data, width , height ,  renderer , modelname , propertyname , hilitemodel) {
+    constructor( vuforiaScope, data, width , height ,  renderer , modelname , propertyname , hilitemodel ,jsonarrayidentifier) {
 
-        let metadata = new Metadata(vuforiaScope ,  renderer, modelname , propertyname , hilitemodel);
+        let metadata = new Metadata(vuforiaScope ,  renderer, modelname , propertyname , hilitemodel , jsonarrayidentifier);
         let customUI = new CustomUI(width,height,data, metadata );
     }
 }
@@ -96,7 +96,7 @@ class CustomUI {
         var partName = this.data.PartName ;
 
         ItemLabel.innerHTML = partName;
-        this.createSublist(topUL,this.data.Components);
+        this.createSublist(topUL,this.data[ this.metadata.jsonarrayidentifier ] ) //'Components']);
         //this.createSublist(topUL,testData2.Components);
         
 
@@ -209,13 +209,14 @@ class CustomUI {
 class Metadata {
 
 
-  constructor( vuforiaScope ,  renderer , modelName , propertyName, hilitemodel ) {
+  constructor( vuforiaScope ,  renderer , modelName , propertyName, hilitemodel , jsonarrayidentifier ) {
 
     this.vuforiaScope = vuforiaScope;
     this.renderer = renderer;
     this.modelName = modelName;
     this.propertyName = propertyName;
     this.hilitemodel = hilitemodel;
+    this.jsonarrayidentifier = jsonarrayidentifier;
 
   }
 
