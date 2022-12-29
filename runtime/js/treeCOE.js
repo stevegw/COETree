@@ -93,7 +93,7 @@ class CustomUI {
         //topUL.style.overflowY = "scroll";
         topUL.setAttribute("class", "tree");
         this.tagIndex = 1;
-        var partName = this.data.PartName ;
+        var partName = this.data[this.metadata.propertyName] ;
 
         ItemLabel.innerHTML = partName;
         this.createSublist(topUL,this.data[ this.metadata.jsonarrayidentifier ] ) //'Components']);
@@ -141,7 +141,7 @@ class CustomUI {
           var row = data[j];
           var li = document.createElement('li');
           li.setAttribute("id", "item"+ this.tagIndex+row.PartName );
-          li.innerHTML  = "&nbsp;&nbsp;"+row.PartName;
+          li.innerHTML  = "&nbsp;&nbsp;"+row[this.metadata.propertyName];
           li.addEventListener('click',(e)=>{
             console.log("Event click target textContent="+ e.target.textContent);
 
@@ -167,7 +167,7 @@ class CustomUI {
           });
           li.style.backgroundColor = "rgba(250,238,3,0.35)";
           // var nodes = row.nodes;
-          var nodes = row.Components;
+          var nodes = row[this.metadata.jsonarrayidentifier];
           if(nodes && nodes.length) {
             this.createSublist(li, nodes);
           }
