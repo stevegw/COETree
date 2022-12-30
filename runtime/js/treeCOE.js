@@ -227,8 +227,9 @@ class Metadata {
     if (searchText != "") {
 
       let pName = this.propertyName;
+      let mName = this.modelName;
 
-      PTC.Metadata.fromId(this.modelName).then((mdata) => {
+      PTC.Metadata.fromId(mName).then((mdata) => {
   
           var occuranceItems = mdata.find(pName).like(searchText).getSelected();
           var hiliteArray = [];
