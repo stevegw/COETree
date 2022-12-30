@@ -2,10 +2,10 @@
 let SELECTED_ITEMS = [];
 class TreeCOE {
 
-    constructor( vuforiaScope, data, width , height ,  renderer , modelname , propertyname , hilitemodel ,jsonarrayidentifier) {
+    constructor( vuforiaScope, data, width , height , topoffset , leftoffset ,  renderer , modelname , propertyname , hilitemodel ,jsonarrayidentifier) {
 
         let metadata = new Metadata(vuforiaScope ,  renderer, modelname , propertyname , hilitemodel , jsonarrayidentifier);
-        let customUI = new CustomUI(width,height,data, metadata );
+        let customUI = new CustomUI(width,height, topoffset , leftoffset ,data, metadata );
     }
 }
 
@@ -17,10 +17,12 @@ class CustomUI {
     tagIndex;
     currentEvent;
 
-    constructor(  width, height , data , metadata ) {
+    constructor(  width, height , topoffset , leftoffset , data , metadata ) {
 
         this.width = width;
         this.height = height;
+        this.topoffset = topoffset;
+        this.leftoffset = leftoffset;
         this.data = data;
         this.metadata = metadata;
         this.currentEvent = "NOSET";
@@ -54,15 +56,17 @@ class CustomUI {
         var UIContainer = document.createElement('div');
         UIContainer.id = 'ui-container';
         UIContainer.className = 'uicontainer'; 
-        UIContainer.style.width = this.width+"vw";
-        UIContainer.style.height = this.height+"vh";
+        UIContainer.style.width = this.width;
+        UIContainer.style.height = this.height;
+        UIContainer.style.top = this.topoffset;
+        UIContainer.style.left = this.leftoffset;
 
 
         var ToolbarContainer = document.createElement('div');
         ToolbarContainer.id = 'markup-toolbar--container';  
         ToolbarContainer.className = 'toolbarcontainer';
-        ToolbarContainer.style.width = this.width+"vw";
-        ToolbarContainer.style.height = "54px";
+        ToolbarContainer.style.width = this.width;
+        ToolbarContainer.style.height = "50px";
 
         var ItemLabel = document.createElement('label');
         ItemLabel.className = 'itemlabel';
@@ -82,8 +86,10 @@ class CustomUI {
         var TreeContainer = document.createElement('div');
         TreeContainer.id = 'tree-container'; 
         TreeContainer.className = 'treecontainer'; 
-        TreeContainer.style.width = this.width+"vw";//this.width+ "px";;
-        TreeContainer.style.height = this.height+"vh" ;//this.height+ "px";
+        TreeContainer.style.width = this.width;//this.width+ "px";;
+        TreeContainer.style.height = this.height ;//this.height+ "px";
+        TreeContainer.style.top = "50px";
+
 
         //
         // Ideas on tree creation found https://iamkate.com/code/tree-views/

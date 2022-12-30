@@ -79,18 +79,36 @@
         },
         {
           name: 'width',
-          label: 'width %',
+          label: 'width',
           datatype: 'string',
-          default: '40',
+          default: '40vw',
           isBindingTarget: true,
           isBindingSource: false,
           showInput: true
         },
         {
           name: 'height',
-          label: 'height %',
+          label: 'height',
           datatype: 'string',
-          default: '60',
+          default: '60vh',
+          isBindingTarget: true,
+          isBindingSource: false,
+          showInput: true
+        },
+        {
+          name: 'topoffset',
+          label: 'top offset',
+          datatype: 'string',
+          default: '50px',
+          isBindingTarget: true,
+          isBindingSource: false,
+          showInput: true
+        },
+        {
+          name: 'leftoffset',
+          label: 'left offset',
+          datatype: 'string',
+          default: '1px',
           isBindingTarget: true,
           isBindingSource: false,
           showInput: true
@@ -123,7 +141,7 @@
       },
 
       runtimeTemplate: function (props) {
-        var tmpl = '<div ng-treecoe  incomingdata-field="me.incomingdata" selectedvalue-field="me.selectedvalue" propertyname-field={{me.propertyname}}  jsonarrayidentifier-field={{me.jsonarrayidentifier}}     hilitemodel-field={{me.hilitemodel}} width-field={{me.width}} height-field={{me.height}} modelname-field={{me.modelname}} metadata-field={{me.metadata}}   delegate-field="delegate"></div>' ; //original-field="me.original" markedup-field="me.markedup" delegate-field="delegate"></div>';
+        var tmpl = '<div ng-treecoe  incomingdata-field="me.incomingdata" selectedvalue-field="me.selectedvalue" propertyname-field={{me.propertyname}}  jsonarrayidentifier-field={{me.jsonarrayidentifier}} hilitemodel-field={{me.hilitemodel}} width-field={{me.width}} height-field={{me.height}} topoffset-field={{me.topoffset}} leftoffset-field={{me.leftoffset}} modelname-field={{me.modelname}} metadata-field={{me.metadata}}   delegate-field="delegate"></div>' ; //original-field="me.original" markedup-field="me.markedup" delegate-field="delegate"></div>';
         return tmpl;
       }
     };
