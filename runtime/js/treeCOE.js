@@ -18,6 +18,7 @@ class CustomUI {
     height;
     tagIndex;
     currentEvent;
+    previousSelection;
 
     constructor(  width, height , topoffset , leftoffset , data , metadata ) {
 
@@ -28,6 +29,7 @@ class CustomUI {
         this.data = data;
         this.metadata = metadata;
         this.currentEvent = "NOSET";
+        this.previousSelection = undefined;
 
         console.log("Data IN="+ data);
         this.buildUI();
@@ -210,6 +212,27 @@ class CustomUI {
 
       }
 
+      setDetailsNode (element , isOpen) {
+        try {
+        
+          while (element) {          
+            element = element.parentNode;
+            if (element.nodeName === "DETAILS" ) {
+              if (isOpen) {
+              element.setAttribute("open", isOpen);
+              } else {
+                element.removeAttribute("open");
+              
+              }
+            }
+          }
+
+        }  catch (ex) {
+          console.log("Possible issue setDetailsNode  "+ ex); 
+        }
+
+      }
+
       getElementsStartsWith( selectionArray ) {
 
         try {
@@ -225,35 +248,26 @@ class CustomUI {
           console.log("queryElement="+ queryElement);
 
           if (queryElement != null) {
+                    //find all the elements in your channel list and loop over them
+                    Array.prototype.slice.call(document.querySelectorAll('li')).forEach(function(element){
+                      // remove the selected class
+                      element.classList.remove('itemselected');
+                    });
 
-                    // find all the elements in your channel list and loop over them
-                    // Array.prototype.slice.call(document.querySelectorAll('li')).forEach(function(element){
-                    //   // remove the selected class
-                    //   element.classList.remove('itemselected');
-                    // });
                     try {
-                    var a = queryElement;
-                    var els = [];
-                    while (a) {
-                        els.unshift(a);
-                        a = a.parentNode;
-
-                        if (a.nodeName === "DETAILS" ) {
-                          a.setAttribute("open", "");
-                        }
+                    if (this.previousSelection != undefined) {
+                      this.setDetailsNode(this.previousSelection, false);
                     }
+                    this.previousSelection = queryElement;
+                    this.setDetailsNode(queryElement, true);
+
                   } catch (ex) {
                     //ignore
+                    console.log("Possible issue in getElementsStartsWith  "+ ex); 
                 }
 
-                    queryElement.classList.add('itemselected');
-
-                      
-                  
-
-
+                queryElement.classList.add('itemselected');
           }
-
 
         } catch (ex) {
 
@@ -275,16 +289,10 @@ class CustomUI {
         }
         return items;
       }
-    
-
-    
-
 }
 
 
 class Metadata {
-
-
   constructor( vuforiaScope ,  renderer , modelName , propertyName, hilitemodel , jsonarrayidentifier ) {
 
     this.vuforiaScope = vuforiaScope;
