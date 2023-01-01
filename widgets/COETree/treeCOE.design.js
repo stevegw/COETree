@@ -37,7 +37,7 @@
           label: 'Selected Value',
           datatype: 'string',
           default: '',
-          isBindingTarget: false,
+          isBindingTarget: true,
           isBindingSource: true,
           showInput: false
         },
@@ -113,6 +113,7 @@
           isBindingSource: false,
           showInput: true
         }
+        
       ],
 
       services: [

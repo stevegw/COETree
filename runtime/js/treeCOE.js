@@ -2,10 +2,12 @@
 let SELECTED_ITEMS = [];
 class TreeCOE {
 
+    customUI ;
+
     constructor( vuforiaScope, data, width , height , topoffset , leftoffset ,  renderer , modelname , propertyname , hilitemodel ,jsonarrayidentifier) {
 
         let metadata = new Metadata(vuforiaScope ,  renderer, modelname , propertyname , hilitemodel , jsonarrayidentifier);
-        let customUI = new CustomUI(width,height, topoffset , leftoffset ,data, metadata );
+        this.customUI = new CustomUI(width,height, topoffset , leftoffset ,data, metadata );
     }
 }
 
@@ -146,20 +148,19 @@ class CustomUI {
         for(var j = 0; j < data.length; j++) {
           var row = data[j];
           var li = document.createElement('li');
-          li.setAttribute("id", "item"+ this.tagIndex+row.PartName );
+          li.setAttribute("id", row.PartName+ "item"+ this.tagIndex );
           li.innerHTML  = "&nbsp;&nbsp;"+row[this.metadata.propertyName];
           li.addEventListener('click',(e)=>{
             console.log("Event click target textContent="+ e.target.textContent);
-
             let selected = e.target.firstChild.nodeValue;
             selected = selected.replace( /[\r\n]+/gm, "" );
             selected = selected.trim();
             //selected = selected.replace(expandString, "");
 
-            this.setSelected(e);
-        
+
             if (selected != "Items" ) {
               if (this.currentEvent != e.target.id) {
+                this.setSelected(e.target.attributes[0].value);
                 if (this.metadata.hilitemodel === "true") {
                   this.metadata.findAndHighLightOccurences(selected);
                 }
@@ -185,7 +186,7 @@ class CustomUI {
     
       };
 
-      setSelected(el){
+      setSelected(id){
         // find all the elements in your channel list and loop over them
         Array.prototype.slice.call(document.querySelectorAll('li')).forEach(function(element){
           // remove the selected class
@@ -193,7 +194,7 @@ class CustomUI {
         });
         // add the selected class to the element that was clicked
         try {
-            var id = el.target.attributes[0].value;
+            //var id = el.target.attributes[0].value;
             const elem = document.getElementById(id);
 
             //var style = document.createElement('style');
@@ -202,11 +203,80 @@ class CustomUI {
             elem.classList.add('itemselected');
         } catch (ex) {
             //
+            console.log("Exception from setSelected id= "+ id + " " + ex);
 
         }
         
 
       }
+
+      getElementsStartsWith( selectionArray ) {
+
+        try {
+
+          let selection = selectionArray[0]["Part Name"].split(",");
+          let startswith = selection[1].trim();
+  
+          //var query = this.getElementsByIdStartsWith("tree-container", "li", startswith);
+          let selector = 'id^="'+startswith+'"';
+          let treec = document.getElementById("tree-container");
+          
+          let queryElement =  treec.querySelector( '['+selector+']');
+          console.log("queryElement="+ queryElement);
+
+          if (queryElement != null) {
+
+                    // find all the elements in your channel list and loop over them
+                    // Array.prototype.slice.call(document.querySelectorAll('li')).forEach(function(element){
+                    //   // remove the selected class
+                    //   element.classList.remove('itemselected');
+                    // });
+                    try {
+                    var a = queryElement;
+                    var els = [];
+                    while (a) {
+                        els.unshift(a);
+                        a = a.parentNode;
+
+                        if (a.nodeName === "DETAILS" ) {
+                          a.setAttribute("open", "");
+                        }
+                    }
+                  } catch (ex) {
+                    //ignore
+                }
+
+                    queryElement.classList.add('itemselected');
+
+                      
+                  
+
+
+          }
+
+
+        } catch (ex) {
+
+          console.log("Exception from getElementsStartsWith selectionArray = "+ selectionArray + " " + ex);
+        
+        }
+               
+
+      }
+
+      getElementsByIdStartsWith(container, selectorTag, prefix) {
+        var items = [];
+        var myPosts = document.getElementById(container).getElementsByTagName(selectorTag);
+        for (var i = 0; i < myPosts.length; i++) {
+            //omitting undefined null check for brevity
+            if (myPosts[i].textContent.includes(prefix)) {
+                items.push(myPosts[i]);
+            }
+        }
+        return items;
+      }
+    
+
     
 
 }

@@ -67,6 +67,10 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
 
         scope.$watch('selectedvalueField', function () {
           console.log('selectedvalueField='+ scope.selectedvalueField);
+          if (tree != undefined) {
+
+            tree.customUI.getElementsStartsWith(scope.selectedvalueField);
+          }
 
         });
 
