@@ -4,9 +4,9 @@ class TreeCOE {
 
     customUI ;
 
-    constructor( vuforiaScope, data, width , height , topoffset , leftoffset ,  renderer , modelname , propertyname , hilitemodel ,jsonarrayidentifier) {
+    constructor( vuforiaScope, data, width , height , topoffset , leftoffset ,  renderer , modelname , propertyname , hilitemodel ,jsonarrayidentifier, metadatapropertyname) {
 
-        let metadata = new Metadata(vuforiaScope ,  renderer, modelname , propertyname , hilitemodel , jsonarrayidentifier);
+        let metadata = new Metadata(vuforiaScope ,  renderer, modelname , propertyname , hilitemodel , jsonarrayidentifier , metadatapropertyname);
         this.customUI = new CustomUI(width,height, topoffset , leftoffset ,data, metadata );
     }
 }
@@ -237,7 +237,7 @@ class CustomUI {
 
         try {
 
-          let selection = selectionArray[0]["Part Name"].split(",");
+          let selection = selectionArray[0][this.metadata.metadatapropertyname].split(",");
           let startswith = selection[1].trim();
   
           //var query = this.getElementsByIdStartsWith("tree-container", "li", startswith);
@@ -293,7 +293,7 @@ class CustomUI {
 
 
 class Metadata {
-  constructor( vuforiaScope ,  renderer , modelName , propertyName, hilitemodel , jsonarrayidentifier ) {
+  constructor( vuforiaScope ,  renderer , modelName , propertyName, hilitemodel , jsonarrayidentifier , metadatapropertyname ) {
 
     this.vuforiaScope = vuforiaScope;
     this.renderer = renderer;
@@ -301,6 +301,7 @@ class Metadata {
     this.propertyName = propertyName;
     this.hilitemodel = hilitemodel;
     this.jsonarrayidentifier = jsonarrayidentifier;
+    this.metadatapropertyname = metadatapropertyname;
 
   }
 
@@ -310,7 +311,7 @@ class Metadata {
   
     if (searchText != "") {
 
-      let pName = this.propertyName;
+      let pName = this.metadatapropertyname;
       let mName = this.modelName;
 
       PTC.Metadata.fromId(mName).then((mdata) => {
