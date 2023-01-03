@@ -4,9 +4,9 @@ class TreeCOE {
 
     customUI ;
 
-    constructor( vuforiaScope, data, width , height , topoffset , leftoffset ,  renderer , modelname , propertyname , hilitemodel ,jsonarrayidentifier, metadatapropertyname) {
+    constructor( vuforiaScope, data, width , height , topoffset , leftoffset ,  renderer , modelname , propertyname , hilitemodel ,jsonarrayidentifier, treeelementpropertyname , treeelementpropertycat) {
 
-        let metadata = new Metadata(vuforiaScope ,  renderer, modelname , propertyname , hilitemodel , jsonarrayidentifier , metadatapropertyname);
+        let metadata = new Metadata(vuforiaScope ,  renderer, modelname , propertyname , hilitemodel , jsonarrayidentifier , treeelementpropertyname , treeelementpropertycat);
         this.customUI = new CustomUI(width,height, topoffset , leftoffset ,data, metadata );
     }
 }
@@ -143,32 +143,33 @@ class CustomUI {
         var summary = document.createElement('summary');
         summary.innerHTML = expandString;
         details.appendChild(summary);
-        this.tagIndex++;
+        //this.tagIndex++;
     
 
         var ul = document.createElement('ul');
         for(var j = 0; j < data.length; j++) {
           var row = data[j];
           var li = document.createElement('li');
-          li.setAttribute("id", row.PartName+ "item"+ this.tagIndex );
+
+          this.tagIndex = row.Occurrence.ID; //ideally this would be = this.metadata.modelName + '-' + row.PVTreeId; 
+          li.setAttribute("id", this.tagIndex );
           li.innerHTML  = "&nbsp;&nbsp;"+row[this.metadata.propertyName];
           li.addEventListener('click',(e)=>{
-            console.log("Event click target textContent="+ e.target.textContent);
+            console.log("Event click target textContent="+ e.target.id);
             let selected = e.target.firstChild.nodeValue;
             selected = selected.replace( /[\r\n]+/gm, "" );
             selected = selected.trim();
             //selected = selected.replace(expandString, "");
 
+            //this.setSelected(e);
 
             if (selected != "Items" ) {
               if (this.currentEvent != e.target.id) {
-                this.setSelected(e.target.attributes[0].value);
-                if (this.metadata.hilitemodel === "true") {
-                  this.metadata.findAndHighLightOccurences(selected);
-                }
                 this.currentEvent = e.target.id;
-                this.metadata.vuforiaScope.$parent.fireEvent('clicked');
-                this.metadata.vuforiaScope.selectedvalueField = selected;
+                this.setSelected(e.target.id);
+                if (this.metadata.hilitemodel === "true") {
+                  this.metadata.findOccurences(e.target.id);
+                }
               }
             }
 
@@ -181,7 +182,7 @@ class CustomUI {
             this.createSublist(li, nodes);
           }
           ul.appendChild(li);
-          this.tagIndex++;
+          //this.tagIndex++;
 
         }
         details.appendChild(ul);
@@ -228,54 +229,61 @@ class CustomUI {
           }
 
         }  catch (ex) {
-          console.log("Possible issue setDetailsNode  "+ ex); 
+          // ignore
+          // console.log("Possible issue setDetailsNode  "+ ex); 
         }
 
       }
 
-      getElementsStartsWith( selectionArray ) {
+      setElementInTree( array ) {
 
         try {
 
-          let selection = selectionArray[0][this.metadata.metadatapropertyname].split(",");
-          let startswith = selection[1].trim();
+          let path = array[0].path;
+          let modelName = array[0].model;
+          let propertyname = this.metadata.treeelementpropertyname ;
+          let catname = this.metadata.treeelementpropertycat ;
+          // 
+          //getProp (propName, categoryName) might be the approach here 
+          //
+          PTC.Metadata.fromId(modelName).then( (metadata) => {
+            let objectId = metadata.get(path, propertyname, catname );
+            let queryElement = document.getElementById(objectId);
+            //
+            //let queryElement =  treec.querySelector(objectId);
+
+            console.log("queryElement="+ queryElement);
+
+            if (queryElement != null) {
+                      //find all the elements in your channel list and loop over them
+                      Array.prototype.slice.call(document.querySelectorAll('li')).forEach(function(element){
+                        // remove the selected class
+                        element.classList.remove('itemselected');
+                      });
   
+                      try {
+                      if (this.previousSelection != undefined) {
+                        this.setDetailsNode(this.previousSelection, false);
+                      }
+                      this.previousSelection = queryElement;
+                      this.setDetailsNode(queryElement, true);
+  
+                    } catch (ex) {
+                      //ignore
+                      // console.log("Possible issue in getElementsStartsWith  "+ ex); 
+                  }
+                  queryElement.classList.add('itemselected');
+            }
+          });  
+
           //var query = this.getElementsByIdStartsWith("tree-container", "li", startswith);
-          let selector = 'id^="'+startswith+'"';
-          let treec = document.getElementById("tree-container");
-          
-          let queryElement =  treec.querySelector( '['+selector+']');
-          console.log("queryElement="+ queryElement);
-
-          if (queryElement != null) {
-                    //find all the elements in your channel list and loop over them
-                    Array.prototype.slice.call(document.querySelectorAll('li')).forEach(function(element){
-                      // remove the selected class
-                      element.classList.remove('itemselected');
-                    });
-
-                    try {
-                    if (this.previousSelection != undefined) {
-                      this.setDetailsNode(this.previousSelection, false);
-                    }
-                    this.previousSelection = queryElement;
-                    this.setDetailsNode(queryElement, true);
-
-                  } catch (ex) {
-                    //ignore
-                    console.log("Possible issue in getElementsStartsWith  "+ ex); 
-                }
-
-                queryElement.classList.add('itemselected');
-          }
+          // let selector = 'id^="'+startswith+'"';
+          // let treec = document.getElementById("tree-container");
+          // let queryElement =  treec.querySelector( '['+selector+']');
 
         } catch (ex) {
-
           console.log("Exception from getElementsStartsWith selectionArray = "+ selectionArray + " " + ex);
-        
         }
-               
-
       }
 
       getElementsByIdStartsWith(container, selectorTag, prefix) {
@@ -293,7 +301,7 @@ class CustomUI {
 
 
 class Metadata {
-  constructor( vuforiaScope ,  renderer , modelName , propertyName, hilitemodel , jsonarrayidentifier , metadatapropertyname ) {
+  constructor( vuforiaScope ,  renderer , modelName , propertyName, hilitemodel , jsonarrayidentifier , treeelementpropertyname ) {
 
     this.vuforiaScope = vuforiaScope;
     this.renderer = renderer;
@@ -301,38 +309,34 @@ class Metadata {
     this.propertyName = propertyName;
     this.hilitemodel = hilitemodel;
     this.jsonarrayidentifier = jsonarrayidentifier;
-    this.metadatapropertyname = metadatapropertyname;
+    this.treeelementpropertyname = treeelementpropertyname;
 
   }
 
-  findAndHighLightOccurences = function(searchText) {
+  findOccurences = function(searchText) {
   
     console.log("Using Model name:"+this.modelName + " Searching for "+searchText);
   
     if (searchText != "") {
 
-      let pName = this.metadatapropertyname;
+      let treeelementpropertyname = this.treeelementpropertyname;
       let mName = this.modelName;
+      let vScope = this.vuforiaScope;
 
       PTC.Metadata.fromId(mName).then((mdata) => {
   
-          var occuranceItems = mdata.find(pName).like(searchText).getSelected();
+          var occuranceItems = mdata.find(treeelementpropertyname).like(searchText).getSelected();
           var hiliteArray = [];
 
           if (occuranceItems.length > 0)  {
+            let idpath = occuranceItems[0]; //always pick the first - we dont support multi-select
 
-            this.resetHighlight(this.renderer);
-            
-            var self = this;
-            occuranceItems.forEach(function (occurence) {
-              hiliteArray.push(self.modelName + '-' + occurence);
-              SELECTED_ITEMS.push(self.modelName + '-' + occurence);
+            //build the data that the mapper wants to see - note it is an array so it _could_ suppport multi-select...  
+            vScope.selectedvalueField = [{ model:mName, path:idpath }];  //selected;
+                    
+            // and let everyone know
+            vScope.$parent.fireEvent('clicked');
 
-            });
-      
-            if (hiliteArray.length > 0) {
-              this.hilite(hiliteArray, true , this.renderer);
-            }
           } else {
 
             console.log('Nothing found in Metadata when searching for : ' + searchText );
@@ -347,6 +351,49 @@ class Metadata {
   
   }
 
+
+  // findAndHighLightOccurences = function(searchText) {
+  
+  //   console.log("Using Model name:"+this.modelName + " Searching for "+searchText);
+  
+  //   if (searchText != "") {
+
+  //     let pName = "PartName";
+  //     let mName = this.modelName;
+
+  //     PTC.Metadata.fromId(mName).then((mdata) => {
+  
+  //         var occuranceItems = mdata.find(pName).like(searchText).getSelected();
+  //         var hiliteArray = [];
+
+  //         if (occuranceItems.length > 0)  {
+
+  //           this.resetHighlight(this.renderer);
+            
+  //           var self = this;
+  //           occuranceItems.forEach(function (occurence) {
+  //             hiliteArray.push(self.modelName + '-' + occurence);
+  //             SELECTED_ITEMS.push(self.modelName + '-' + occurence);
+
+  //           });
+      
+  //           if (hiliteArray.length > 0) {
+  //             this.hilite(hiliteArray, true , this.renderer);
+  //           }
+  //         } else {
+
+  //           console.log('Nothing found in Metadata when searching for : ' + searchText );
+
+  //         }
+  //     })
+  //     .catch((err) => { console.log('Metadata extraction failed with reason : ' + err); })
+  //     .finally( () => { console.log('Metadata done') } 
+        
+  //     );
+  //   }
+  
+  // }
+
   // setColor = function (items,  tmlrenderer) {
   //   items.forEach(function (item) {
   //       console.log("Starting render");
@@ -355,27 +402,27 @@ class Metadata {
   //   });
   // }
 
-  hilite = function(items,hilite , tmlrenderer) {
-    items.forEach(function(item) {
+  // hilite = function(items,hilite , tmlrenderer) {
+  //   items.forEach(function(item) {
       
-      if (hilite === true ) {
-        tmlrenderer.setProperties (item , { shader:"green", hidden:false, opacity:0.9, phantom:false, decal:true }); //,  hidden:false, opacity:0.9, phantom:false, decal:true });
-       // tmlrenderer.setProperties (item , { shader:"xray;r f 1.0;g f 0.031;b f 0.03",  hidden:false, opacity:0.9, phantom:false, decal:true });
-      } else {
-        tmlrenderer.setProperties (item , { shader:null,  hidden:false, opacity:1.0, phantom:false, decal:false });
-      }
+  //     if (hilite === true ) {
+  //       tmlrenderer.setProperties (item , { shader:"green", hidden:false, opacity:0.9, phantom:false, decal:true }); //,  hidden:false, opacity:0.9, phantom:false, decal:true });
+  //      // tmlrenderer.setProperties (item , { shader:"xray;r f 1.0;g f 0.031;b f 0.03",  hidden:false, opacity:0.9, phantom:false, decal:true });
+  //     } else {
+  //       tmlrenderer.setProperties (item , { shader:null,  hidden:false, opacity:1.0, phantom:false, decal:false });
+  //     }
       
-    });
-  }
+  //   });
+  // }
 
 
-  resetHighlight = function( tmlrenderer) {
+  // resetHighlight = function( tmlrenderer) {
 
-    if (SELECTED_ITEMS != undefined && SELECTED_ITEMS.length > 0) {
-        this.hilite(SELECTED_ITEMS,false , tmlrenderer);
-      }
-      SELECTED_ITEMS =[];
-    }
+  //   if (SELECTED_ITEMS != undefined && SELECTED_ITEMS.length > 0) {
+  //       this.hilite(SELECTED_ITEMS,false , tmlrenderer);
+  //     }
+  //     SELECTED_ITEMS =[];
+  //   }
   
   toHolo = function () {
     return (toBool(scope.isholoField) && !twx.app.isPreview())?'hl':'gl';

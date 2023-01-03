@@ -16,7 +16,8 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
         incomingdataField : '=',
         propertynameField : '@',
         jsonarrayidentifierField : '@',
-        metadatapropertynameField : '@',
+        treeelementpropertynameField : '@',
+        treeelementpropertycatField : '@',
         hilitemodelField : '@',
         modelnameField : '@',
         widthField : '@',
@@ -42,7 +43,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
         var executeTree = function() {
           console.log('do the custom activities here');
           if (!scope.data.disabled) {
-            tree = new TreeCOE(scope,scope.incomingdataField , scope.widthField, scope.heightField , scope.topoffsetField, scope.leftoffsetField, scope.renderer , scope.modelnameField , scope.propertynameField, scope.hilitemodelField , scope.jsonarrayidentifierField , scope.metadatapropertynameField);
+            tree = new TreeCOE(scope,scope.incomingdataField , scope.widthField, scope.heightField , scope.topoffsetField, scope.leftoffsetField, scope.renderer , scope.modelnameField , scope.propertynameField, scope.hilitemodelField , scope.jsonarrayidentifierField , scope.treeelementpropertynameField , scope.treeelementpropertyCatField);
           } else {
             console.log('disabled');
 
@@ -70,7 +71,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
           console.log('selectedvalueField='+ scope.selectedvalueField);
           if (tree != undefined) {
 
-            tree.customUI.getElementsStartsWith(scope.selectedvalueField);
+            tree.customUI.setElementInTree(scope.selectedvalueField);
           }
 
         });

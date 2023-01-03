@@ -49,16 +49,7 @@
           isBindingTarget: true,
           isBindingSource: false,
           showInput: true
-        },
-        {
-          name: 'metadatapropertyname',
-          label: 'metadata Property name',
-          datatype: 'string',
-          default: 'Part Name',
-          isBindingTarget: true,
-          isBindingSource: false,
-          showInput: true
-        },
+        },        
         {
           name: 'jsonarrayidentifier',
           label: 'JSON array Identifier',
@@ -68,6 +59,34 @@
           isBindingSource: false,
           showInput: true
         },
+        {
+          name: 'treeelementpropertyname',
+          label: 'uniqueness Property name',
+          datatype: 'string',
+          default: 'partusesoccurrence_objectid',
+          isBindingTarget: true,
+          isBindingSource: false,
+          showInput: true
+        },
+        {
+          name: 'treeelementpropertycat',
+          label: 'uniqueness Category name',
+          datatype: 'string',
+          default: 'WindChill',
+          isBindingTarget: true,
+          isBindingSource: false,
+          showInput: true
+        },
+        {
+          name: 'treeelementid',
+          label: 'treeelementid',
+          datatype: 'string',
+          default: '',
+          isBindingTarget: true,
+          isBindingSource: false,
+          showInput: false
+        },
+
         {
           name: 'modelname',
           label: 'model name',
@@ -150,7 +169,7 @@
       },
 
       runtimeTemplate: function (props) {
-        var tmpl = '<div ng-treecoe  incomingdata-field="me.incomingdata" selectedvalue-field="me.selectedvalue" propertyname-field={{me.propertyname}} metadatapropertyname-field={{me.metadatapropertyname}} jsonarrayidentifier-field={{me.jsonarrayidentifier}} hilitemodel-field={{me.hilitemodel}} width-field={{me.width}} height-field={{me.height}} topoffset-field={{me.topoffset}} leftoffset-field={{me.leftoffset}} modelname-field={{me.modelname}} metadata-field={{me.metadata}}   delegate-field="delegate"></div>' ; //original-field="me.original" markedup-field="me.markedup" delegate-field="delegate"></div>';
+        var tmpl = '<div ng-treecoe  incomingdata-field="me.incomingdata" selectedvalue-field="me.selectedvalue" propertyname-field={{me.propertyname}} treeelementpropertyname-field={{me.treeelementpropertyname}}    treeelementpropertycatField-field={{me.treeelementpropertycat}} jsonarrayidentifier-field={{me.jsonarrayidentifier}} hilitemodel-field={{me.hilitemodel}} width-field={{me.width}} height-field={{me.height}} topoffset-field={{me.topoffset}} leftoffset-field={{me.leftoffset}} modelname-field={{me.modelname}} metadata-field={{me.metadata}}   delegate-field="delegate"></div>' ; //original-field="me.original" markedup-field="me.markedup" delegate-field="delegate"></div>';
         return tmpl;
       }
     };
