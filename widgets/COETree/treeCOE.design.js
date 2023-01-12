@@ -85,11 +85,15 @@
         {
           name: 'treeelementpropertyname',
           label: 'Metadata uniqueness Property name',
-          datatype: 'string',
+          datatype: 'select',
           default: 'partusesoccurrence_objectid',
           isBindingTarget: true,
           isBindingSource: false,
-          showInput: true
+          showInput: true,
+          editor: 'select',
+          options: [
+            {label: 'partusesoccurrence_objectid' , value: "partusesoccurrence_objectid"}
+            ]
         },
         {
           name: 'treeelementid',
