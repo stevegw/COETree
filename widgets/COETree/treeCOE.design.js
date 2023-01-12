@@ -43,16 +43,39 @@
         },
         {
           name: 'propertyname',
-          label: 'Incoming data Property name',
-          datatype: 'string',
-          default: 'Part Name',
+          label: 'Incoming display property name',
+          datatype: 'select',
+          default: 'PartName',
           isBindingTarget: true,
           isBindingSource: false,
-          showInput: true
-        },        
+          showInput: true,
+          editor: 'select',
+         options: [
+            {label: 'PartName'      , value: "PartName"},
+            {label: 'PartNumber'    , value: "PartNumber"},
+            {label: 'PathId'     , value: "PathId"},
+            {label: 'PVTreeId'   , value: "PVTreeId"},
+            {label: 'PartId' ,    value: "PartId"}
+            ]
+        },  
+        {
+          name: 'uniquenesspropertyname',
+          label: 'uniqueness property name',
+          datatype: 'string',
+          default: 'Occurrence.ID',
+          isBindingTarget: true,
+          isBindingSource: false,
+          showInput: true,
+          editor: 'select',
+          options: [
+            {label: 'Occurrence ID'      , value: "Occurrence.ID"},
+            {label: 'Auto'    , value: "Auto"}
+            ]
+
+        },      
         {
           name: 'jsonarrayidentifier',
-          label: 'JSON array Identifier',
+          label: 'Incoming children Identifier',
           datatype: 'string',
           default: 'Components',
           isBindingTarget: true,
@@ -61,18 +84,9 @@
         },
         {
           name: 'treeelementpropertyname',
-          label: 'uniqueness Property name',
+          label: 'Metadata uniqueness Property name',
           datatype: 'string',
           default: 'partusesoccurrence_objectid',
-          isBindingTarget: true,
-          isBindingSource: false,
-          showInput: true
-        },
-        {
-          name: 'treeelementpropertycat',
-          label: 'uniqueness Category name',
-          datatype: 'string',
-          default: 'WindChill',
           isBindingTarget: true,
           isBindingSource: false,
           showInput: true
@@ -169,7 +183,7 @@
       },
 
       runtimeTemplate: function (props) {
-        var tmpl = '<div ng-treecoe  incomingdata-field="me.incomingdata" selectedvalue-field="me.selectedvalue" propertyname-field={{me.propertyname}} treeelementpropertyname-field={{me.treeelementpropertyname}}    treeelementpropertycatField-field={{me.treeelementpropertycat}} jsonarrayidentifier-field={{me.jsonarrayidentifier}} hilitemodel-field={{me.hilitemodel}} width-field={{me.width}} height-field={{me.height}} topoffset-field={{me.topoffset}} leftoffset-field={{me.leftoffset}} modelname-field={{me.modelname}} metadata-field={{me.metadata}}   delegate-field="delegate"></div>' ; //original-field="me.original" markedup-field="me.markedup" delegate-field="delegate"></div>';
+        var tmpl = '<div ng-treecoe  incomingdata-field="me.incomingdata" selectedvalue-field="me.selectedvalue" propertyname-field={{me.propertyname}} treeelementpropertyname-field={{me.treeelementpropertyname}} uniquenesspropertyname-field={{me.uniquenesspropertyname}} jsonarrayidentifier-field={{me.jsonarrayidentifier}} hilitemodel-field={{me.hilitemodel}} width-field={{me.width}} height-field={{me.height}} topoffset-field={{me.topoffset}} leftoffset-field={{me.leftoffset}} modelname-field={{me.modelname}} metadata-field={{me.metadata}}   delegate-field="delegate"></div>' ; //original-field="me.original" markedup-field="me.markedup" delegate-field="delegate"></div>';
         return tmpl;
       }
     };

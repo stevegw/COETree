@@ -4,9 +4,9 @@ class TreeCOE {
 
     customUI ;
 
-    constructor( vuforiaScope, data, width , height , topoffset , leftoffset ,  renderer , modelname , propertyname , hilitemodel ,jsonarrayidentifier, treeelementpropertyname , treeelementpropertycat) {
+    constructor( vuforiaScope, data, width , height , topoffset , leftoffset ,  renderer , modelname , propertyname , hilitemodel ,jsonarrayidentifier, treeelementpropertyname , uniquenesspropertyname) {
 
-        let metadata = new Metadata(vuforiaScope ,  renderer, modelname , propertyname , hilitemodel , jsonarrayidentifier , treeelementpropertyname , treeelementpropertycat);
+        let metadata = new Metadata(vuforiaScope ,  renderer, modelname , propertyname , hilitemodel , jsonarrayidentifier , treeelementpropertyname , uniquenesspropertyname);
         this.customUI = new CustomUI(width,height, topoffset , leftoffset ,data, metadata );
     }
 }
@@ -16,7 +16,7 @@ class CustomUI {
     data;
     width;
     height;
-    tagIndex;
+    index;
     currentEvent;
     previousSelection;
 
@@ -30,21 +30,22 @@ class CustomUI {
         this.metadata = metadata;
         this.currentEvent = "NOSET";
         this.previousSelection = undefined;
+        this.index = 0;
 
         console.log("Data IN="+ data);
         this.buildUI();
-        if (this.isJson(data)) {
-            try {
-                if (data.Components.length > 0) {
-                      this.buildUI();}
-            } catch (ex) {
-                console.log("Did not find any components ex="+ex);
+        // if (this.isJson(data)) {
+        //     try {
+        //         if (data.Components.length > 0) {
+        //               this.buildUI();}
+        //     } catch (ex) {
+        //         console.log("Did not find any components ex="+ex);
 
-            }
+        //     }
 
-        } else {
-            console.log("Did not find JSON");
-        }
+        // } else {
+        //     console.log("Did not find JSON");
+        // }
         
 
     }
@@ -143,7 +144,7 @@ class CustomUI {
         var summary = document.createElement('summary');
         summary.innerHTML = expandString;
         details.appendChild(summary);
-        //this.tagIndex++;
+        this.index++;
     
 
         var ul = document.createElement('ul');
@@ -151,7 +152,16 @@ class CustomUI {
           var row = data[j];
           var li = document.createElement('li');
 
-          this.tagIndex = row.Occurrence.ID; //ideally this would be = this.metadata.modelName + '-' + row.PVTreeId; 
+         // this.tagIndex = row.Occurrence.ID; //ideally this would be = this.metadata.modelName + '-' + row.PVTreeId; 
+         // Not an ideal approach but hopefully works
+         if (this.metadata.uniquenesspropertyname === "Occurrence.ID") {
+           this.tagIndex = row.Occurrence.ID;
+         } else if (this.metadata.uniquenesspropertyname === "Auto")  {
+           this.tagIndex =   row[this.metadata.propertyName] + this.index; 
+         }
+         
+          
+
           li.setAttribute("id", this.tagIndex );
           li.innerHTML  = "&nbsp;&nbsp;"+row[this.metadata.propertyName];
           li.addEventListener('click',(e)=>{
@@ -182,7 +192,6 @@ class CustomUI {
             this.createSublist(li, nodes);
           }
           ul.appendChild(li);
-          //this.tagIndex++;
 
         }
         details.appendChild(ul);
@@ -242,12 +251,12 @@ class CustomUI {
           let path = array[0].path;
           let modelName = array[0].model;
           let propertyname = this.metadata.treeelementpropertyname ;
-          let catname = this.metadata.treeelementpropertycat ;
+        
           // 
           //getProp (propName, categoryName) might be the approach here 
           //
           PTC.Metadata.fromId(modelName).then( (metadata) => {
-            let objectId = metadata.get(path, propertyname, catname );
+            let objectId = metadata.get(path, propertyname );
             let queryElement = document.getElementById(objectId);
             //
             //let queryElement =  treec.querySelector(objectId);
@@ -301,7 +310,7 @@ class CustomUI {
 
 
 class Metadata {
-  constructor( vuforiaScope ,  renderer , modelName , propertyName, hilitemodel , jsonarrayidentifier , treeelementpropertyname ) {
+  constructor( vuforiaScope ,  renderer , modelName , propertyName, hilitemodel , jsonarrayidentifier , treeelementpropertyname , uniquenesspropertyname) {
 
     this.vuforiaScope = vuforiaScope;
     this.renderer = renderer;
@@ -310,8 +319,19 @@ class Metadata {
     this.hilitemodel = hilitemodel;
     this.jsonarrayidentifier = jsonarrayidentifier;
     this.treeelementpropertyname = treeelementpropertyname;
+    this.uniquenesspropertyname = uniquenesspropertyname;
 
   }
+
+
+  buildTreeDataFromMetadata = function (modelName) {
+
+    let treeItem ={};
+
+
+
+  }
+
 
   findOccurences = function(searchText) {
   
@@ -323,13 +343,16 @@ class Metadata {
       let mName = this.modelName;
       let vScope = this.vuforiaScope;
 
+
+ 
+
       PTC.Metadata.fromId(mName).then((mdata) => {
   
-          var occuranceItems = mdata.find(treeelementpropertyname).like(searchText).getSelected();
+          var occuranceItems = mdata.find(treeelementpropertyname).like(searchText);
           var hiliteArray = [];
 
-          if (occuranceItems.length > 0)  {
-            let idpath = occuranceItems[0]; //always pick the first - we dont support multi-select
+          if (occuranceItems._selectedPaths.length > 0)  {
+            let idpath = occuranceItems._selectedPaths[0]; //always pick the first - we dont support multi-select
 
             //build the data that the mapper wants to see - note it is an array so it _could_ suppport multi-select...  
             vScope.selectedvalueField = [{ model:mName, path:idpath }];  //selected;
@@ -31892,4 +31915,10 @@ class Metadata {
                ]
             }
          ];
+
+
+
+         // VR:wt.part.WTPart:754531
+         // 1ab514b2-9cfa-45b9-884f-57b24aff81c2
+
  
