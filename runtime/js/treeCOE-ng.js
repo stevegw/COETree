@@ -13,11 +13,11 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
     return {
       restrict: 'EA',
       scope: {
+        autolaunchField: '@',
         incomingdataField : '=',
-        propertynameField : '@',
-        jsonarrayidentifierField : '@',
-        treeelementpropertynameField : '@',
+        displaypropertynameField : '@',
         uniquenesspropertynameField : '@',
+        metadatauniquenessField : '@',
         hilitemodelField : '@',
         modelnameField : '@',
         widthField : '@',
@@ -25,6 +25,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
         topoffsetField : '@',
         leftoffsetField : '@',
         selectedvalueField : '=',
+        treefrommodelmetadataField: '=',
         delegateField: '='
       },
       template: '<div></div>',
@@ -43,7 +44,10 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
         var executeTree = function() {
           console.log('do the custom activities here');
           if (!scope.data.disabled) {
-            tree = new TreeCOE(scope,scope.incomingdataField , scope.widthField, scope.heightField , scope.topoffsetField, scope.leftoffsetField, scope.renderer , scope.modelnameField , scope.propertynameField, scope.hilitemodelField , scope.jsonarrayidentifierField , scope.treeelementpropertynameField , scope.uniquenesspropertynameField);
+
+
+            
+            tree = new TreeCOE(scope,scope.incomingdataField , scope.widthField, scope.heightField , scope.topoffsetField, scope.leftoffsetField, scope.renderer , scope.modelnameField , scope.displaypropertynameField,  scope.uniquenesspropertynameField , scope.metadatauniquenessField, scope.hilitemodelField );
           } else {
             console.log('disabled');
 
@@ -62,6 +66,10 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
 
           if (scope.incomingdataField != undefined && scope.incomingdataField != '') {
             scope.data.incomingdata = scope.incomingdataField;
+            if (scope.autolaunchField == "true") {
+              start();
+            }
+
 
           }
 
@@ -76,10 +84,24 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
 
         });
 
+        scope.$watch('treefrommodelmetadataField', function () {
+          console.log('treefrommodelmetadataField='+ scope.treefrommodelmetadataField);
+          if (tree != undefined) {
+
+            tree.customUI.setElementInTree(scope.treefrommodelmetadataField);
+          }
+
+        });
+
         scope.$watch('delegateField', function (delegate) {
           if (delegate) {
             delegate.start = function () { 
               start(); 
+            };
+            delegate.dataviamodeldata = function () { 
+
+             let metadata = new Metadata(scope ,  scope.renderer, scope.modelnameField , scope.displaypropertynameField , scope.uniquenesspropertynameField , scope.metadatauniquenessField, scope.hilitemodelField );
+             metadata.getTreeFromModelMetaData();
             };
 
           }

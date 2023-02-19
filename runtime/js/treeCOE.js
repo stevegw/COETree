@@ -4,9 +4,10 @@ class TreeCOE {
 
     customUI ;
 
-    constructor( vuforiaScope, data, width , height , topoffset , leftoffset ,  renderer , modelname , propertyname , hilitemodel ,jsonarrayidentifier, treeelementpropertyname , uniquenesspropertyname) {
+//            tree = new TreeCOE(scope,scope.incomingdataField , scope.widthField, scope.heightField , scope.topoffsetField, scope.leftoffsetField, scope.renderer , scope.modelnameField , scope.displaypropertynameField,  scope.uniquenesspropertynameField , scope.hilitemodelField );
+    constructor( vuforiaScope, data, width , height , topoffset , leftoffset ,  renderer , modelname , displaypropertyname  ,  uniquenesspropertyname ,metadatauniqueness , hilitemodel) {
 
-        let metadata = new Metadata(vuforiaScope ,  renderer, modelname , propertyname , hilitemodel , jsonarrayidentifier , treeelementpropertyname , uniquenesspropertyname);
+        let metadata = new Metadata(vuforiaScope ,  renderer, modelname , displaypropertyname , uniquenesspropertyname, metadatauniqueness, hilitemodel );
         this.customUI = new CustomUI(width,height, topoffset , leftoffset ,data, metadata );
     }
 }
@@ -104,10 +105,10 @@ class CustomUI {
         //topUL.style.overflowY = "scroll";
         topUL.setAttribute("class", "tree");
         this.tagIndex = 1;
-        var partName = this.data[this.metadata.propertyName] ;
+        var displayName = this.data[this.metadata.displaypropertyname] ;
 
-        ItemLabel.innerHTML = partName;
-        this.createSublist(topUL,this.data[ this.metadata.jsonarrayidentifier ] ) //'Components']);
+        ItemLabel.innerHTML = displayName;
+        this.createSublist(topUL,this.data['Components'] ) //'Components']);
         //this.createSublist(topUL,testData2.Components);
         
 
@@ -146,7 +147,6 @@ class CustomUI {
         details.appendChild(summary);
         this.index++;
     
-
         var ul = document.createElement('ul');
         for(var j = 0; j < data.length; j++) {
           var row = data[j];
@@ -154,23 +154,30 @@ class CustomUI {
 
          // this.tagIndex = row.Occurrence.ID; //ideally this would be = this.metadata.modelName + '-' + row.PVTreeId; 
          // Not an ideal approach but hopefully works
-         if (this.metadata.uniquenesspropertyname === "Occurrence.ID") {
-           this.tagIndex = row.Occurrence.ID;
-         } else if (this.metadata.uniquenesspropertyname === "Auto")  {
-           this.tagIndex =   row[this.metadata.propertyName] + this.index; 
-         }
+         if (this.metadata.uniquenesspropertyname === "Auto") {
+           this.tagIndex = row[this.metadata.displaypropertyname] + this.index; 
+         } else if (this.metadata.uniquenesspropertyname === "Occurrence.ID")  {
+           this.tagIndex =   row.Occurrence.ID; 
+         } else  {
+          this.tagIndex =   row[this.metadata.uniquenesspropertyname]; 
+        } 
          
-          
+         
+        //  else if (this.metadata.uniquenesspropertyname === "Part_ID_Path")  {
+        //   this.tagIndex =   row[Part_ID_Path]; 
+        //  } else if (this.metadata.uniquenesspropertyname === "Auto")  {
+        //   this.tagIndex =   row[this.metadata.propertyName] + this.index; 
+        //  }
 
           li.setAttribute("id", this.tagIndex );
-          li.innerHTML  = "&nbsp;&nbsp;"+row[this.metadata.propertyName];
+          li.innerHTML  = "&nbsp;&nbsp;"+row[this.metadata.displaypropertyname];
           li.addEventListener('click',(e)=>{
             console.log("Event click target textContent="+ e.target.id);
             let selected = e.target.firstChild.nodeValue;
             selected = selected.replace( /[\r\n]+/gm, "" );
             selected = selected.trim();
-            //selected = selected.replace(expandString, "");
 
+            //selected = selected.replace(expandString, "");
             //this.setSelected(e);
 
             if (selected != "Items" ) {
@@ -183,11 +190,10 @@ class CustomUI {
               }
             }
 
-
           });
           li.style.backgroundColor = "rgba(250,238,3,0.35)";
           // var nodes = row.nodes;
-          var nodes = row[this.metadata.jsonarrayidentifier];
+          var nodes = row['Components'];
           if(nodes && nodes.length) {
             this.createSublist(li, nodes);
           }
@@ -250,13 +256,13 @@ class CustomUI {
 
           let path = array[0].path;
           let modelName = array[0].model;
-          let propertyname = this.metadata.treeelementpropertyname ;
+          let metadatauniqueness = this.metadata.metadatauniqueness ;
         
           // 
           //getProp (propName, categoryName) might be the approach here 
           //
           PTC.Metadata.fromId(modelName).then( (metadata) => {
-            let objectId = metadata.get(path, propertyname );
+            let objectId = metadata.get(path, metadatauniqueness );
             let queryElement = document.getElementById(objectId);
             //
             //let queryElement =  treec.querySelector(objectId);
@@ -310,24 +316,87 @@ class CustomUI {
 
 
 class Metadata {
-  constructor( vuforiaScope ,  renderer , modelName , propertyName, hilitemodel , jsonarrayidentifier , treeelementpropertyname , uniquenesspropertyname) {
+  constructor( vuforiaScope ,  renderer , modelName , displaypropertyname,  uniquenesspropertyname, metadatauniqueness, hilitemodel ) {
 
     this.vuforiaScope = vuforiaScope;
     this.renderer = renderer;
     this.modelName = modelName;
-    this.propertyName = propertyName;
+    this.displaypropertyname = displaypropertyname;
     this.hilitemodel = hilitemodel;
-    this.jsonarrayidentifier = jsonarrayidentifier;
-    this.treeelementpropertyname = treeelementpropertyname;
     this.uniquenesspropertyname = uniquenesspropertyname;
+    this.metadatauniqueness = metadatauniqueness;
+ 
 
   }
 
+  getTreeFromModelMetaData = function () {
 
-  buildTreeDataFromMetadata = function (modelName) {
+    let mName = this.modelName;
+    let vScope = this.vuforiaScope;
 
-    let treeItem ={};
+    PTC.Metadata.fromId(mName).then((mdata) => {
+  
+      var arrayData = this.buildTreeDataArrayFromModelMetadata(mdata.data);
+    
+      try {
 
+        vScope.treefrommodelmetadataField = arrayData;
+        vScope.$parent.fireEvent('clicked');
+
+      } catch (ex) {
+
+        console.log('Unexpected! error : ' + ex );
+
+      }
+
+  })
+    .catch((err) => { console.log('Metadata extraction failed with reason : ' + err); })
+    .finally( () => { console.log('Metadata done') }  );
+
+  
+  }
+
+
+  buildTreeDataArrayFromModelMetadata = function (JSONData) {
+
+      let jsondata = JSON.parse(JSON.stringify(JSONData)); // create a new object else we would be reassigning the core metadata
+
+      let result = '';
+      // JSONData = me.Get_Metadata({FilterProperties: true}); // get the maximum depth of the tree
+      var depthIndex = 1;
+      for (var entry in jsondata) {
+        jsondata[entry]['Part ID Path'] = entry;
+        jsondata[entry]['Components'] = [];
+        jsondata[entry]['PartName'] = jsondata[entry]['__PV_SystemProperties']['Part Name'];
+        
+        if (Number(jsondata[entry]['__PV_SystemProperties']['Part Depth'])>depthIndex)
+          depthIndex = Number(jsondata[entry]['__PV_SystemProperties']['Part Depth']);
+      } var depthList = {}; // list to sort all items by level
+      for (var d=1;d<=depthIndex;d++) {
+        depthList[d] = {};
+      }
+    
+    
+      for (entry in jsondata)
+        depthList[Number(jsondata[entry]['__PV_SystemProperties']['Part Depth'])][entry] = jsondata[entry]; 
+    
+      for (d=depthIndex; d>1; d--) { // go from the last level up the BOM
+        var items = depthList[d]; // all items on the selected level
+        for (var j in items) {
+          var item = items[j]['Part ID Path'];
+          var parentPath = item.substr(0,item.lastIndexOf('/')); // item's parent ID
+          if (parentPath == '')
+            parentPath = '/';
+          var allParents = depthList[d-1]; // previous level list (parent is located there)
+          for (var k in allParents)
+            if (allParents[k]['Part ID Path'] == parentPath) { // parent found
+              (depthList[d-1][k].Components).push(items[item]);
+              break;
+            }
+        }
+      } 
+      
+      return  depthList[1]["/"];
 
 
   }
@@ -339,7 +408,7 @@ class Metadata {
   
     if (searchText != "") {
 
-      let treeelementpropertyname = this.treeelementpropertyname;
+      let metadatauniqueness = this.metadatauniqueness;
       let mName = this.modelName;
       let vScope = this.vuforiaScope;
 
@@ -348,7 +417,7 @@ class Metadata {
 
       PTC.Metadata.fromId(mName).then((mdata) => {
   
-          var occuranceItems = mdata.find(treeelementpropertyname).like(searchText);
+          var occuranceItems = mdata.find(metadatauniqueness).like(searchText);
           var hiliteArray = [];
 
           if (occuranceItems._selectedPaths.length > 0)  {
@@ -367,9 +436,7 @@ class Metadata {
           }
       })
         .catch((err) => { console.log('Metadata extraction failed with reason : ' + err); })
-        .finally( () => { console.log('Metadata done') } 
-          
-        );
+        .finally( () => { console.log('Metadata done') }  );
     }
   
   }

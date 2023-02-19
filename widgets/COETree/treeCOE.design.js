@@ -33,6 +33,24 @@
           showInput: false
         },
         {
+          name: 'treefrommodelmetadata',
+          label: 'Tree data from Model Metadata',
+          datatype: 'json',
+          default: {},
+          isBindingTarget: false,
+          isBindingSource: true,
+          showInput: false
+        },
+        {
+          name: 'autolaunch',
+          label: 'Auto lauch tree if incomingdata set',
+          datatype: 'boolean',
+          default: false,
+          isBindingTarget: true,
+          isBindingSource: false,
+          showInput: true
+        },
+        {
           name: 'selectedvalue',
           label: 'Selected Value',
           datatype: 'string',
@@ -42,8 +60,8 @@
           showInput: false
         },
         {
-          name: 'propertyname',
-          label: 'Incoming display property name',
+          name: 'displaypropertyname',
+          label: 'Display property name',
           datatype: 'select',
           default: 'PartName',
           isBindingTarget: true,
@@ -52,15 +70,18 @@
           editor: 'select',
          options: [
             {label: 'PartName'      , value: "PartName"},
+            {label: 'part_name'      , value: "part_name"},
             {label: 'PartNumber'    , value: "PartNumber"},
+            {label: 'part_number'    , value: "part_number"},
             {label: 'PathId'     , value: "PathId"},
+            {label: 'Part ID Path'     , value: "Part ID Path"},
             {label: 'PVTreeId'   , value: "PVTreeId"},
             {label: 'PartId' ,    value: "PartId"}
             ]
-        },  
+        },
         {
           name: 'uniquenesspropertyname',
-          label: 'uniqueness property name',
+          label: 'Incoming Uniqueness property',
           datatype: 'string',
           default: 'Occurrence.ID',
           isBindingTarget: true,
@@ -69,42 +90,31 @@
           editor: 'select',
           options: [
             {label: 'Occurrence ID'      , value: "Occurrence.ID"},
+            {label: 'PartId'      , value: "PartId"},
+            {label: 'PartName'      , value: "PartName"},
+            {label: 'PVTreeId'      , value: "PVTreeId"},
+            {label: 'Part ID Path'      , value: "Part ID Path"},
+            {label: 'partusesoccurrence_objectid' ,    value: "partusesoccurrence_objectid"},
             {label: 'Auto'    , value: "Auto"}
             ]
-
-        },      
+        }, 
         {
-          name: 'jsonarrayidentifier',
-          label: 'Incoming children Identifier',
+          name: 'metadatauniqueness',
+          label: 'Metadata Uniqueness property',
           datatype: 'string',
-          default: 'Components',
-          isBindingTarget: true,
-          isBindingSource: false,
-          showInput: true
-        },
-        {
-          name: 'treeelementpropertyname',
-          label: 'Metadata uniqueness Property name',
-          datatype: 'select',
-          default: 'partusesoccurrence_objectid',
+          default: 'Part ID Path',
           isBindingTarget: true,
           isBindingSource: false,
           showInput: true,
           editor: 'select',
           options: [
-            {label: 'partusesoccurrence_objectid' , value: "partusesoccurrence_objectid"}
+            {label: 'Part ID Path'      , value: "Part ID Path"},
+            {label: 'Part Name'      , value: "Part Name"},
+            {label: 'partusesoccurrence_objectid' ,    value: "partusesoccurrence_objectid"},
+            {label: 'Auto'    , value: "Auto"}
             ]
-        },
-        {
-          name: 'treeelementid',
-          label: 'treeelementid',
-          datatype: 'string',
-          default: '',
-          isBindingTarget: true,
-          isBindingSource: false,
-          showInput: false
-        },
 
+        },     
         {
           name: 'modelname',
           label: 'model name',
@@ -165,6 +175,10 @@
         {
           name: 'start',
           label: 'Start'
+        },
+        {
+          name: 'dataviamodeldata',
+          label: 'Get structure data from Metadata'
         }
       ],
 
@@ -187,7 +201,7 @@
       },
 
       runtimeTemplate: function (props) {
-        var tmpl = '<div ng-treecoe  incomingdata-field="me.incomingdata" selectedvalue-field="me.selectedvalue" propertyname-field={{me.propertyname}} treeelementpropertyname-field={{me.treeelementpropertyname}} uniquenesspropertyname-field={{me.uniquenesspropertyname}} jsonarrayidentifier-field={{me.jsonarrayidentifier}} hilitemodel-field={{me.hilitemodel}} width-field={{me.width}} height-field={{me.height}} topoffset-field={{me.topoffset}} leftoffset-field={{me.leftoffset}} modelname-field={{me.modelname}} metadata-field={{me.metadata}}   delegate-field="delegate"></div>' ; //original-field="me.original" markedup-field="me.markedup" delegate-field="delegate"></div>';
+        var tmpl = '<div ng-treecoe  incomingdata-field="me.incomingdata"  selectedvalue-field="me.selectedvalue"   treefrommodelmetadata-field="me.treefrommodelmetadata"  autolaunch-field={{me.autolaunch}} displaypropertyname-field={{me.displaypropertyname}}  uniquenesspropertyname-field={{me.uniquenesspropertyname}} hilitemodel-field={{me.hilitemodel}} width-field={{me.width}} height-field={{me.height}} topoffset-field={{me.topoffset}} leftoffset-field={{me.leftoffset}} modelname-field={{me.modelname}} metadatauniqueness-field={{me.metadatauniqueness}}   delegate-field="delegate"></div>' ; //original-field="me.original" markedup-field="me.markedup" delegate-field="delegate"></div>';
         return tmpl;
       }
     };
