@@ -32,8 +32,9 @@ class CustomUI {
         this.currentEvent = "NOSET";
         this.previousSelection = undefined;
         this.index = 0;
+        this.UIContainer;
 
-        console.log("Data IN="+ data);
+        console.log("Data IN="+ JSON.stringify(data));
         this.buildUI();
         // if (this.isJson(data)) {
         //     try {
@@ -62,13 +63,13 @@ class CustomUI {
 	    let PanelSelector = document.querySelector(PanelQuery); 
       let backgroundColor = "rgba(78,194,50,0.65)";
 
-        var UIContainer = document.createElement('div');
-        UIContainer.id = 'ui-container';
-        UIContainer.className = 'uicontainer'; 
-        UIContainer.style.width = this.width;
-        UIContainer.style.height = this.height;
-        UIContainer.style.top = this.topoffset;
-        UIContainer.style.left = this.leftoffset;
+        this.UIContainer = document.createElement('div');
+        this.UIContainer.id = 'ui-container';
+        this.UIContainer.className = 'uicontainer'; 
+        this.UIContainer.style.width = this.width;
+        this.UIContainer.style.height = this.height;
+        this.UIContainer.style.top = this.topoffset;
+        this.UIContainer.style.left = this.leftoffset;
 
 
         var ToolbarContainer = document.createElement('div');
@@ -86,7 +87,7 @@ class CustomUI {
         CloseButton.src = "extensions/images/treeCOE_close.png";
     
         CloseButton.addEventListener("click",  () => { 
-            UIContainer.innerHTML = "" ;
+            this.close();
         });
 
         ToolbarContainer.appendChild(ItemLabel);
@@ -118,14 +119,18 @@ class CustomUI {
         TreeContainer.appendChild(topUL);
 
         //Append the div to the higher level div 
-        UIContainer.appendChild(ToolbarContainer);
-        UIContainer.appendChild(TreeContainer);
+        this.UIContainer.appendChild(ToolbarContainer);
+        this.UIContainer.appendChild(TreeContainer);
         //Append the div to the higher level div  
-        PanelSelector.appendChild(UIContainer);
+        PanelSelector.appendChild(this.UIContainer);
 
 
     }
 
+    close () {
+      this.UIContainer.remove();
+    
+    }
 
     isJson(str) {
         try {
@@ -336,15 +341,18 @@ class Metadata {
 
     let mName = this.modelName;
     let vScope = this.vuforiaScope;
+    let tfield = this.vuforiaScope.treefrommodelmetadataField;
+ 
 
     PTC.Metadata.fromId(mName).then((mdata) => {
   
-      var arrayData = this.buildTreeDataArrayFromModelMetadata(mdata.data);
-    
       try {
-
+        var arrayData = this.buildTreeDataArrayFromModelMetadata(mdata.data);
         vScope.treefrommodelmetadataField = arrayData;
+        // and let everyone know
         vScope.$parent.fireEvent('clicked');
+        vScope.$parent.$applyAsync();
+
 
       } catch (ex) {
 
@@ -354,7 +362,10 @@ class Metadata {
 
   })
     .catch((err) => { console.log('Metadata extraction failed with reason : ' + err); })
-    .finally( () => { console.log('Metadata done') }  );
+    .finally( () => { 
+      
+      
+      console.log('Metadata done') }  );
 
   
   }
@@ -431,6 +442,7 @@ class Metadata {
                     
             // and let everyone know
             vScope.$parent.fireEvent('clicked');
+            vScope.$parent.$applyAsync();
 
           } else {
 

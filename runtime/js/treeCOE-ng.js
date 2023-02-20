@@ -43,10 +43,8 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
                      
         var executeTree = function() {
           console.log('do the custom activities here');
+          
           if (!scope.data.disabled) {
-
-
-            
             tree = new TreeCOE(scope,scope.incomingdataField , scope.widthField, scope.heightField , scope.topoffsetField, scope.leftoffsetField, scope.renderer , scope.modelnameField , scope.displaypropertynameField,  scope.uniquenesspropertynameField , scope.metadatauniquenessField, scope.hilitemodelField );
           } else {
             console.log('disabled');
@@ -86,10 +84,6 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
 
         scope.$watch('treefrommodelmetadataField', function () {
           console.log('treefrommodelmetadataField='+ scope.treefrommodelmetadataField);
-          if (tree != undefined) {
-
-            tree.customUI.setElementInTree(scope.treefrommodelmetadataField);
-          }
 
         });
 
