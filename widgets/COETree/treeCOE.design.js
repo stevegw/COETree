@@ -83,7 +83,7 @@
           name: 'uniquenesspropertyname',
           label: 'Incoming Uniqueness property',
           datatype: 'string',
-          default: 'Occurrence.ID',
+          default: 'Part ID Path',
           isBindingTarget: true,
           isBindingSource: false,
           showInput: true,
@@ -128,7 +128,7 @@
           name: 'hilitemodel',
           label: 'Highlight model',
           datatype: 'boolean',
-          default: false,
+          default: true,
           isBindingTarget: true,
           isBindingSource: false,
           showInput: true

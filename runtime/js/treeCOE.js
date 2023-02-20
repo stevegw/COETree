@@ -53,10 +53,13 @@ class CustomUI {
 
     buildUI = function () {
 
-        let LeftPanelQuery = 'body > ion-side-menus > ion-side-menu-content > ion-nav-view > ion-view > ion-content > twx-widget > twx-widget-content > \n' +
-		'twx-container-content > twx-widget:nth-child(2) > twx-widget-content > div > twx-container-content > div.panel.body.undefined > div.panel.undefined.left';
+    //     let LeftPanelQueryX = 'body > ion-side-menus > ion-side-menu-content > ion-nav-view > ion-view > ion-content > twx-widget > twx-widget-content > \n' +
+		// 'twx-container-content > twx-widget:nth-child(2) > twx-widget-content > div > twx-container-content > div.panel.body.undefined > div.panel.undefined.left';
+
+    let PanelQuery = 'body > ion-side-menus > ion-side-menu-content > ion-nav-view > ion-view > ion-content > twx-widget > twx-widget-content > \n' +
+		'twx-container-content > twx-widget:nth-child(2) > twx-widget-content > div > twx-container-content';
   
-	    let LeftPanelSelector = document.querySelector(LeftPanelQuery); 
+	    let PanelSelector = document.querySelector(PanelQuery); 
       let backgroundColor = "rgba(78,194,50,0.65)";
 
         var UIContainer = document.createElement('div');
@@ -118,7 +121,7 @@ class CustomUI {
         UIContainer.appendChild(ToolbarContainer);
         UIContainer.appendChild(TreeContainer);
         //Append the div to the higher level div  
-        LeftPanelSelector.appendChild(UIContainer);
+        PanelSelector.appendChild(UIContainer);
 
 
     }
