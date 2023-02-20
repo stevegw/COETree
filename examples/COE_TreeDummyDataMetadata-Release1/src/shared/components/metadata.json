@@ -1,0 +1,368 @@
+{
+  "name": "",
+  "version": "1.0.0",
+  "requires": [
+    "w320dp",
+    "spatial-tracking"
+  ],
+  "experiences": [
+    {
+      "vumark": "",
+      "experienceType": "none",
+      "id": 1,
+      "index-keys": [],
+      "title": {
+        "en": "COETree"
+      },
+      "description": {
+        "en": "",
+        "en-US": ""
+      },
+      "requires": [
+        "AR-tracking"
+      ],
+      "tags": [],
+      "icon": "",
+      "viewName": "Home",
+      "url-template": "index.html?expId=1",
+      "entryPoint": "index.html?expId=1",
+      "thumbnail": "public/Uploaded/2023-01-27_12-21-31.jpg",
+      "thingTemplateName": ""
+    }
+  ],
+  "widgetsUsage": [
+    {
+      "timestamp": "2022-12-24T23:02:36.867Z",
+      "action": "PUBLISH",
+      "usage": {
+        "twx-view": 1,
+        "twx-dt-view": 1,
+        "txw-treecoe": 1,
+        "twx-dt-model": 1,
+        "twx-tml-text": 1,
+        "twx-overlay": 1,
+        "twx-overlay-container": 5,
+        "twx-overlay-body": 1,
+        "twx-gridlayout": 1,
+        "twx-row": 1,
+        "twx-button": 2
+      }
+    },
+    {
+      "timestamp": "2022-12-24T23:06:12.719Z",
+      "action": "PUBLISH",
+      "usage": {
+        "twx-view": 1,
+        "twx-dt-view": 1,
+        "txw-treecoe": 1,
+        "twx-dt-model": 1,
+        "twx-tml-text": 1,
+        "twx-overlay": 1,
+        "twx-overlay-container": 5,
+        "twx-overlay-body": 1,
+        "twx-gridlayout": 1,
+        "twx-row": 1,
+        "twx-button": 2
+      }
+    },
+    {
+      "timestamp": "2022-12-24T23:07:55.751Z",
+      "action": "PUBLISH",
+      "usage": {
+        "twx-view": 1,
+        "twx-dt-view": 1,
+        "txw-treecoe": 1,
+        "twx-dt-model": 1,
+        "twx-tml-text": 1,
+        "twx-overlay": 1,
+        "twx-overlay-container": 5,
+        "twx-overlay-body": 1,
+        "twx-gridlayout": 1,
+        "twx-row": 1,
+        "twx-button": 2
+      }
+    },
+    {
+      "timestamp": "2022-12-24T23:18:19.315Z",
+      "action": "PUBLISH",
+      "usage": {
+        "twx-view": 1,
+        "twx-dt-view": 1,
+        "txw-treecoe": 1,
+        "twx-dt-model": 1,
+        "twx-tml-text": 1,
+        "twx-overlay": 1,
+        "twx-overlay-container": 5,
+        "twx-overlay-body": 1,
+        "twx-gridlayout": 1,
+        "twx-row": 1,
+        "twx-button": 2
+      }
+    },
+    {
+      "timestamp": "2022-12-24T23:21:34.128Z",
+      "action": "PUBLISH",
+      "usage": {
+        "twx-view": 1,
+        "twx-dt-view": 1,
+        "txw-treecoe": 1,
+        "twx-dt-model": 1,
+        "twx-tml-text": 1,
+        "twx-dt-target-spatial": 1,
+        "twx-overlay": 1,
+        "twx-overlay-container": 5,
+        "twx-overlay-body": 1,
+        "twx-gridlayout": 1,
+        "twx-row": 1,
+        "twx-button": 2
+      }
+    },
+    {
+      "timestamp": "2022-12-26T16:22:22.328Z",
+      "action": "PUBLISH",
+      "usage": {
+        "twx-view": 1,
+        "twx-dt-view": 1,
+        "txw-treecoe": 1,
+        "twx-dt-model": 1,
+        "twx-tml-text": 1,
+        "twx-dt-target-spatial": 1,
+        "twx-overlay": 1,
+        "twx-overlay-container": 5,
+        "twx-overlay-body": 1,
+        "twx-gridlayout": 1,
+        "twx-row": 1,
+        "twx-button": 2
+      }
+    },
+    {
+      "timestamp": "2022-12-26T16:29:38.006Z",
+      "action": "PUBLISH",
+      "usage": {
+        "twx-view": 1,
+        "twx-dt-view": 1,
+        "txw-treecoe": 1,
+        "twx-dt-model": 1,
+        "twx-tml-text": 1,
+        "twx-dt-target-spatial": 1,
+        "twx-overlay": 1,
+        "twx-overlay-container": 5,
+        "twx-overlay-body": 1,
+        "twx-gridlayout": 1,
+        "twx-row": 1,
+        "twx-button": 2
+      }
+    },
+    {
+      "timestamp": "2022-12-28T15:15:30.094Z",
+      "action": "PUBLISH",
+      "usage": {
+        "twx-view": 1,
+        "twx-dt-view": 1,
+        "txw-treecoe": 1,
+        "twx-dt-model": 1,
+        "twx-tml-text": 1,
+        "twx-dt-target-spatial": 1,
+        "twx-overlay": 1,
+        "twx-overlay-container": 5,
+        "twx-overlay-body": 1,
+        "twx-popup": 1,
+        "twx-gridlayout": 2,
+        "twx-row": 2,
+        "twx-col": 2,
+        "twx-label": 2,
+        "twx-button": 1
+      }
+    },
+    {
+      "timestamp": "2022-12-28T15:19:01.377Z",
+      "action": "PUBLISH",
+      "usage": {
+        "twx-view": 1,
+        "twx-dt-view": 1,
+        "txw-treecoe": 1,
+        "twx-dt-model": 1,
+        "twx-tml-text": 1,
+        "twx-dt-target-spatial": 1,
+        "twx-overlay": 1,
+        "twx-overlay-container": 5,
+        "twx-overlay-body": 1,
+        "twx-popup": 1,
+        "twx-gridlayout": 2,
+        "twx-row": 2,
+        "twx-col": 2,
+        "twx-label": 2,
+        "twx-button": 1
+      }
+    },
+    {
+      "timestamp": "2022-12-28T15:24:18.908Z",
+      "action": "PUBLISH",
+      "usage": {
+        "twx-view": 1,
+        "twx-dt-view": 1,
+        "txw-treecoe": 1,
+        "twx-dt-model": 1,
+        "twx-tml-text": 1,
+        "twx-dt-target-spatial": 1,
+        "twx-overlay": 1,
+        "twx-overlay-container": 5,
+        "twx-gridlayout": 3,
+        "twx-row": 3,
+        "twx-col": 5,
+        "twx-button": 1,
+        "twx-overlay-body": 1,
+        "twx-popup": 1,
+        "twx-label": 2
+      }
+    },
+    {
+      "timestamp": "2023-01-01T15:14:08.631Z",
+      "action": "PUBLISH",
+      "usage": {
+        "twx-view": 1,
+        "twx-dt-view": 1,
+        "twx-dt-model": 1,
+        "twx-tml-text": 1,
+        "twx-dt-target-spatial": 1,
+        "txw-treecoe": 1,
+        "twx-mapper": 1,
+        "twx-metagetta": 1,
+        "twx-overlay": 1,
+        "twx-overlay-container": 5,
+        "twx-gridlayout": 3,
+        "twx-row": 3,
+        "twx-col": 5,
+        "twx-button": 2,
+        "twx-overlay-body": 1,
+        "twx-finder": 1,
+        "twx-popup": 1,
+        "twx-label": 2,
+        "twx-textarea": 1,
+        "twx-list": 1
+      }
+    },
+    {
+      "timestamp": "2023-01-01T15:35:48.721Z",
+      "action": "PUBLISH",
+      "usage": {
+        "twx-view": 1,
+        "twx-dt-view": 1,
+        "twx-dt-model": 1,
+        "twx-tml-text": 1,
+        "twx-dt-target-spatial": 1,
+        "txw-treecoe": 1,
+        "twx-mapper": 1,
+        "twx-metagetta": 1,
+        "twx-overlay": 1,
+        "twx-overlay-container": 5,
+        "twx-gridlayout": 3,
+        "twx-row": 3,
+        "twx-col": 5,
+        "twx-button": 2,
+        "twx-overlay-body": 1,
+        "twx-popup": 1,
+        "twx-label": 2,
+        "twx-textarea": 2
+      }
+    },
+    {
+      "timestamp": "2023-01-03T17:57:18.977Z",
+      "action": "PUBLISH",
+      "usage": {
+        "twx-view": 1,
+        "twx-dt-view": 1,
+        "twx-dt-model": 1,
+        "twx-tml-text": 1,
+        "twx-dt-target-spatial": 1,
+        "txw-treecoe": 1,
+        "twx-mapper": 1,
+        "twx-metagetta": 1,
+        "twx-overlay": 1,
+        "twx-overlay-container": 5,
+        "twx-gridlayout": 4,
+        "twx-row": 8,
+        "twx-col": 9,
+        "twx-button": 2,
+        "twx-overlay-body": 1,
+        "twx-popup": 1,
+        "twx-label": 4,
+        "twx-textarea": 2
+      }
+    },
+    {
+      "timestamp": "2023-01-03T18:08:05.186Z",
+      "action": "PUBLISH",
+      "usage": {
+        "twx-view": 1,
+        "twx-dt-view": 1,
+        "twx-dt-model": 1,
+        "twx-tml-text": 1,
+        "twx-dt-target-spatial": 1,
+        "txw-treecoe": 1,
+        "twx-mapper": 1,
+        "twx-metagetta": 1,
+        "twx-overlay": 1,
+        "twx-overlay-container": 5,
+        "twx-gridlayout": 4,
+        "twx-row": 8,
+        "twx-col": 9,
+        "twx-button": 2,
+        "twx-overlay-body": 1,
+        "twx-popup": 1,
+        "twx-label": 4,
+        "twx-textarea": 2
+      }
+    },
+    {
+      "timestamp": "2023-02-01T12:53:48.818Z",
+      "action": "PUBLISH",
+      "usage": {
+        "twx-view": 1,
+        "twx-dt-view": 1,
+        "twx-dt-model": 1,
+        "twx-tml-text": 1,
+        "twx-dt-target-spatial": 1,
+        "txw-treecoe": 1,
+        "twx-mapper": 1,
+        "twx-metagetta": 1,
+        "twx-overlay": 1,
+        "twx-overlay-container": 5,
+        "twx-gridlayout": 4,
+        "twx-row": 8,
+        "twx-col": 9,
+        "twx-button": 1,
+        "twx-overlay-body": 1,
+        "twx-popup": 1,
+        "twx-label": 4,
+        "twx-textarea": 2
+      }
+    },
+    {
+      "timestamp": "2023-02-19T23:41:55.365Z",
+      "action": "LATEST_SAVE",
+      "usage": {
+        "twx-view": 1,
+        "twx-dt-view": 1,
+        "twx-dt-model": 1,
+        "twx-tml-text": 1,
+        "twx-dt-target-spatial": 1,
+        "txw-treecoe": 1,
+        "twx-metagetta": 1,
+        "twx-mapper": 1,
+        "twx-overlay": 1,
+        "twx-overlay-container": 5,
+        "twx-gridlayout": 4,
+        "twx-row": 16,
+        "twx-col": 10,
+        "twx-button": 3,
+        "twx-overlay-body": 1,
+        "twx-popup": 1,
+        "twx-label": 3,
+        "twx-textarea": 3
+      }
+    }
+  ],
+  "accessType": "private",
+  "designedfor": []
+}
