@@ -177,6 +177,10 @@
           label: 'Start'
         },
         {
+          name: 'stop',
+          label: 'Stop'
+        },
+        {
           name: 'dataviamodeldata',
           label: 'Get structure data from Metadata'
         }

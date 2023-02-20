@@ -128,7 +128,10 @@ class CustomUI {
     }
 
     close () {
-      this.UIContainer.remove();
+
+      while (this.UIContainer.hasChildNodes()) {
+        this.UIContainer.removeChild(this.UIContainer.firstChild);
+      }
     
     }
 

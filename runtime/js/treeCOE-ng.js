@@ -32,7 +32,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
       link: function (scope, element, attr) {
 
         var lastUpdated = 'unknown';
-        var tree = undefined ;
+        let tree = undefined ;
         scope.data = { name: undefined, 
                    disabled: false, 
                         outjson: undefined,
@@ -43,7 +43,13 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
                      
         var executeTree = function() {
           console.log('do the custom activities here');
-          
+          if (tree != undefined) {
+            try {
+              tree.customUI.close();
+            }catch(ex) {
+                // ignore
+            }
+          }
           if (!scope.data.disabled) {
             tree = new TreeCOE(scope,scope.incomingdataField , scope.widthField, scope.heightField , scope.topoffsetField, scope.leftoffsetField, scope.renderer , scope.modelnameField , scope.displaypropertynameField,  scope.uniquenesspropertynameField , scope.metadatauniquenessField, scope.hilitemodelField );
           } else {
@@ -56,6 +62,13 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
           scope.data.disabled = false;
           scope.$parent.fireEvent('started');
           executeTree();
+        }
+        var stop = function() {
+          console.log('Stopping');
+          scope.$parent.fireEvent('stopped');
+          if (tree != undefined) {
+            tree.customUI.close();
+          }
         }
 
 
@@ -91,6 +104,9 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
           if (delegate) {
             delegate.start = function () { 
               start(); 
+            };
+            delegate.stop = function () { 
+              stop(); 
             };
             delegate.dataviamodeldata = function () { 
 
