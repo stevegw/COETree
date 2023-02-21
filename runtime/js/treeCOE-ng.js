@@ -87,7 +87,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
         });
 
         scope.$watch('selectedvalueField', function () {
-          console.log('selectedvalueField='+ scope.selectedvalueField);
+          console.log('selectedvalueField='+ JSON.stringify(scope.selectedvalueField));
           if (tree != undefined) {
 
             tree.customUI.setElementInTree(scope.selectedvalueField);

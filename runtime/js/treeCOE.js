@@ -278,7 +278,7 @@ class CustomUI {
             //
             //let queryElement =  treec.querySelector(objectId);
 
-            console.log("queryElement="+ queryElement);
+            console.log("queryElement="+ JSON.stringify(queryElement));
 
             if (queryElement != null) {
                       //find all the elements in your channel list and loop over them
@@ -385,7 +385,6 @@ class Metadata {
         jsondata[entry]['Part ID Path'] = entry;
         jsondata[entry]['Components'] = [];
         jsondata[entry]['PartName'] = jsondata[entry]['__PV_SystemProperties']['Part Name'];
-        
         if (Number(jsondata[entry]['__PV_SystemProperties']['Part Depth'])>depthIndex)
           depthIndex = Number(jsondata[entry]['__PV_SystemProperties']['Part Depth']);
       } var depthList = {}; // list to sort all items by level
@@ -442,10 +441,21 @@ class Metadata {
 
             //build the data that the mapper wants to see - note it is an array so it _could_ suppport multi-select...  
             vScope.selectedvalueField = [{ model:mName, path:idpath }];  //selected;
+
+            
+            var olfilename = mdata.get(idpath).getProp('OL File Name');
+
+            //check for associated model file
+            if (olfilename === "") {
+              vScope.$parent.fireEvent('metadata_no_olfile');
+
+            }
                     
             // and let everyone know
             vScope.$parent.fireEvent('clicked');
             vScope.$parent.$applyAsync();
+
+            
 
           } else {
 

@@ -192,6 +192,11 @@
           name: 'clicked',
           label: 'Clicked'
         },
+        {
+          name: 'metadata_no_olfile',
+          label: 'No AR'
+        }
+
       ],
 
       dependencies: {
