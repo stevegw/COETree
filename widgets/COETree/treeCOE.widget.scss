@@ -38,7 +38,7 @@
   display      : block;
   position     : relative;
   padding-left : calc(2 * var(--spacing) - var(--radius) - 2px);
-
+  color:rgb(255, 255, 255);
 }
 
 
@@ -53,8 +53,10 @@
   white-space: nowrap;
 }
 
+// Sub Items
 .tree ul li:last-child{
   border-color : transparent;
+  color:rgb(255, 255, 255);
 }
 
 
@@ -88,6 +90,7 @@
   outline : 1px dotted #000;
 }
 
+// node circles 
 .tree li::after,
 .tree summary::before{
   content       : '';
@@ -98,13 +101,13 @@
   width         : calc(2 * var(--radius));
   height        : calc(2 * var(--radius));
   border-radius : 50%;
-  background    : #ddd;
+  background    : rgb(7, 75, 193);
 }
 
 .tree summary::before{
   content     : '+';
   z-index     : 1;
-  background  : #696;
+  background  : #387EF5;
   color       : #fff;
   line-height : calc(2 * var(--radius) - 2px);
   text-align  : center;
@@ -116,7 +119,7 @@
 
 .uicontainer {
 
-  background-color : "rgba(78,194,50,0.65)";
+  background-color : transparent;
   display : flex;
   flex-direction : column;
   position : absolute; //Allowed values: static, absolute, fixed, relative, sticky, initial, inherit;  
@@ -128,7 +131,7 @@
   position : absolute;
   border-style: solid;
   border : rgba(0,0,0,0.25);
-  background-color:  rgba(78,194,50,0.65);
+  background-color:  rgba(56,126,245,0.85);
   top : 0px;
   overflow : hidden;
   z-Index :  910;
@@ -139,7 +142,7 @@
   display : block;
   border  : rgba(0,0,0,0.1);
   border-style: solid;
-  background-color : rgba(78,194,50,0.65);
+  background-color : rgba(56,126,245,0.85);
   overflow-x : scroll;
   overflow-y : scroll;
   top : 0px;
@@ -147,11 +150,13 @@
 
 }
 
+// Top label 
 .itemlabel{
   position : absolute;
   top : 10px;
   left :  2px;
-  background-color : rgb(74,187,7);
+  background-color : rgb(56,126,245);
+  color : rgb(255, 255, 255);
 
 
 }
@@ -166,7 +171,7 @@
   position : absolute;
   top : 1px;
   right :  0px;
-  background-color : rgb(74,187,7);
+  background-color : rgb(56,126,245);
 
 }
 

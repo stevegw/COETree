@@ -202,7 +202,7 @@ class CustomUI {
             }
 
           });
-          li.style.backgroundColor = "rgba(250,238,3,0.35)";
+      
           // var nodes = row.nodes;
           var nodes = row['Components'];
           if(nodes && nodes.length) {
