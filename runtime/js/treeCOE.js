@@ -147,40 +147,40 @@ class CustomUI {
     createSublist = function(container , data) {
 
 
-      if (this.index > 0) {
-        //var expandString = "&nbsp;&nbsp;Items";
-        //var liTree = document.createElement('li');
-        //container.appendChild(liTree);
+      // if (this.index > 0) {
+      //   //var expandString = "&nbsp;&nbsp;Items";
+      //   //var liTree = document.createElement('li');
+      //   //container.appendChild(liTree);
     
-        var details = document.createElement('details');
-        //liTree.appendChild(details);
-        container.appendChild(details);
-        var summary = document.createElement('summary');
-        //summary.innerHTML = expandString;
-        details.appendChild(summary);
+      //   var details = document.createElement('details');
+      //   //liTree.appendChild(details);
+      //   container.appendChild(details);
+      //   var summary = document.createElement('summary');
+      //   //summary.innerHTML = expandString;
+      //   details.appendChild(summary);
 
-      } else {
+      // } else {
+      //   var expandString = "&nbsp;&nbsp;Items";
+      //   var liTree = document.createElement('li');
+      //   container.appendChild(liTree);
+    
+      //   var details = document.createElement('details');
+      //   liTree.appendChild(details);
+      //   var summary = document.createElement('summary');
+      //   summary.innerHTML = expandString;
+      //   details.appendChild(summary);
+
+
+      // }
         var expandString = "&nbsp;&nbsp;Items";
         var liTree = document.createElement('li');
         container.appendChild(liTree);
     
         var details = document.createElement('details');
         liTree.appendChild(details);
+
         var summary = document.createElement('summary');
         summary.innerHTML = expandString;
-        details.appendChild(summary);
-
-
-      }
-        var expandString = "&nbsp;&nbsp;Items";
-        var liTree = document.createElement('li');
-        //container.appendChild(liTree);
-    
-        var details = document.createElement('details');
-        //liTree.appendChild(details);
-        container.appendChild(details);
-        var summary = document.createElement('summary');
-        //summary.innerHTML = expandString;
         details.appendChild(summary);
         this.index++;
     
@@ -211,14 +211,14 @@ class CustomUI {
           li.innerHTML  = "&nbsp;&nbsp;"+row[this.metadata.displaypropertyname];
           li.addEventListener('click',(e)=>{
             console.log("Event click target textContent="+ e.target.id);
-           // let selected = e.target.firstChild.nodeValue;
-            //selected = selected.replace( /[\r\n]+/gm, "" );
-            //selected = selected.trim();
+           let selected = e.target.firstChild.nodeValue;
+            selected = selected.replace( /[\r\n]+/gm, "" );
+            selected = selected.trim();
 
             //selected = selected.replace(expandString, "");
-            this.setSelected(e);
+            //this.setSelected(e);
 
-           // if (selected != "Items" ) {
+           if (selected != "Items" ) {
               if (this.currentEvent != e.target.id) {
                 this.currentEvent = e.target.id;
                 this.setSelected(e.target.id);
@@ -226,7 +226,7 @@ class CustomUI {
                   this.metadata.findOccurences(e.target.id);
                 }
               }
-            //}
+            }
 
           });
       

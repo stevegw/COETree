@@ -30,8 +30,8 @@
  }
 
 .tree{
-  --spacing : 2.0rem;
-  --radius  : 10px;
+  --spacing : 2.0rem; // line height of text
+  --radius  : 10px; // radius of markers
 }
 
 .tree li{
@@ -39,7 +39,7 @@
   position     : relative;
   padding-left : calc(2 * var(--spacing) - var(--radius) - 2px);
   color:rgb(255, 255, 255);
-  margin: 5px 0;
+  margin: 10px 0;
 }
 
 
