@@ -442,14 +442,19 @@ class Metadata {
             //build the data that the mapper wants to see - note it is an array so it _could_ suppport multi-select...  
             vScope.selectedvalueField = [{ model:mName, path:idpath }];  //selected;
 
-            
-            var olfilename = mdata.get(idpath).getProp('OL File Name');
+            try {
+              var olfilename = mdata.get(idpath).getProp('OL File Name');
+              var childcount = parseInt(mdata.get(idpath).getProp('Child Count'));
+  
+              //check for associated model file
+              if (olfilename === "" && childcount === 0 ) {
+                vScope.$parent.fireEvent('metadata_no_olfile');
+              }
 
-            //check for associated model file
-            if (olfilename === "") {
-              vScope.$parent.fireEvent('metadata_no_olfile');
-
+            } catch (ex) {
+              console.log('Exception when checking for OL File Name and Child Count   : ' + ex );
             }
+
                     
             // and let everyone know
             vScope.$parent.fireEvent('clicked');
