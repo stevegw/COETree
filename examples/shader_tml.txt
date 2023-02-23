@@ -1,0 +1,57 @@
+<script name="green" type="x-shader/x-fragment">
+      precision mediump float; 
+      void main() {
+          gl_FragColor = vec4(0.,1.,0.,1.);
+        }
+</script>        
+<script name="green" type="x-shader/x-vertex">
+      attribute vec4 vertexPosition;
+      uniform mat4 modelViewProjectionMatrix;
+      void main() {
+        gl_Position = modelViewProjectionMatrix * vertexPosition;
+      }
+</script>
+<script name="xray" type="x-shader/x-fragment">
+  precision mediump float;
+ 
+  varying vec3 I;
+  varying vec3 N;
+
+  uniform float falloff;
+  uniform float ambient;
+  uniform float intensity;
+  uniform float r;
+  uniform float g;
+  uniform float b;
+ 
+  void main() {
+    float faf = 1. + falloff;
+    float ity = 1. + intensity;
+    float dp = dot(normalize(-N), normalize(-I));
+    if (dp < 0.) discard; else {
+    float opacity  = abs(dp);
+    opacity = ambient + ity*(1.0-pow(opacity,faf));
+    gl_FragColor   = opacity * vec4(r,g,b,1.);
+}
+  }
+</script>
+ 
+<script name="xray" type="x-shader/x-vertex">
+  attribute vec3 vertexPosition;
+  attribute vec3 vertexNormal;
+
+  uniform mat4 modelViewProjectionMatrix;
+  uniform mat4 modelViewMatrix;
+  uniform mat4 normalMatrix;
+ 
+  varying vec3 I;
+  varying vec3 N;
+ 
+  void main() {
+    vec4 vp = vec4(vertexPosition, 1.0);
+    gl_Position = modelViewProjectionMatrix * vp;
+    vec4 P      = modelViewMatrix * vp;
+    I           = P.xyz - vec3(0);
+    N           = vec3(normalMatrix * vec4(vertexNormal,0.0));
+  }
+</script>
