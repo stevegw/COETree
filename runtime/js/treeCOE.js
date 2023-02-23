@@ -34,7 +34,7 @@ class CustomUI {
         this.index = 0;
         this.UIContainer;
 
-        console.log("Data IN="+ JSON.stringify(data));
+        // console.log("Data IN="+ JSON.stringify(data));
         this.buildUI();
         // if (this.isJson(data)) {
         //     try {
@@ -147,41 +147,42 @@ class CustomUI {
     createSublist = function(container , data) {
 
 
-      // if (this.index > 0) {
-      //   //var expandString = "&nbsp;&nbsp;Items";
-      //   //var liTree = document.createElement('li');
-      //   //container.appendChild(liTree);
+      if (this.index > 0) {
+        //var expandString = "&nbsp;&nbsp;Items";
+        //var liTree = document.createElement('li');
+        //container.appendChild(liTree);
     
-      //   var details = document.createElement('details');
-      //   //liTree.appendChild(details);
-      //   container.appendChild(details);
-      //   var summary = document.createElement('summary');
-      //   //summary.innerHTML = expandString;
-      //   details.appendChild(summary);
+        var details = document.createElement('details');
+        //liTree.appendChild(details);
+        container.appendChild(details);
+        var summary = document.createElement('summary');
+        //summary.innerHTML = expandString;
+        details.appendChild(summary);
 
-      // } else {
-      //   var expandString = "&nbsp;&nbsp;Items";
-      //   var liTree = document.createElement('li');
-      //   container.appendChild(liTree);
-    
-      //   var details = document.createElement('details');
-      //   liTree.appendChild(details);
-      //   var summary = document.createElement('summary');
-      //   summary.innerHTML = expandString;
-      //   details.appendChild(summary);
-
-
-      // }
+      } else {
         var expandString = "&nbsp;&nbsp;Items";
         var liTree = document.createElement('li');
         container.appendChild(liTree);
     
         var details = document.createElement('details');
         liTree.appendChild(details);
-
         var summary = document.createElement('summary');
         summary.innerHTML = expandString;
         details.appendChild(summary);
+
+
+      }
+        // var expandString = "&nbsp;&nbsp;Items";
+        // var liTree = document.createElement('li');
+        // container.appendChild(liTree);
+    
+        // var details = document.createElement('details');
+        // liTree.appendChild(details);
+
+        // var summary = document.createElement('summary');
+        // summary.innerHTML = expandString;
+        // details.appendChild(summary);
+
         this.index++;
     
         var ul = document.createElement('ul');
@@ -207,23 +208,28 @@ class CustomUI {
         //   this.tagIndex =   row[this.metadata.propertyName] + this.index; 
         //  }
 
+          this.tagIndex = this.tagIndex.replace(/\//g, "-");
+
           li.setAttribute("id", this.tagIndex );
           li.innerHTML  = "&nbsp;&nbsp;"+row[this.metadata.displaypropertyname];
           li.addEventListener('click',(e)=>{
-            console.log("Event click target textContent="+ e.target.id);
+         
+           console.log("Event click target textContent="+ e.target.id);
+          // e.stopPropagation();
            let selected = e.target.firstChild.nodeValue;
             selected = selected.replace( /[\r\n]+/gm, "" );
             selected = selected.trim();
 
             //selected = selected.replace(expandString, "");
-            //this.setSelected(e);
+            this.setSelected(e);
 
            if (selected != "Items" ) {
               if (this.currentEvent != e.target.id) {
                 this.currentEvent = e.target.id;
-                this.setSelected(e.target.id);
+               // this.setSelected(e);
                 if (this.metadata.hilitemodel === "true") {
-                  this.metadata.findOccurences(e.target.id);
+                  let occur =  e.target.id.replace(/-/g, "/");
+                  this.metadata.findOccurences(occur);
                 }
               }
             }
@@ -242,24 +248,27 @@ class CustomUI {
     
       };
 
-      setSelected(id){
+      setSelected(e){
         // find all the elements in your channel list and loop over them
-        Array.prototype.slice.call(document.querySelectorAll('li')).forEach(function(element){
-          // remove the selected class
+        const allElements = document.querySelectorAll('li');
+        allElements.forEach((element) => {
           element.classList.remove('itemselected');
         });
         // add the selected class to the element that was clicked
         try {
             //var id = el.target.attributes[0].value;
-            const elem = document.getElementById(id);
+
+            const elem = document.getElementById(e.target.id);
+            console.log("setSelected id="+ e.target.id + " should be the same as elem by id="+ elem.id);
 
             //var style = document.createElement('style');
             //style.innerHTML = '.itemselected {::before {color: rgb(12, 12, 228)}}';
             //document.getElementsByTagName('head')[0].appendChild(style);
             elem.classList.add('itemselected');
+            
         } catch (ex) {
             //
-            console.log("Exception from setSelected id= "+ id + " " + ex);
+            console.log("Exception from setSelected id= "+ e.target.id + " " + ex);
 
         }
         
@@ -301,6 +310,7 @@ class CustomUI {
           //
           PTC.Metadata.fromId(modelName).then( (metadata) => {
             let objectId = metadata.get(path, metadatauniqueness );
+            objectId = objectId.replace(/\//g, "-");
             let queryElement = document.getElementById(objectId);
             //
             //let queryElement =  treec.querySelector(objectId);
@@ -460,7 +470,7 @@ class Metadata {
 
       PTC.Metadata.fromId(mName).then((mdata) => {
   
-          var occuranceItems = mdata.find(metadatauniqueness).like(searchText);
+          var occuranceItems = mdata.find(metadatauniqueness).sameAs(searchText);
           var hiliteArray = [];
 
           if (occuranceItems._selectedPaths.length > 0)  {
