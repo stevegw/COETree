@@ -4,7 +4,6 @@ class TreeCOE {
 
     customUI ;
 
-//            tree = new TreeCOE(scope,scope.incomingdataField , scope.widthField, scope.heightField , scope.topoffsetField, scope.leftoffsetField, scope.renderer , scope.modelnameField , scope.displaypropertynameField,  scope.uniquenesspropertynameField , scope.hilitemodelField );
     constructor( vuforiaScope, data, width , height , topoffset , leftoffset ,  renderer , modelname , displaypropertyname  ,  uniquenesspropertyname ,metadatauniqueness , hilitemodel) {
 
         let metadata = new Metadata(vuforiaScope ,  renderer, modelname , displaypropertyname , uniquenesspropertyname, metadatauniqueness, hilitemodel );
@@ -54,7 +53,7 @@ class CustomUI {
 
     buildUI = function () {
 
-    //     let LeftPanelQueryX = 'body > ion-side-menus > ion-side-menu-content > ion-nav-view > ion-view > ion-content > twx-widget > twx-widget-content > \n' +
+    //  let LeftPanelQueryX = 'body > ion-side-menus > ion-side-menu-content > ion-nav-view > ion-view > ion-content > twx-widget > twx-widget-content > \n' +
 		// 'twx-container-content > twx-widget:nth-child(2) > twx-widget-content > div > twx-container-content > div.panel.body.undefined > div.panel.undefined.left';
 
     let PanelQuery = 'body > ion-side-menus > ion-side-menu-content > ion-nav-view > ion-view > ion-content > twx-widget > twx-widget-content > \n' +
@@ -111,7 +110,7 @@ class CustomUI {
         this.tagIndex = 1;
         var displayName = this.data[this.metadata.displaypropertyname] ;
 
-        ItemLabel.innerHTML = displayName;
+        ItemLabel.innerHTML = "&nbsp;&nbsp;"+displayName;
         this.createSublist(topUL,this.data['Components'] ) //'Components']);
         //this.createSublist(topUL,testData2.Components);
         
@@ -146,17 +145,11 @@ class CustomUI {
 
     createSublist = function(container , data) {
 
-
       if (this.index > 0) {
-        //var expandString = "&nbsp;&nbsp;Items";
-        //var liTree = document.createElement('li');
-        //container.appendChild(liTree);
-    
+
         var details = document.createElement('details');
-        //liTree.appendChild(details);
         container.appendChild(details);
         var summary = document.createElement('summary');
-        //summary.innerHTML = expandString;
         details.appendChild(summary);
 
       } else {
@@ -190,9 +183,6 @@ class CustomUI {
           var row = data[j];
           var li = document.createElement('li');
 
-
-         // this.tagIndex = row.Occurrence.ID; //ideally this would be = this.metadata.modelName + '-' + row.PVTreeId; 
-         // Not an ideal approach but hopefully works
          if (this.metadata.uniquenesspropertyname === "Auto") {
            this.tagIndex = row[this.metadata.displaypropertyname] + this.index; 
          } else if (this.metadata.uniquenesspropertyname === "Occurrence.ID")  {
@@ -200,13 +190,7 @@ class CustomUI {
          } else  {
           this.tagIndex =   row[this.metadata.uniquenesspropertyname]; 
         } 
-         
-         
-        //  else if (this.metadata.uniquenesspropertyname === "Part_ID_Path")  {
-        //   this.tagIndex =   row[Part_ID_Path]; 
-        //  } else if (this.metadata.uniquenesspropertyname === "Auto")  {
-        //   this.tagIndex =   row[this.metadata.propertyName] + this.index; 
-        //  }
+
 
           this.tagIndex = this.tagIndex.replace(/\//g, "-");
 
@@ -214,26 +198,23 @@ class CustomUI {
           li.innerHTML  = "&nbsp;&nbsp;"+row[this.metadata.displaypropertyname];
           li.addEventListener('click',(e)=>{
          
-           console.log("Event click target textContent="+ e.target.id);
-          // e.stopPropagation();
-           let selected = e.target.firstChild.nodeValue;
-            selected = selected.replace( /[\r\n]+/gm, "" );
-            selected = selected.trim();
+          console.log("Event click target textContent="+ e.target.id);
+          if (e.target.id != "")  {
 
-            //selected = selected.replace(expandString, "");
-            this.setSelected(e);
-
-           if (selected != "Items" ) {
-              if (this.currentEvent != e.target.id) {
-                this.currentEvent = e.target.id;
-               // this.setSelected(e);
-                if (this.metadata.hilitemodel === "true") {
-                  let occur =  e.target.id.replace(/-/g, "/");
-                  this.metadata.findOccurences(occur);
+              // e.stopPropagation();
+              let selected = e.target.firstChild.nodeValue;
+              selected = selected.replace( /[\r\n]+/gm, "" );
+              selected = selected.trim();
+              this.setSelected(e);
+                if (this.currentEvent != e.target.id) {
+                  this.currentEvent = e.target.id;
+                // this.setSelected(e);
+                  if (this.metadata.hilitemodel === "true") {
+                    let occur =  e.target.id.replace(/-/g, "/");
+                    this.metadata.findOccurences(occur);
+                  }
                 }
-              }
-            }
-
+           }
           });
       
           // var nodes = row.nodes;
@@ -256,14 +237,10 @@ class CustomUI {
         });
         // add the selected class to the element that was clicked
         try {
-            //var id = el.target.attributes[0].value;
 
             const elem = document.getElementById(e.target.id);
             console.log("setSelected id="+ e.target.id + " should be the same as elem by id="+ elem.id);
 
-            //var style = document.createElement('style');
-            //style.innerHTML = '.itemselected {::before {color: rgb(12, 12, 228)}}';
-            //document.getElementsByTagName('head')[0].appendChild(style);
             elem.classList.add('itemselected');
             
         } catch (ex) {
@@ -339,11 +316,6 @@ class CustomUI {
             }
           });  
 
-          //var query = this.getElementsByIdStartsWith("tree-container", "li", startswith);
-          // let selector = 'id^="'+startswith+'"';
-          // let treec = document.getElementById("tree-container");
-          // let queryElement =  treec.querySelector( '['+selector+']');
-
         } catch (ex) {
           console.log("Exception from getElementsStartsWith selectionArray = "+ selectionArray + " " + ex);
         }
@@ -404,9 +376,7 @@ class Metadata {
     .catch((err) => { console.log('Metadata extraction failed with reason : ' + err); })
     .finally( () => { 
       
-      
       console.log('Metadata done') }  );
-
   
   }
 
@@ -416,7 +386,7 @@ class Metadata {
       let jsondata = JSON.parse(JSON.stringify(JSONData)); // create a new object else we would be reassigning the core metadata
 
       let result = '';
-      // JSONData = me.Get_Metadata({FilterProperties: true}); // get the maximum depth of the tree
+
       var depthIndex = 1;
       for (var entry in jsondata) {
         jsondata[entry]['Part ID Path'] = entry;
@@ -451,7 +421,6 @@ class Metadata {
       
       return  depthList[1]["/"];
 
-
   }
 
 
@@ -464,9 +433,6 @@ class Metadata {
       let metadatauniqueness = this.metadatauniqueness;
       let mName = this.modelName;
       let vScope = this.vuforiaScope;
-
-
- 
 
       PTC.Metadata.fromId(mName).then((mdata) => {
   
@@ -590,9 +556,6 @@ class Metadata {
   
 
 }
-
-
-  
 
 
   let testData2 = {

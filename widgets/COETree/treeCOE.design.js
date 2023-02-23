@@ -109,7 +109,6 @@
           editor: 'select',
           options: [
             {label: 'Part ID Path'      , value: "Part ID Path"},
-            {label: 'Part Name'      , value: "Part Name"},
             {label: 'partusesoccurrence_objectid' ,    value: "partusesoccurrence_objectid"},
             {label: 'Auto'    , value: "Auto"}
             ]
