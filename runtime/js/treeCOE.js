@@ -32,6 +32,9 @@ class CustomUI {
         this.previousSelection = undefined;
         this.index = 0;
         this.UIContainer;
+        this.ContentContainer;
+        this.TreeContainer;
+
 
         // console.log("Data IN="+ JSON.stringify(data));
         this.buildUI();
@@ -80,6 +83,13 @@ class CustomUI {
         var ItemLabel = document.createElement('label');
         ItemLabel.className = 'itemlabel';
 
+        var ExpandCollapseButton = document.createElement('img');
+        ExpandCollapseButton.className = 'expandbutton';
+        ExpandCollapseButton.src = "extensions/images/treeCOE_expand.png";
+    
+        ExpandCollapseButton.addEventListener("click",  () => { 
+            this.expandCollapse();
+        });
 
         var CloseButton = document.createElement('img');
         CloseButton.className = 'closebutton';
@@ -91,14 +101,23 @@ class CustomUI {
 
         ToolbarContainer.appendChild(ItemLabel);
         ToolbarContainer.appendChild(CloseButton);
+        ToolbarContainer.appendChild(ExpandCollapseButton);
 
-        var TreeContainer = document.createElement('div');
-        TreeContainer.id = 'tree-container'; 
-        TreeContainer.className = 'treecontainer'; 
-        TreeContainer.style.width = this.width;//this.width+ "px";;
-        TreeContainer.style.height = this.height ;//this.height+ "px";
-        TreeContainer.style.top = "50px";
+        this.ContentContainer = document.createElement('div');
+        this.ContentContainer.id = 'content-container'; 
+        this.ContentContainer.className = 'contentcontainer'; 
+        this.ContentContainer.style.width = this.width;//this.width+ "px";;
+        this.ContentContainer.style.height = this.height ;//this.height+ "px";
+        this.ContentContainer.style.top = "50px";
 
+        this.TreeContainer = document.createElement('div');
+        this.TreeContainer.id = 'tree-container'; 
+        this.TreeContainer.className = 'treecontainer'; 
+        this.TreeContainer.style.width = this.width;//this.width+ "px";;
+        this.TreeContainer.style.height = this.height ;//this.height+ "px";
+        this.TreeContainer.style.top = "50px";
+
+        this.ContentContainer.appendChild(this.TreeContainer);
 
         //
         // Ideas on tree creation found https://iamkate.com/code/tree-views/
@@ -115,15 +134,41 @@ class CustomUI {
         //this.createSublist(topUL,testData2.Components);
         
 
-        TreeContainer.appendChild(topUL);
+        this.TreeContainer.appendChild(topUL);
 
         //Append the div to the higher level div 
         this.UIContainer.appendChild(ToolbarContainer);
-        this.UIContainer.appendChild(TreeContainer);
+        this.UIContainer.appendChild(this.ContentContainer);
+
+        
         //Append the div to the higher level div  
         PanelSelector.appendChild(this.UIContainer);
 
 
+    }
+
+    expandCollapse () {
+
+      this.collapseNode(this.ContentContainer.childNodes);
+
+    }
+
+    collapseNode (node) {
+
+      node.forEach((childnode) => {
+        try {
+          if (childnode.classList.contains("expandcollapse")) {
+            childnode.classList.remove("expandcollapse");
+          } else {
+            childnode.classList.add("expandcollapse");
+          }
+          if (childnode.hasChildNodes) {
+            this.collapseNode(childnode.childNodes)
+          }
+        } catch (ex) {
+
+        }
+      });
     }
 
     close () {
