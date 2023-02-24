@@ -5,7 +5,7 @@
     return {
       // Required, this will be used as the top level tag when it's dropped on the Canvas
       // use a custom prefix to so the name won't collide with other widgets
-      elementTag: 'txw-treeCOE',
+      elementTag: 'txw-treecoe',
 
       // Text displayed for the widget in the Palette
       label: 'Tree COE',
@@ -192,7 +192,7 @@
           label: 'Clicked'
         },
         {
-          name: 'metadata_no_olfile',
+          name: 'metadatanoolfile',
           label: 'No AR'
         }
 

@@ -451,7 +451,7 @@ class Metadata {
   
               //check for associated model file
               if (olfilename === "" && childcount === 0 ) {
-                vScope.$parent.fireEvent('metadata_no_olfile');
+                vScope.$parent.fireEvent('metadatanoolfile');
               }
 
             } catch (ex) {
