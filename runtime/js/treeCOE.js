@@ -149,21 +149,26 @@ class CustomUI {
 
     expandCollapse () {
 
-      this.collapseNode(this.ContentContainer.childNodes);
+      if (this.TreeContainer.classList.contains("collapsetree")) {
+        this.collapseNode(this.ContentContainer.childNodes, true);
+      } else {
+        this.collapseNode(this.ContentContainer.childNodes, false);
+      }
+      
 
     }
 
-    collapseNode (node) {
+    collapseNode (node , collapsed) {
 
       node.forEach((childnode) => {
         try {
-          if (childnode.classList.contains("expandcollapse")) {
-            childnode.classList.remove("expandcollapse");
+          if (collapsed) {
+            childnode.classList.remove("collapsetree");
           } else {
-            childnode.classList.add("expandcollapse");
+            childnode.classList.add("collapsetree");
           }
           if (childnode.hasChildNodes) {
-            this.collapseNode(childnode.childNodes)
+            this.collapseNode(childnode.childNodes ,  collapsed)
           }
         } catch (ex) {
 
