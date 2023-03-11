@@ -18,7 +18,6 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
         displaypropertynameField : '@',
         uniquenesspropertynameField : '@',
         metadatauniquenessField : '@',
-        hilitemodelField : '@',
         modelnameField : '@',
         widthField : '@',
         heightField : '@',
@@ -51,7 +50,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
             }
           }
           if (!scope.data.disabled) {
-            tree = new TreeCOE(scope,scope.incomingdataField , scope.widthField, scope.heightField , scope.topoffsetField, scope.leftoffsetField, scope.renderer , scope.modelnameField , scope.displaypropertynameField,  scope.uniquenesspropertynameField , scope.metadatauniquenessField, scope.hilitemodelField );
+            tree = new TreeCOE(scope,scope.incomingdataField , scope.widthField, scope.heightField , scope.topoffsetField, scope.leftoffsetField, scope.renderer , scope.modelnameField , scope.displaypropertynameField,  scope.uniquenesspropertynameField , scope.metadatauniquenessField );
           } else {
             console.log('disabled');
 
@@ -110,7 +109,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
             };
             delegate.dataviamodeldata = function () { 
 
-             let metadata = new Metadata(scope ,  scope.renderer, scope.modelnameField , scope.displaypropertynameField , scope.uniquenesspropertynameField , scope.metadatauniquenessField, scope.hilitemodelField );
+             let metadata = new Metadata(scope ,  scope.renderer, scope.modelnameField , scope.displaypropertynameField , scope.uniquenesspropertynameField , scope.metadatauniquenessField);
              metadata.getTreeFromModelMetaData();
             };
 

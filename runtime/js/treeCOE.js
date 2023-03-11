@@ -4,9 +4,9 @@ class TreeCOE {
 
     customUI ;
 
-    constructor( vuforiaScope, data, width , height , topoffset , leftoffset ,  renderer , modelname , displaypropertyname  ,  uniquenesspropertyname ,metadatauniqueness , hilitemodel) {
+    constructor( vuforiaScope, data, width , height , topoffset , leftoffset ,  renderer , modelname , displaypropertyname  ,  uniquenesspropertyname ,metadatauniqueness ) {
 
-        let metadata = new Metadata(vuforiaScope ,  renderer, modelname , displaypropertyname , uniquenesspropertyname, metadatauniqueness, hilitemodel );
+        let metadata = new Metadata(vuforiaScope ,  renderer, modelname , displaypropertyname , uniquenesspropertyname, metadatauniqueness );
         this.customUI = new CustomUI(width,height, topoffset , leftoffset ,data, metadata );
     }
 }
@@ -246,37 +246,36 @@ class CustomUI {
 
           li.setAttribute("id", this.tagIndex );
           li.innerHTML  = "&nbsp;&nbsp;"+row[this.metadata.displaypropertyname];
+
+          // if (row[this.metadata.displaypropertyname] === "CABLING.ASM") {
+
+          //   li.style.display = "none" ;
+
+          // }
           li.addEventListener('click',(e)=>{
          
           console.log("Event click target textContent="+ e.target.id);
           if (e.target.id != "")  {
-
               // e.stopPropagation();
               let selected = e.target.firstChild.nodeValue;
               selected = selected.replace( /[\r\n]+/gm, "" );
               selected = selected.trim();
               this.setSelected(e);
-                if (this.currentEvent != e.target.id) {
-                  this.currentEvent = e.target.id;
-                // this.setSelected(e);
-                  if (this.metadata.hilitemodel === "true") {
-                    let occur =  e.target.id.replace(/-/g, "/");
-                    this.metadata.findOccurences(occur);
-                  }
-                }
+              if (this.currentEvent != e.target.id) {
+                this.currentEvent = e.target.id;
+                let occur =  e.target.id.replace(/-/g, "/");
+                this.metadata.findOccurences(occur);
+              }
            }
           });
-      
           // var nodes = row.nodes;
           var nodes = row['Components'];
           if(nodes && nodes.length) {
             this.createSublist(li, nodes);
           }
           ul.appendChild(li);
-
         }
         details.appendChild(ul);
-    
       };
 
       setSelected(e){
@@ -386,13 +385,12 @@ class CustomUI {
 
 
 class Metadata {
-  constructor( vuforiaScope ,  renderer , modelName , displaypropertyname,  uniquenesspropertyname, metadatauniqueness, hilitemodel ) {
+  constructor( vuforiaScope ,  renderer , modelName , displaypropertyname,  uniquenesspropertyname, metadatauniqueness ) {
 
     this.vuforiaScope = vuforiaScope;
     this.renderer = renderer;
     this.modelName = modelName;
     this.displaypropertyname = displaypropertyname;
-    this.hilitemodel = hilitemodel;
     this.uniquenesspropertyname = uniquenesspropertyname;
     this.metadatauniqueness = metadatauniqueness;
  
