@@ -69,14 +69,14 @@
           showInput: true,
           editor: 'select',
          options: [
-            {label: 'PartName'      , value: "PartName"},
-            {label: 'part_name'      , value: "part_name"},
-            {label: 'PartNumber'    , value: "PartNumber"},
-            {label: 'part_number'    , value: "part_number"},
-            {label: 'PathId'     , value: "PathId"},
-            {label: 'Part ID Path'     , value: "Part ID Path"},
-            {label: 'PVTreeId'   , value: "PVTreeId"},
-            {label: 'PartId' ,    value: "PartId"}
+            {label: 'PartName'      , value: "PartName"}
+            //{label: 'part_name'      , value: "part_name"},
+            //{label: 'PartNumber'    , value: "PartNumber"},
+            //{label: 'part_number'    , value: "part_number"},
+            //{label: 'PathId'     , value: "PathId"},
+            //{label: 'Part ID Path'     , value: "Part ID Path"},
+            //{label: 'PVTreeId'   , value: "PVTreeId"},
+            //{label: 'PartId' ,    value: "PartId"}
             ]
         },
         {
@@ -89,13 +89,13 @@
           showInput: true,
           editor: 'select',
           options: [
-            {label: 'Occurrence ID'      , value: "Occurrence.ID"},
-            {label: 'PartId'      , value: "PartId"},
-            {label: 'PartName'      , value: "PartName"},
-            {label: 'PVTreeId'      , value: "PVTreeId"},
+            //{label: 'Occurrence ID'      , value: "Occurrence.ID"},
+            //{label: 'PartId'      , value: "PartId"},
+            //{label: 'PartName'      , value: "PartName"},
+            //{label: 'PVTreeId'      , value: "PVTreeId"},
             {label: 'Part ID Path'      , value: "Part ID Path"},
-            {label: 'partusesoccurrence_objectid' ,    value: "partusesoccurrence_objectid"},
-            {label: 'Auto'    , value: "Auto"}
+            {label: 'partusesoccurrence_objectid' ,    value: "partusesoccurrence_objectid"}
+            //{label: 'Auto'    , value: "Auto"}
             ]
         }, 
         {
@@ -109,8 +109,8 @@
           editor: 'select',
           options: [
             {label: 'Part ID Path'      , value: "Part ID Path"},
-            {label: 'partusesoccurrence_objectid' ,    value: "partusesoccurrence_objectid"},
-            {label: 'Auto'    , value: "Auto"}
+            //{label: 'partusesoccurrence_objectid' ,    value: "partusesoccurrence_objectid"},
+            //{label: 'Auto'    , value: "Auto"}
             ]
 
         },     
@@ -119,15 +119,6 @@
           label: 'model name',
           datatype: 'string',
           default: '',
-          isBindingTarget: true,
-          isBindingSource: false,
-          showInput: true
-        },
-        {
-          name: 'hilitemodel',
-          label: 'Highlight model',
-          datatype: 'boolean',
-          default: true,
           isBindingTarget: true,
           isBindingSource: false,
           showInput: true
@@ -209,7 +200,7 @@
       },
 
       runtimeTemplate: function (props) {
-        var tmpl = '<div ng-treecoe  incomingdata-field="me.incomingdata"  selectedvalue-field="me.selectedvalue"   treefrommodelmetadata-field="me.treefrommodelmetadata"  autolaunch-field={{me.autolaunch}} displaypropertyname-field={{me.displaypropertyname}}  uniquenesspropertyname-field={{me.uniquenesspropertyname}} hilitemodel-field={{me.hilitemodel}} width-field={{me.width}} height-field={{me.height}} topoffset-field={{me.topoffset}} leftoffset-field={{me.leftoffset}} modelname-field={{me.modelname}} metadatauniqueness-field={{me.metadatauniqueness}}   delegate-field="delegate"></div>' ; //original-field="me.original" markedup-field="me.markedup" delegate-field="delegate"></div>';
+        var tmpl = '<div ng-treecoe  incomingdata-field="me.incomingdata"  selectedvalue-field="me.selectedvalue"   treefrommodelmetadata-field="me.treefrommodelmetadata"  autolaunch-field={{me.autolaunch}} displaypropertyname-field={{me.displaypropertyname}}  uniquenesspropertyname-field={{me.uniquenesspropertyname}} width-field={{me.width}} height-field={{me.height}} topoffset-field={{me.topoffset}} leftoffset-field={{me.leftoffset}} modelname-field={{me.modelname}} metadatauniqueness-field={{me.metadatauniqueness}}   delegate-field="delegate"></div>' ; //original-field="me.original" markedup-field="me.markedup" delegate-field="delegate"></div>';
         return tmpl;
       }
     };
