@@ -63,13 +63,13 @@
           name: 'displaypropertyname',
           label: 'Display property name',
           datatype: 'select',
-          default: 'PartName',
+          default: 'Part Name',
           isBindingTarget: true,
           isBindingSource: false,
           showInput: true,
           editor: 'select',
          options: [
-            {label: 'PartName'      , value: "PartName"}
+            {label: 'Part Name'      , value: "Part Name"}
             //{label: 'part_name'      , value: "part_name"},
             //{label: 'PartNumber'    , value: "PartNumber"},
             //{label: 'part_number'    , value: "part_number"},

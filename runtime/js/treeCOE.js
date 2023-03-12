@@ -437,9 +437,24 @@ class Metadata {
 
       var depthIndex = 1;
       for (var entry in jsondata) {
-        jsondata[entry]['Part ID Path'] = entry;
+        jsondata[entry][this.metadatauniqueness] = entry;
+        try {
+          
+        } catch (error) {
+          console.log("Error setting metadatauniqueness using Part ID Path error= " + error);
+          jsondata[entry]['Part ID Path'] = entry;
+        }
+        try {
+          jsondata[entry][this.displaypropertyname] = jsondata[entry]['__PV_SystemProperties'][this.displaypropertyname];
+          //
+        } catch (error) {
+          console.log("Error setting displaypropertyname using PartName = " + error);
+          jsondata[entry]['PartName'] = jsondata[entry]['__PV_SystemProperties']['Part Name'];
+        }
         jsondata[entry]['Components'] = [];
-        jsondata[entry]['PartName'] = jsondata[entry]['__PV_SystemProperties']['Part Name'];
+
+
+
         if (Number(jsondata[entry]['__PV_SystemProperties']['Part Depth'])>depthIndex)
           depthIndex = Number(jsondata[entry]['__PV_SystemProperties']['Part Depth']);
       } var depthList = {}; // list to sort all items by level
