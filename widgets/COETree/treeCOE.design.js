@@ -69,9 +69,12 @@
           showInput: true,
           editor: 'select',
          options: [
-            {label: 'Part Name'      , value: "Part Name"}
+            {label: 'Part Name'      , value: "Part Name"},
+            {label: 'Display Name', value: "Display Name"},
+            {label: 'Component Name', value: "Component Name"},
             //{label: 'part_name'      , value: "part_name"},
-            //{label: 'PartNumber'    , value: "PartNumber"},
+            {label: 'PartNumber'    , value: "PartNumber"},
+            {label: 'PartName'    , value: "PartName"}
             //{label: 'part_number'    , value: "part_number"},
             //{label: 'PathId'     , value: "PathId"},
             //{label: 'Part ID Path'     , value: "Part ID Path"},
@@ -89,11 +92,12 @@
           showInput: true,
           editor: 'select',
           options: [
-            //{label: 'Occurrence ID'      , value: "Occurrence.ID"},
+            
             //{label: 'PartId'      , value: "PartId"},
             //{label: 'PartName'      , value: "PartName"},
             //{label: 'PVTreeId'      , value: "PVTreeId"},
             {label: 'Part ID Path'      , value: "Part ID Path"},
+            {label: 'Occurrence ID'      , value: "Occurrence.ID"},
             {label: 'partusesoccurrence_objectid' ,    value: "partusesoccurrence_objectid"}
             //{label: 'Auto'    , value: "Auto"}
             ]
@@ -109,7 +113,7 @@
           editor: 'select',
           options: [
             {label: 'Part ID Path'      , value: "Part ID Path"},
-            //{label: 'partusesoccurrence_objectid' ,    value: "partusesoccurrence_objectid"},
+            {label: 'partusesoccurrence_objectid' ,    value: "partusesoccurrence_objectid"},
             //{label: 'Auto'    , value: "Auto"}
             ]
 
