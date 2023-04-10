@@ -242,7 +242,7 @@ class CustomUI {
         } 
 
 
-          this.tagIndex = this.tagIndex.replace(/\//g, "-");
+          this.tagIndex = this.tagIndex.replace(/\//g, "_");
 
           li.setAttribute("id", this.tagIndex );
           li.innerHTML  = "&nbsp;&nbsp;"+row[this.metadata.displaypropertyname];
@@ -263,7 +263,7 @@ class CustomUI {
               this.setSelected(e);
               if (this.currentEvent != e.target.id) {
                 this.currentEvent = e.target.id;
-                let occur =  e.target.id.replace(/-/g, "/");
+                let occur =  e.target.id.replace(/_/g, "/");
                 this.metadata.findOccurences(occur);
               }
            }
@@ -336,7 +336,7 @@ class CustomUI {
           //
           PTC.Metadata.fromId(modelName).then( (metadata) => {
             let objectId = metadata.get(path, metadatauniqueness );
-            objectId = objectId.replace(/\//g, "-");
+            objectId = objectId.replace(/\//g, "_");
             let queryElement = document.getElementById(objectId);
             //
             //let queryElement =  treec.querySelector(objectId);
