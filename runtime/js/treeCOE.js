@@ -73,8 +73,8 @@ class CustomUI {
         this.UIContainer = document.createElement('div');
         this.UIContainer.id = 'ui-container';
         this.UIContainer.className = 'uicontainer'; 
-        this.UIContainer.style.width = this.width;
-        this.UIContainer.style.height = this.height;
+        this.UIContainer.style.width =  "1px";//this.width;
+        this.UIContainer.style.height = "1px"; //this.height;
         this.UIContainer.style.top = this.topoffset;
         this.UIContainer.style.left = this.leftoffset;
 
