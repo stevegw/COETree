@@ -4,10 +4,12 @@ class TreeCOE {
 
     customUI ;
 
+
     constructor( vuforiaScope, data, width , height , topoffset , leftoffset ,  renderer , modelname , displaypropertyname  ,  uniquenesspropertyname ,metadatauniqueness ) {
 
         let metadata = new Metadata(vuforiaScope ,  renderer, modelname , displaypropertyname , uniquenesspropertyname, metadatauniqueness );
         this.customUI = new CustomUI(width,height, topoffset , leftoffset ,data, metadata );
+        
     }
 }
 
@@ -19,6 +21,8 @@ class CustomUI {
     index;
     currentEvent;
     previousSelection;
+    treemap;
+
 
     constructor(  width, height , topoffset , leftoffset , data , metadata ) {
 
@@ -34,6 +38,7 @@ class CustomUI {
         this.UIContainer;
         this.ContentContainer;
         this.TreeContainer;
+        this.treemap = new Map();
 
 
         // console.log("Data IN="+ JSON.stringify(data));
@@ -226,10 +231,12 @@ class CustomUI {
         // summary.innerHTML = expandString;
         // details.appendChild(summary);
 
-        this.index++;
+        
     
         var ul = document.createElement('ul');
         for(var j = 0; j < data.length; j++) {
+
+          this.index++;
           var row = data[j];
           var li = document.createElement('li');
 
@@ -242,9 +249,13 @@ class CustomUI {
         } 
 
 
-          this.tagIndex = this.tagIndex.replace(/\//g, "_");
+          let key = "treemapkey"+ this.index;
+          this.treemap.set(key, this.tagIndex );
+          console.log("Treemap key="+ key + "  index=" + this.tagIndex  );
+          // this.tagIndex = this.tagIndex.replace(/\//g, "_");
+          //li.setAttribute("id", this.tagIndex );
+          li.setAttribute("id", key );
 
-          li.setAttribute("id", this.tagIndex );
           li.innerHTML  = "&nbsp;&nbsp;"+row[this.metadata.displaypropertyname];
 
           // if (row[this.metadata.displaypropertyname] === "CABLING.ASM") {
@@ -263,7 +274,9 @@ class CustomUI {
               this.setSelected(e);
               if (this.currentEvent != e.target.id) {
                 this.currentEvent = e.target.id;
-                let occur =  e.target.id.replace(/_/g, "/");
+                //let occur =  e.target.id.replace(/_/g, "/");
+                let occur =  this.treemap.get(this.currentEvent);
+
                 this.metadata.findOccurences(occur);
               }
            }
@@ -332,12 +345,20 @@ class CustomUI {
           let metadatauniqueness = this.metadata.metadatauniqueness ;
         
           // 
-          //getProp (propName, categoryName) might be the approach here 
+          //getProp (propName, categoryName) might be the approach here /2788/2355/924/53/6205/51
           //
           PTC.Metadata.fromId(modelName).then( (metadata) => {
+            let treeTag = "";
             let objectId = metadata.get(path, metadatauniqueness );
-            objectId = objectId.replace(/\//g, "_");
-            let queryElement = document.getElementById(objectId);
+            //objectId = objectId.replace(/\//g, "_"); 
+            const iterator = this.treemap.keys();
+            for (const value of iterator) {
+              if (objectId == this.treemap.get(value)) {
+                  treeTag = value;
+                  break;
+                }
+            }
+            let queryElement = document.getElementById(treeTag);
             //
             //let queryElement =  treec.querySelector(objectId);
 
@@ -385,6 +406,8 @@ class CustomUI {
 
 
 class Metadata {
+
+
   constructor( vuforiaScope ,  renderer , modelName , displaypropertyname,  uniquenesspropertyname, metadatauniqueness ) {
 
     this.vuforiaScope = vuforiaScope;
@@ -394,6 +417,7 @@ class Metadata {
     this.uniquenesspropertyname = uniquenesspropertyname;
     this.metadatauniqueness = metadatauniqueness;
  
+  
 
   }
 
