@@ -22,6 +22,7 @@ class CustomUI {
     currentEvent;
     previousSelection;
     treemap;
+    treeCollapsed;
 
 
     constructor(  width, height , topoffset , leftoffset , data , metadata ) {
@@ -35,10 +36,11 @@ class CustomUI {
         this.currentEvent = "NOSET";
         this.previousSelection = undefined;
         this.index = 0;
-        this.UIContainer;
+        this.TreePanel;
         this.ContentContainer;
         this.TreeContainer;
         this.treemap = new Map();
+        this.treeCollapsed = false;
 
 
         // console.log("Data IN="+ JSON.stringify(data));
@@ -72,21 +74,30 @@ class CustomUI {
 
         this.UIContainer = document.createElement('div');
         this.UIContainer.id = 'ui-container';
-        this.UIContainer.className = 'uicontainer'; 
+        this.UIContainer.className = 'tree-uicontainer'; 
         this.UIContainer.style.width =  "1px";//this.width;
         this.UIContainer.style.height = "1px"; //this.height;
         this.UIContainer.style.top = this.topoffset;
         this.UIContainer.style.left = this.leftoffset;
 
+        this.TreePanel = document.createElement('div');
+        this.TreePanel.id = 'treepanel';   
+        this.TreePanel.className = 'treepanel';  
+        this.TreePanel.style.width = this.wiwidth;
+        this.TreePanel.style.height = this.wiheight; 
+        this.TreePanel.style.top = this.top;
+        this.TreePanel.style.left = this.left;
+
+
 
         var ToolbarContainer = document.createElement('div');
         ToolbarContainer.id = 'markup-toolbar--container';  
-        ToolbarContainer.className = 'toolbarcontainer';
+        ToolbarContainer.className = 'tree-toolbarcontainer';
         ToolbarContainer.style.width = this.width;
         ToolbarContainer.style.height = "50px";
 
         var ItemLabel = document.createElement('label');
-        ItemLabel.className = 'itemlabel';
+        ItemLabel.className = 'tb-itemlabel';
 
         var ExpandCollapseButton = document.createElement('img');
         ExpandCollapseButton.className = 'expandbutton';
@@ -97,23 +108,25 @@ class CustomUI {
         });
 
         var CloseButton = document.createElement('img');
-        CloseButton.className = 'closebutton';
+
+        CloseButton.className = 'tb-closebutton';
         CloseButton.src = "extensions/images/treeCOE_close.png";
+      
     
         CloseButton.addEventListener("click",  () => { 
             this.close();
         });
 
-        ToolbarContainer.appendChild(ItemLabel);
-        ToolbarContainer.appendChild(CloseButton);
         ToolbarContainer.appendChild(ExpandCollapseButton);
+        //ToolbarContainer.appendChild(ItemLabel);
+        ToolbarContainer.appendChild(CloseButton);
 
-        this.ContentContainer = document.createElement('div');
-        this.ContentContainer.id = 'content-container'; 
-        this.ContentContainer.className = 'contentcontainer'; 
-        this.ContentContainer.style.width = this.width;//this.width+ "px";;
-        this.ContentContainer.style.height = this.height ;//this.height+ "px";
-        this.ContentContainer.style.top = "50px";
+        // this.ContentContainer = document.createElement('div');
+        // this.ContentContainer.id = 'content-container'; 
+        // this.ContentContainer.className = 'contentcontainer'; 
+        // this.ContentContainer.style.width = this.width;//this.width+ "px";;
+        // this.ContentContainer.style.height = this.height ;//this.height+ "px";
+        // this.ContentContainer.style.top = "50px";
 
         this.TreeContainer = document.createElement('div');
         this.TreeContainer.id = 'tree-container'; 
@@ -122,7 +135,7 @@ class CustomUI {
         this.TreeContainer.style.height = this.height ;//this.height+ "px";
         this.TreeContainer.style.top = "50px";
 
-        this.ContentContainer.appendChild(this.TreeContainer);
+        //this.ContentContainer.appendChild(this.TreeContainer);
 
         //
         // Ideas on tree creation found https://iamkate.com/code/tree-views/
@@ -134,7 +147,7 @@ class CustomUI {
         this.tagIndex = 1;
         var displayName = this.data[this.metadata.displaypropertyname] ;
 
-        ItemLabel.innerHTML = "&nbsp;&nbsp;"+displayName;
+        ItemLabel.innerHTML = displayName;
         this.createSublist(topUL,this.data['Components'] ) //'Components']);
         //this.createSublist(topUL,testData2.Components);
         
@@ -142,9 +155,10 @@ class CustomUI {
         this.TreeContainer.appendChild(topUL);
 
         //Append the div to the higher level div 
-        this.UIContainer.appendChild(ToolbarContainer);
-        this.UIContainer.appendChild(this.ContentContainer);
+        this.TreePanel.appendChild(ToolbarContainer);
+        this.TreePanel.appendChild(this.TreeContainer);
 
+        this.UIContainer.appendChild(this.TreePanel); 
         
         //Append the div to the higher level div  
         PanelSelector.appendChild(this.UIContainer);
@@ -154,10 +168,12 @@ class CustomUI {
 
     expandCollapse () {
 
-      if (this.TreeContainer.classList.contains("collapsetree")) {
-        this.collapseNode(this.ContentContainer.childNodes, true);
+      if (this.treeCollapsed) {
+        this.TreePanel.appendChild(this.TreeContainer);
+        this.treeCollapsed = false;
       } else {
-        this.collapseNode(this.ContentContainer.childNodes, false);
+        this.TreePanel.removeChild(this.TreeContainer);
+        this.treeCollapsed = true;
       }
       
 
@@ -251,7 +267,7 @@ class CustomUI {
 
           let key = "treemapkey"+ this.index;
           this.treemap.set(key, this.tagIndex );
-          console.log("Treemap key="+ key + "  index=" + this.tagIndex  );
+          //console.log("Treemap key="+ key + "  index=" + this.tagIndex  );
           // this.tagIndex = this.tagIndex.replace(/\//g, "_");
           //li.setAttribute("id", this.tagIndex );
           li.setAttribute("id", key );
