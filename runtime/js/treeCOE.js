@@ -9,7 +9,10 @@ class TreeCOE {
 
         let metadata = new Metadata(vuforiaScope ,  renderer, modelname , displaypropertyname , uniquenesspropertyname, metadatauniqueness );
         this.customUI = new CustomUI(width,height, topoffset , leftoffset ,data, metadata );
-        
+
+        if (vuforiaScope.selectedvalueField != null) {
+          this.customUI.setElementInTree(vuforiaScope.selectedvalueField);
+        }
     }
 }
 
@@ -162,6 +165,8 @@ class CustomUI {
         
         //Append the div to the higher level div  
         PanelSelector.appendChild(this.UIContainer);
+
+
 
 
     }
