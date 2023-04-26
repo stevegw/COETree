@@ -121,8 +121,8 @@ class CustomUI {
         });
 
         ToolbarContainer.appendChild(ExpandCollapseButton);
-        //ToolbarContainer.appendChild(ItemLabel);
         ToolbarContainer.appendChild(CloseButton);
+        //ToolbarContainer.appendChild(ItemLabel);
 
         // this.ContentContainer = document.createElement('div');
         // this.ContentContainer.id = 'content-container'; 
@@ -154,7 +154,7 @@ class CustomUI {
         this.createSublist(topUL,this.data['Components'] ) //'Components']);
         //this.createSublist(topUL,testData2.Components);
         
-
+        this.TreeContainer.appendChild(ItemLabel);
         this.TreeContainer.appendChild(topUL);
 
         //Append the div to the higher level div 
