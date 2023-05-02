@@ -35,22 +35,24 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
         scope.data = { name: undefined, 
                    disabled: false, 
                         outjson: undefined,
-                        incomingdata: undefined 
+                        incomingdata: undefined,
+                        tree : undefined
                      };
 
         scope.renderer = $window.cordova ? vuforia : $injector.get('threeJsTmlRenderer');
                      
         var executeTree = function() {
           console.log('do the custom activities here');
-          if (tree != undefined) {
+          if (scope.data.tree != undefined) {
             try {
-              tree.customUI.close();
+              scope.data.customUI.close();
             }catch(ex) {
                 // ignore
             }
           }
           if (!scope.data.disabled) {
-            tree = new TreeCOE(scope,scope.incomingdataField , scope.widthField, scope.heightField , scope.topoffsetField, scope.leftoffsetField, scope.renderer , scope.modelnameField , scope.displaypropertynameField,  scope.uniquenesspropertynameField , scope.metadatauniquenessField );
+            scope.data.tree = new TreeCOE(scope,scope.incomingdataField , scope.widthField, scope.heightField , scope.topoffsetField, scope.leftoffsetField, scope.renderer , scope.modelnameField , scope.displaypropertynameField,  scope.uniquenesspropertynameField , scope.metadatauniquenessField );
+            console.log('New Tree Created');
           } else {
             console.log('disabled');
 
@@ -66,7 +68,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
           console.log('Stopping');
           scope.$parent.fireEvent('stopped');
           if (tree != undefined) {
-            tree.customUI.close();
+            scope.data.tree.customUI.close();
           }
         }
 
@@ -87,9 +89,9 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
 
         scope.$watch('selectedvalueField', function () {
           console.log('selectedvalueField='+ JSON.stringify(scope.selectedvalueField));
-          if (tree != undefined) {
+          if (scope.data.tree != undefined) {
 
-            tree.customUI.setElementInTree(scope.selectedvalueField);
+            scope.data.tree.customUI.setElementInTree(scope.selectedvalueField);
           }
 
         });

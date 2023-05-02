@@ -383,8 +383,6 @@ class CustomUI {
             //
             //let queryElement =  treec.querySelector(objectId);
 
-            console.log("queryElement="+ JSON.stringify(queryElement));
-
             if (queryElement != null) {
                       //find all the elements in your channel list and loop over them
                       Array.prototype.slice.call(document.querySelectorAll('li')).forEach(function(element){
@@ -408,7 +406,7 @@ class CustomUI {
           });  
 
         } catch (ex) {
-          console.log("Exception from getElementsStartsWith selectionArray = "+ selectionArray + " " + ex);
+          console.log("Exception from setElementInTree " + ex);
         }
       }
 
