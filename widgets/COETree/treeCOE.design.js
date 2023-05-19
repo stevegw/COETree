@@ -94,7 +94,7 @@
           options: [
             
             //{label: 'PartId'      , value: "PartId"},
-            //{label: 'PartName'      , value: "PartName"},
+            {label: 'PartName'      , value: "PartName"},
             //{label: 'PVTreeId'      , value: "PVTreeId"},
             {label: 'Part ID Path'      , value: "Part ID Path"},
             {label: 'Occurrence ID'      , value: "Occurrence.ID"},
@@ -113,6 +113,7 @@
           editor: 'select',
           options: [
             {label: 'Part ID Path'      , value: "Part ID Path"},
+            {label: 'PartName'      , value: "PartName"},
             {label: 'partusesoccurrence_objectid' ,    value: "partusesoccurrence_objectid"},
             //{label: 'Auto'    , value: "Auto"}
             ]
