@@ -5,13 +5,13 @@ class TreeCOE {
     customUI ;
 
 
-    constructor( vuforiaScope, data, width , height , topoffset , leftoffset ,  renderer , modelname , displaypropertyname  ,  uniquenesspropertyname ,metadatauniqueness ) {
+    constructor( vuforiaScope, data, width , height , topoffset , leftoffset ,  renderer , modelname , displaypropertyname  ,  uniquenesspropertyname ,metadatauniqueness , hilitemodel ) {
 
-        let metadata = new Metadata(vuforiaScope ,  renderer, modelname , displaypropertyname , uniquenesspropertyname, metadatauniqueness );
-        this.customUI = new CustomUI(width,height, topoffset , leftoffset ,data, metadata );
+        let metadata = new Metadata(vuforiaScope ,  renderer, modelname , displaypropertyname , uniquenesspropertyname, metadatauniqueness , hilitemodel );
+        this.customUI = new CustomUI(width,height, topoffset , leftoffset ,data, metadata  );
 
         if (vuforiaScope.selectedvalueField != null) {
-          this.customUI.setElementInTree(vuforiaScope.selectedvalueField);
+          this.customUI.setElementInTree(vuforiaScope.selectedvalueField   );
         }
     }
 }
@@ -371,6 +371,7 @@ class CustomUI {
           PTC.Metadata.fromId(modelName).then( (metadata) => {
             let treeTag = "";
             let objectId = metadata.get(path, metadatauniqueness );
+            var hiliteArray = [];
             //objectId = objectId.replace(/\//g, "_"); 
             const iterator = this.treemap.keys();
             for (const value of iterator) {
@@ -402,6 +403,20 @@ class CustomUI {
                       // console.log("Possible issue in getElementsStartsWith  "+ ex); 
                   }
                   queryElement.classList.add('itemselected');
+
+                  if (this.metadata.hilitemodel === "true") {
+
+                    this.metadata.resetHighlight(this.metadata.renderer);
+                    hiliteArray.push(modelName + '-' + objectId);
+                    SELECTED_ITEMS.push(modelName + '-' + objectId);
+        
+                    if (hiliteArray.length > 0) {
+                      this.metadata.hilite(hiliteArray, true , this.metadata.renderer);
+                    }
+      
+                  }
+
+
             }
           });  
 
@@ -427,7 +442,7 @@ class CustomUI {
 class Metadata {
 
 
-  constructor( vuforiaScope ,  renderer , modelName , displaypropertyname,  uniquenesspropertyname, metadatauniqueness ) {
+  constructor( vuforiaScope ,  renderer , modelName , displaypropertyname,  uniquenesspropertyname, metadatauniqueness , hilitemodel ) {
 
     this.vuforiaScope = vuforiaScope;
     this.renderer = renderer;
@@ -435,7 +450,7 @@ class Metadata {
     this.displaypropertyname = displaypropertyname;
     this.uniquenesspropertyname = uniquenesspropertyname;
     this.metadatauniqueness = metadatauniqueness;
- 
+    this.hilitemodel = hilitemodel;
   
 
   }
@@ -546,10 +561,27 @@ class Metadata {
           var hiliteArray = [];
 
           if (occuranceItems._selectedPaths.length > 0)  {
+
+
             let idpath = occuranceItems._selectedPaths[0]; //always pick the first - we dont support multi-select
 
             //build the data that the mapper wants to see - note it is an array so it _could_ suppport multi-select...  
             vScope.selectedvalueField = [{ model:mName, path:idpath }];  //selected;
+
+            if (this.hilitemodel === "true") {
+
+              this.resetHighlight(this.renderer);
+              hiliteArray.push(mName + '-' + idpath);
+              SELECTED_ITEMS.push(mName + '-' + idpath);
+  
+              if (hiliteArray.length > 0) {
+                this.hilite(hiliteArray, true , this.renderer);
+              }
+
+            }
+
+
+           
 
             try {
               var olfilename = mdata.get(idpath).getProp('OL File Name');
@@ -577,7 +609,7 @@ class Metadata {
 
           }
       })
-        .catch((err) => { console.log('Metadata extraction failed with reason : ' + err); })
+        //.catch((err) => { console.log('Metadata extraction failed with reason : ' + err); })
         .finally( () => { console.log('Metadata done') }  );
     }
   
@@ -626,35 +658,35 @@ class Metadata {
   
   // }
 
-  // setColor = function (items,  tmlrenderer) {
-  //   items.forEach(function (item) {
-  //       console.log("Starting render");
-  //       tmlrenderer.setColor(item, 'rgba(75, 255, 0, 1)');
+  setColor = function (items,  tmlrenderer) {
+    items.forEach(function (item) {
+        console.log("Starting render");
+        tmlrenderer.setColor(item, 'rgba(75, 255, 0, 1)');
 
-  //   });
-  // }
+    });
+  }
 
-  // hilite = function(items,hilite , tmlrenderer) {
-  //   items.forEach(function(item) {
+  hilite = function(items,hilite , tmlrenderer) {
+    items.forEach(function(item) {
       
-  //     if (hilite === true ) {
-  //       tmlrenderer.setProperties (item , { shader:"green", hidden:false, opacity:0.9, phantom:false, decal:true }); //,  hidden:false, opacity:0.9, phantom:false, decal:true });
-  //      // tmlrenderer.setProperties (item , { shader:"xray;r f 1.0;g f 0.031;b f 0.03",  hidden:false, opacity:0.9, phantom:false, decal:true });
-  //     } else {
-  //       tmlrenderer.setProperties (item , { shader:null,  hidden:false, opacity:1.0, phantom:false, decal:false });
-  //     }
+      if (hilite === true ) {
+        tmlrenderer.setProperties (item , { shader:"green", hidden:false, opacity:0.9, phantom:false, decal:true }); //,  hidden:false, opacity:0.9, phantom:false, decal:true });
+       // tmlrenderer.setProperties (item , { shader:"xray;r f 1.0;g f 0.031;b f 0.03",  hidden:false, opacity:0.9, phantom:false, decal:true });
+      } else {
+        tmlrenderer.setProperties (item , { shader:'Default',  hidden:false, opacity:1.0, phantom:false, decal:false });
+      }
       
-  //   });
-  // }
+    });
+  }
 
 
-  // resetHighlight = function( tmlrenderer) {
+  resetHighlight = function( tmlrenderer) {
 
-  //   if (SELECTED_ITEMS != undefined && SELECTED_ITEMS.length > 0) {
-  //       this.hilite(SELECTED_ITEMS,false , tmlrenderer);
-  //     }
-  //     SELECTED_ITEMS =[];
-  //   }
+    if (SELECTED_ITEMS != undefined && SELECTED_ITEMS.length > 0) {
+        this.hilite(SELECTED_ITEMS,false , tmlrenderer);
+      }
+      SELECTED_ITEMS =[];
+    }
   
   toHolo = function () {
     return (toBool(scope.isholoField) && !twx.app.isPreview())?'hl':'gl';

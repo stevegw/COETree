@@ -19,6 +19,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
         uniquenesspropertynameField : '@',
         metadatauniquenessField : '@',
         modelnameField : '@',
+        hilitemodelField : '@',
         widthField : '@',
         heightField : '@',
         topoffsetField : '@',
@@ -51,7 +52,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
             }
           }
           if (!scope.data.disabled) {
-            scope.data.tree = new TreeCOE(scope,scope.incomingdataField , scope.widthField, scope.heightField , scope.topoffsetField, scope.leftoffsetField, scope.renderer , scope.modelnameField , scope.displaypropertynameField,  scope.uniquenesspropertynameField , scope.metadatauniquenessField );
+            scope.data.tree = new TreeCOE(scope,scope.incomingdataField , scope.widthField, scope.heightField , scope.topoffsetField, scope.leftoffsetField, scope.renderer , scope.modelnameField , scope.displaypropertynameField,  scope.uniquenesspropertynameField , scope.metadatauniquenessField , scope.hilitemodelField );
             console.log('New Tree Created');
           } else {
             console.log('disabled');
