@@ -204,7 +204,7 @@
       ],
 
       dependencies: {
-        files         : ['js/treeCOE-ng.js','js/treeCOE.js', 'images/treeCOE_close.png' ,'images/treeCOE_expand.png'],
+        files         : ['js/treeCOE-ng.js','js/treeCOE.js', 'images/treeCOE_close.png' ,'images/treeCOE_expand.png' , 'images/treeCOE_hilightgreen.png' , 'images/treeCOE_hilightyellow.png' , 'images/treeCOE_hilightred.png'  ],
         angularModules: ['treecoe-ng']
       },
 

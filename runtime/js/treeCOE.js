@@ -69,6 +69,21 @@ class CustomUI {
     //  let LeftPanelQueryX = 'body > ion-side-menus > ion-side-menu-content > ion-nav-view > ion-view > ion-content > twx-widget > twx-widget-content > \n' +
 		// 'twx-container-content > twx-widget:nth-child(2) > twx-widget-content > div > twx-container-content > div.panel.body.undefined > div.panel.undefined.left';
 
+    let colorImageArray = [];
+    let colorArray = [];
+    let hiColorIndex = 0;
+
+    colorImageArray.push("treeCOE_hilightgreen.png");
+    colorImageArray.push("treeCOE_hilightred.png");
+    colorImageArray.push("treeCOE_hilightyellow.png");
+
+    colorArray.push("rgba(0, 255, 0, 1)");
+    colorArray.push("rgba(255, 0, 0, 1)");
+    colorArray.push("rgba(255, 255, 0, 1)");
+
+
+
+
     let PanelQuery = 'body > ion-side-menus > ion-side-menu-content > ion-nav-view > ion-view > ion-content > twx-widget > twx-widget-content > \n' +
 		'twx-container-content > twx-widget:nth-child(2) > twx-widget-content > div > twx-container-content';
   
@@ -110,6 +125,27 @@ class CustomUI {
             this.expandCollapse();
         });
 
+
+        var HilightButton = document.createElement('img');
+
+        HilightButton.className = 'tb-closebutton';
+        HilightButton.src = "extensions/images/treeCOE_hilightgreen.png";
+        HilightButton.addEventListener("click",  () => { 
+   
+          hiColorIndex ++ ;
+
+          if (hiColorIndex > 2) {
+            hiColorIndex = 0 ;
+          } 
+
+          HilightButton.src = "extensions/images/"+ colorImageArray[hiColorIndex];
+
+          this.metadata.hicolor = colorArray[hiColorIndex];
+
+
+          
+        });
+
         var CloseButton = document.createElement('img');
 
         CloseButton.className = 'tb-closebutton';
@@ -122,6 +158,9 @@ class CustomUI {
 
         ToolbarContainer.appendChild(ExpandCollapseButton);
         ToolbarContainer.appendChild(ItemLabel);
+        if (this.metadata.hilitemodel === "true") {
+          ToolbarContainer.appendChild(HilightButton);
+        }
         ToolbarContainer.appendChild(CloseButton);
 
         // this.ContentContainer = document.createElement('div');
@@ -411,7 +450,7 @@ class CustomUI {
                     SELECTED_ITEMS.push(modelName + '-' + objectId);
         
                     if (hiliteArray.length > 0) {
-                      this.metadata.hilite(hiliteArray, true , this.metadata.renderer);
+                      this.metadata.hilite(hiliteArray, true , this.metadata.renderer , this.metadata.hicolor);
                     }
       
                   }
@@ -451,6 +490,7 @@ class Metadata {
     this.uniquenesspropertyname = uniquenesspropertyname;
     this.metadatauniqueness = metadatauniqueness;
     this.hilitemodel = hilitemodel;
+    this.hicolor = "rgba(0, 255, 0, 1)"; 
   
 
   }
@@ -575,7 +615,7 @@ class Metadata {
               SELECTED_ITEMS.push(mName + '-' + idpath);
   
               if (hiliteArray.length > 0) {
-                this.hilite(hiliteArray, true , this.renderer);
+                this.hilite(hiliteArray, true , this.renderer , this.hicolor);
               }
 
             }
@@ -661,19 +701,22 @@ class Metadata {
   setColor = function (items,  tmlrenderer) {
     items.forEach(function (item) {
         console.log("Starting render");
-        tmlrenderer.setColor(item, 'rgba(75, 255, 0, 1)');
+        tmlrenderer.setColor(item, this.hicolor);
 
     });
   }
 
-  hilite = function(items,hilite , tmlrenderer) {
+  hilite = function(items,hilite , tmlrenderer , color) {
     items.forEach(function(item) {
       
       if (hilite === true ) {
-        tmlrenderer.setProperties (item , { shader:"green", hidden:false, opacity:0.9, phantom:false, decal:true }); //,  hidden:false, opacity:0.9, phantom:false, decal:true });
+       // tmlrenderer.setProperties (item , { shader:"green", hidden:false, opacity:0.9, phantom:false, decal:true }); //,  hidden:false, opacity:0.9, phantom:false, decal:true });
        // tmlrenderer.setProperties (item , { shader:"xray;r f 1.0;g f 0.031;b f 0.03",  hidden:false, opacity:0.9, phantom:false, decal:true });
+       //tmlrenderer.setProperties (item , { shader:"green", hidden:false, opacity:0.9, phantom:false, decal:true }); //,  hidden:false, opacity:0.9, phantom:false, decal:true });
+       tmlrenderer.setColor(item, color);
       } else {
-        tmlrenderer.setProperties (item , { shader:'Default',  hidden:false, opacity:1.0, phantom:false, decal:false });
+        tmlrenderer.setColor(item, "Default");
+        //tmlrenderer.setProperties (item , { shader:'Default',  hidden:false, opacity:1.0, phantom:false, decal:false });
       }
       
     });
