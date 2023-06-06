@@ -715,7 +715,7 @@ class Metadata {
        //tmlrenderer.setProperties (item , { shader:"green", hidden:false, opacity:0.9, phantom:false, decal:true }); //,  hidden:false, opacity:0.9, phantom:false, decal:true });
        tmlrenderer.setColor(item, color);
       } else {
-        tmlrenderer.setColor(item, "Default");
+        tmlrenderer.setColor(item, undefined);
         //tmlrenderer.setProperties (item , { shader:'Default',  hidden:false, opacity:1.0, phantom:false, decal:false });
       }
       
