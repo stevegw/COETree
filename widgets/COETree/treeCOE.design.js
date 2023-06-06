@@ -197,6 +197,10 @@
           label: 'Clicked'
         },
         {
+          name: 'completed',
+          label: 'Completed action'
+        },
+        {
           name: 'metadatanoolfile',
           label: 'No AR'
         }
