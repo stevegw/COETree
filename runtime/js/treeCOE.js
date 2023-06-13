@@ -189,7 +189,7 @@ class CustomUI {
         this.tagIndex = 1;
         var displayName = this.data[this.metadata.displaypropertyname] ;
 
-        ItemLabel.innerHTML = displayName;
+        ItemLabel.innerHTML = this.truncate(displayName, 20) ;
         this.createSublist(topUL,this.data['Components'] ) //'Components']);
         //this.createSublist(topUL,testData2.Components);
         
@@ -257,6 +257,12 @@ class CustomUI {
         }
         return true;
     }
+    truncate = function (str, length) {
+      if (str.length > length) {
+        return str.slice(0, length) + '...';
+      } else return str;
+    }
+  
 
     createSublist = function(container , data) {
 
@@ -697,6 +703,7 @@ class Metadata {
   //   }
   
   // }
+
 
   setColor = function (items,  tmlrenderer) {
     items.forEach(function (item) {
