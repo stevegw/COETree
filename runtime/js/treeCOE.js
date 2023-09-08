@@ -84,8 +84,11 @@ class CustomUI {
 
 
 
-    let PanelQuery = 'body > ion-side-menus > ion-side-menu-content > ion-nav-view > ion-view > ion-content > twx-widget > twx-widget-content > \n' +
+    let PanelQueryX = 'body > ion-side-menus > ion-side-menu-content > ion-nav-view > ion-view > ion-content > twx-widget > twx-widget-content > \n' +
 		'twx-container-content > twx-widget:nth-child(2) > twx-widget-content > div > twx-container-content';
+
+    let PanelQuery = 'body > ion-side-menus > ion-side-menu-content > ion-nav-view > ion-view > ion-content > twx-widget > twx-widget-content > \n' +
+		'twx-container-content';
   
 	    let PanelSelector = document.querySelector(PanelQuery); 
       let backgroundColor = "rgba(78,194,50,0.65)";
@@ -263,7 +266,7 @@ class CustomUI {
       } else return str;
     }
   
-
+// test
     createSublist = function(container , data) {
 
       if (this.index > 0) {
@@ -309,7 +312,13 @@ class CustomUI {
          if (this.metadata.uniquenesspropertyname === "Auto") {
            this.tagIndex = row[this.metadata.displaypropertyname] + this.index; 
          } else if (this.metadata.uniquenesspropertyname === "Occurrence.ID")  {
-           this.tagIndex =   row.Occurrence.ID; 
+          try {
+            this.tagIndex =   row.Occurrence.ID; 
+          } catch (error) {
+            console.log("Looks like row.Occurrence.ID is null ... the Error was "+ error + " Using "+ row[this.metadata.displaypropertyname] + this.index );
+            tagIndex = row[this.metadata.displaypropertyname] + this.index; 
+          }
+
          } else  {
           this.tagIndex =   row[this.metadata.uniquenesspropertyname]; 
         } 
