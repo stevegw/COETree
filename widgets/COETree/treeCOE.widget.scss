@@ -139,7 +139,7 @@
   justify-content: space-between;
   border-style: solid;
   border : rgba(0,0,0,0.25);
-  background-color:  rgba(56,126,245,0.85);
+  background-color:  rgba(29,67,156,0.85);
   z-Index :  910;
 }
 
@@ -149,7 +149,7 @@
   flex-direction: column;
   border  : rgba(0,0,0,0.1);
   border-style: solid;
-  background-color : rgba(56,126,245,0.85);
+  background-color : rgba(29,67,156,0.85);
   //overflow-x : scroll;
   overflow-y : scroll;
   z-index:  900 !important;
@@ -168,14 +168,14 @@
   align-content: flex-start;
   height : 42px;
   width : 42px;
-  background-color : rgba(56,126,245,0.85);
+  background-color : rgba(29,67,156,0.85);
 
 }
 .tb-closebutton   {
   align-content: flex-end;
 	width : 32px;   
 	height : 32px;
-  background-color : rgba(56,126,245,0.85);
+  background-color : rgba(29,67,156,0.85);
 }
 
 .collapsetree {

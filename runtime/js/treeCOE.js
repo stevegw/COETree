@@ -166,23 +166,122 @@ class CustomUI {
         }
         ToolbarContainer.appendChild(CloseButton);
 
-        // this.ContentContainer = document.createElement('div');
-        // this.ContentContainer.id = 'content-container'; 
-        // this.ContentContainer.className = 'contentcontainer'; 
-        // this.ContentContainer.style.width = this.width;//this.width+ "px";;
-        // this.ContentContainer.style.height = this.height ;//this.height+ "px";
-        // this.ContentContainer.style.top = "50px";
+
+
+
+
+
 
         this.TreeContainer = document.createElement('div');
         this.TreeContainer.id = 'tree-container'; 
         this.TreeContainer.className = 'tree-container'; 
         this.TreeContainer.style.width = this.width;//this.width+ "px";;
         this.TreeContainer.style.height = this.height ;//this.height+ "px";
-        this.TreeContainer.style.top = "50px";
+        this.TreeContainer.style.top = "110px";
 
-        //this.ContentContainer.appendChild(this.TreeContainer);
+        var FilterContainer = document.createElement('div');
+        FilterContainer.id = 'filter-toolbar--container';  
+        FilterContainer.className = 'filter-toolbarcontainer';
+        FilterContainer.style.width = this.width;
+        FilterContainer.style.height = "50px";
 
-        //
+        // Get the input element and add an event listener
+        var input = document.createElement("input");
+        input.id = 'filter-input';  
+        input.addEventListener("input", function(evt) {
+          console.log("input=" + this.value );
+
+          let tc = document.getElementById('tree-container');
+
+          var items = [];
+          var elements = tc.querySelectorAll('li');
+          var avalue = this.value;
+          var attributeElements = document.querySelectorAll("[displayvalue*='"+avalue+"' i]");
+          if (attributeElements.length > 0) {
+
+          Array.prototype.slice.call(document.querySelectorAll('li')).forEach(function (element) {
+            // remove the selected class
+            element.classList.remove('itemselected');
+          });
+
+            Array.prototype.slice.call(document.querySelectorAll("[open='true']")).forEach(function (element) {
+              // remove the selected class
+
+              //element.removeAttribute('open');
+
+              try {
+                while (element) {
+                  //element = element.parentNode;
+                  if (element.nodeName === "DETAILS") {
+                    //element.setAttribute("open", false);
+                    element.removeAttribute("open");
+                    element.scrollIntoView();
+
+                  }
+                  element = element.parentNode;
+                }
+              } catch (ex) {
+                // ignore
+
+              }
+
+
+
+            });
+
+
+            // Array.prototype.slice.call(document.querySelectorAll('li')).forEach(function(element){
+            //   // remove the selected class
+            //   element.classList.remove('itemselected');
+            //   element.removeAttribute('open');
+            //   try {
+            //     if (element.parentNode.nodeName === "DETAILS") {
+            //       element.parentNode.setAttribute("open", false);
+            //     }
+            //   } catch (error) {
+
+            //   }
+            // });
+
+
+
+
+
+            Array.prototype.slice.call(attributeElements).forEach(function (element) {
+              // add the selected class
+              element.classList.add('itemselected');
+
+              try {
+                while (element) {
+                  element = element.parentNode;
+                  if (element.nodeName === "DETAILS") {
+                    element.setAttribute("open", true);
+                  } else {
+                    element.removeAttribute("open");
+                    element.scrollIntoView();
+
+                  }
+                }
+              } catch (ex) {
+                // ignore
+
+              }
+            });
+
+
+
+          } else {
+
+            // Array.prototype.slice.call(document.querySelectorAll('li')).forEach(function (element) {
+            //   // remove the selected class
+            //   element.classList.remove('itemselected');
+            // });
+          }
+
+         
+        });
+
+        FilterContainer.appendChild(input);
         // Ideas on tree creation found https://iamkate.com/code/tree-views/
         //
         // build the summary and details structure 
@@ -201,6 +300,7 @@ class CustomUI {
 
         //Append the div to the higher level div 
         this.TreePanel.appendChild(ToolbarContainer);
+        this.TreePanel.appendChild(FilterContainer);
         this.TreePanel.appendChild(this.TreeContainer);
 
         this.UIContainer.appendChild(this.TreePanel); 
@@ -330,6 +430,7 @@ class CustomUI {
           // this.tagIndex = this.tagIndex.replace(/\//g, "_");
           //li.setAttribute("id", this.tagIndex );
           li.setAttribute("id", key );
+          li.setAttribute("displayvalue", row[this.metadata.displaypropertyname] );
 
           li.innerHTML  = "&nbsp;&nbsp;"+row[this.metadata.displaypropertyname];
 
@@ -372,6 +473,16 @@ class CustomUI {
         allElements.forEach((element) => {
           element.classList.remove('itemselected');
         });
+
+        Array.prototype.slice.call(document.querySelectorAll("[open='true']")).forEach(function(element){
+          // remove the selected class
+
+          element.removeAttribute('open');
+          
+        });
+
+
+
         // add the selected class to the element that was clicked
         try {
 
@@ -399,6 +510,7 @@ class CustomUI {
               element.setAttribute("open", isOpen);
               } else {
                 element.removeAttribute("open");
+                element.scrollIntoView();
               
               }
             }
@@ -439,36 +551,36 @@ class CustomUI {
             //let queryElement =  treec.querySelector(objectId);
 
             if (queryElement != null) {
-                      //find all the elements in your channel list and loop over them
-                      Array.prototype.slice.call(document.querySelectorAll('li')).forEach(function(element){
-                        // remove the selected class
-                        element.classList.remove('itemselected');
-                      });
-  
-                      try {
-                      if (this.previousSelection != undefined) {
-                        this.setDetailsNode(this.previousSelection, false);
-                      }
-                      this.previousSelection = queryElement;
-                      this.setDetailsNode(queryElement, true);
-  
-                    } catch (ex) {
-                      //ignore
-                      // console.log("Possible issue in getElementsStartsWith  "+ ex); 
-                  }
-                  queryElement.classList.add('itemselected');
+              //find all the elements in your channel list and loop over them
+              Array.prototype.slice.call(document.querySelectorAll('li')).forEach(function (element) {
+                // remove the selected class
+                element.classList.remove('itemselected');
+              });
 
-                  if (this.metadata.hilitemodel === "true") {
+              try {
+                if (this.previousSelection != undefined) {
+                  this.setDetailsNode(this.previousSelection, false);
+                }
+                this.previousSelection = queryElement;
+                this.setDetailsNode(queryElement, true);
 
-                    this.metadata.resetHighlight(this.metadata.renderer);
-                    hiliteArray.push(modelName + '-' + objectId);
-                    SELECTED_ITEMS.push(modelName + '-' + objectId);
-        
-                    if (hiliteArray.length > 0) {
-                      this.metadata.hilite(hiliteArray, true , this.metadata.renderer , this.metadata.hicolor);
-                    }
-      
-                  }
+              } catch (ex) {
+                //ignore
+                // console.log("Possible issue in getElementsStartsWith  "+ ex); 
+              }
+              queryElement.classList.add('itemselected');
+
+              if (this.metadata.hilitemodel === "true") {
+
+                this.metadata.resetHighlight(this.metadata.renderer);
+                hiliteArray.push(modelName + '-' + objectId);
+                SELECTED_ITEMS.push(modelName + '-' + objectId);
+
+                if (hiliteArray.length > 0) {
+                  this.metadata.hilite(hiliteArray, true, this.metadata.renderer, this.metadata.hicolor);
+                }
+
+              }
 
 
             }
@@ -481,11 +593,11 @@ class CustomUI {
 
       getElementsByIdStartsWith(container, selectorTag, prefix) {
         var items = [];
-        var myPosts = document.getElementById(container).getElementsByTagName(selectorTag);
-        for (var i = 0; i < myPosts.length; i++) {
+        var elements = document.getElementById(container).querySelectorAll(selectorTag);
+        for (var i = 0; i < elements.length; i++) {
             //omitting undefined null check for brevity
-            if (myPosts[i].textContent.includes(prefix)) {
-                items.push(myPosts[i]);
+            if (elements[i].textContent.includes(prefix)) {
+                items.push(elements[i]);
             }
         }
         return items;
