@@ -167,11 +167,6 @@ class CustomUI {
         ToolbarContainer.appendChild(CloseButton);
 
 
-
-
-
-
-
         this.TreeContainer = document.createElement('div');
         this.TreeContainer.id = 'tree-container'; 
         this.TreeContainer.className = 'tree-container'; 
@@ -187,15 +182,24 @@ class CustomUI {
 
         // Get the input element and add an event listener
         var input = document.createElement("input");
-        input.id = 'filter-input';  
+        input.id = 'search-input';  
+
         input.addEventListener("input", function(evt) {
           console.log("input=" + this.value );
+        });
 
-          let tc = document.getElementById('tree-container');
+        FilterContainer.appendChild(input);
 
-          var items = [];
-          var elements = tc.querySelectorAll('li');
-          var avalue = this.value;
+
+
+        var searchButton = document.createElement('img');
+        searchButton.id = 'searchButton';  
+        searchButton.className = 'tb-searchbutton';
+        searchButton.src = "extensions/images/treeCOE_search.png";
+        searchButton.addEventListener("click",  () => { 
+
+          var avalue = document.getElementById('search-input').value;
+          console.log("search input value =" + avalue );
           var attributeElements = document.querySelectorAll("[displayvalue*='"+avalue+"' i]");
           if (attributeElements.length > 0) {
 
@@ -225,27 +229,7 @@ class CustomUI {
 
               }
 
-
-
             });
-
-
-            // Array.prototype.slice.call(document.querySelectorAll('li')).forEach(function(element){
-            //   // remove the selected class
-            //   element.classList.remove('itemselected');
-            //   element.removeAttribute('open');
-            //   try {
-            //     if (element.parentNode.nodeName === "DETAILS") {
-            //       element.parentNode.setAttribute("open", false);
-            //     }
-            //   } catch (error) {
-
-            //   }
-            // });
-
-
-
-
 
             Array.prototype.slice.call(attributeElements).forEach(function (element) {
               // add the selected class
@@ -278,10 +262,10 @@ class CustomUI {
             // });
           }
 
-         
         });
 
-        FilterContainer.appendChild(input);
+        FilterContainer.appendChild(searchButton);
+
         // Ideas on tree creation found https://iamkate.com/code/tree-views/
         //
         // build the summary and details structure 
