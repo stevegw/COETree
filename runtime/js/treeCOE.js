@@ -461,7 +461,7 @@ class CustomUI {
         Array.prototype.slice.call(document.querySelectorAll("[open='true']")).forEach(function(element){
           // remove the selected class
 
-          element.removeAttribute('open');
+          //element.removeAttribute('open');
           
         });
 
@@ -474,6 +474,7 @@ class CustomUI {
             console.log("setSelected id="+ e.target.id + " should be the same as elem by id="+ elem.id);
 
             elem.classList.add('itemselected');
+            elem.scrollIntoView();
             
         } catch (ex) {
             //
@@ -557,8 +558,11 @@ class CustomUI {
               if (this.metadata.hilitemodel === "true") {
 
                 this.metadata.resetHighlight(this.metadata.renderer);
-                hiliteArray.push(modelName + '-' + objectId);
-                SELECTED_ITEMS.push(modelName + '-' + objectId);
+                // hiliteArray.push(modelName + '-' + objectId);
+                // SELECTED_ITEMS.push(modelName + '-' + objectId);
+
+                hiliteArray.push(modelName + '-' + path);
+                SELECTED_ITEMS.push(modelName + '-' + path);
 
                 if (hiliteArray.length > 0) {
                   this.metadata.hilite(hiliteArray, true, this.metadata.renderer, this.metadata.hicolor);
@@ -826,6 +830,7 @@ class Metadata {
        // tmlrenderer.setProperties (item , { shader:"xray;r f 1.0;g f 0.031;b f 0.03",  hidden:false, opacity:0.9, phantom:false, decal:true });
        //tmlrenderer.setProperties (item , { shader:"green", hidden:false, opacity:0.9, phantom:false, decal:true }); //,  hidden:false, opacity:0.9, phantom:false, decal:true });
        tmlrenderer.setColor(item, color);
+
       } else {
         tmlrenderer.setColor(item, undefined);
         //tmlrenderer.setProperties (item , { shader:'Default',  hidden:false, opacity:1.0, phantom:false, decal:false });
