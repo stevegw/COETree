@@ -131,7 +131,7 @@ class CustomUI {
 
         var HilightButton = document.createElement('img');
 
-        HilightButton.className = 'tb-closebutton';
+        HilightButton.className = 'tb-highlightbutton';
         HilightButton.src = "extensions/images/treeCOE_hilightgreen.png";
         HilightButton.addEventListener("click",  () => { 
    
@@ -178,7 +178,8 @@ class CustomUI {
         FilterContainer.id = 'filter-toolbar--container';  
         FilterContainer.className = 'filter-toolbarcontainer';
         FilterContainer.style.width = this.width;
-        FilterContainer.style.height = "50px";
+        FilterContainer.style.height = "32px";
+        FilterContainer.style.padding = "2px";
 
         // Get the input element and add an event listener
         var input = document.createElement("input");
