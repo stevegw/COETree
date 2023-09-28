@@ -275,9 +275,10 @@ class CustomUI {
         topUL.setAttribute("class", "tree");
         this.tagIndex = 1;
         var displayName = this.data[this.metadata.displaypropertyname] ;
-
         ItemLabel.innerHTML = this.truncate(displayName, 20) ;
-        this.createSublist(topUL,this.data['Components'] ) //'Components']);
+
+
+        this.createSublist(topUL,this.data['Components'] , this.truncate(displayName, 20) ) //'Components']);
         //this.createSublist(topUL,testData2.Components);
         
 
@@ -352,7 +353,7 @@ class CustomUI {
     }
   
 // test
-    createSublist = function(container , data) {
+    createSublist = function(container , data , rootName) {
 
       if (this.index > 0) {
 
@@ -362,7 +363,8 @@ class CustomUI {
         details.appendChild(summary);
 
       } else {
-        var expandString = "&nbsp;&nbsp;Items";
+        //var expandString = "&nbsp;&nbsp;Items";
+        var expandString = "&nbsp;&nbsp;"+rootName;
         var liTree = document.createElement('li');
         container.appendChild(liTree);
     
