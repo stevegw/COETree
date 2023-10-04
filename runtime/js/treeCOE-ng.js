@@ -68,7 +68,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
         var stop = function() {
           console.log('Stopping');
           scope.$parent.fireEvent('stopped');
-          if (tree != undefined) {
+          if (scope.data.tree != undefined) {
             scope.data.tree.customUI.close();
           }
         }

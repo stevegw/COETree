@@ -104,10 +104,10 @@ class CustomUI {
         this.TreePanel = document.createElement('div');
         this.TreePanel.id = 'treepanel';   
         this.TreePanel.className = 'treepanel';  
-        this.TreePanel.style.width = this.wiwidth;
-        this.TreePanel.style.height = this.wiheight; 
-        this.TreePanel.style.top = this.top;
-        this.TreePanel.style.left = this.left;
+        this.TreePanel.style.width = this.width;
+        this.TreePanel.style.height = this.height; 
+        this.TreePanel.style.top = this.topoffset;
+        this.TreePanel.style.left = this.leftoffset;
 
 
 
@@ -220,7 +220,7 @@ class CustomUI {
                   if (element.nodeName === "DETAILS") {
                     //element.setAttribute("open", false);
                     element.removeAttribute("open");
-                    element.scrollIntoView();
+                    //element.scrollIntoView();
 
                   }
                   element = element.parentNode;
@@ -243,7 +243,7 @@ class CustomUI {
                     element.setAttribute("open", true);
                   } else {
                     element.removeAttribute("open");
-                    element.scrollIntoView();
+                    //element.scrollIntoView();
 
                   }
                 }
@@ -273,6 +273,8 @@ class CustomUI {
         var topUL = document.createElement('ul');
         //topUL.style.overflowY = "scroll";
         topUL.setAttribute("class", "tree");
+        topUL.setAttribute("height", this.height);
+        topUL.setAttribute("width", this.width);
         this.tagIndex = 1;
         var displayName = this.data[this.metadata.displaypropertyname] ;
         ItemLabel.innerHTML = this.truncate(displayName, 20) ;
@@ -477,7 +479,7 @@ class CustomUI {
             console.log("setSelected id="+ e.target.id + " should be the same as elem by id="+ elem.id);
 
             elem.classList.add('itemselected');
-            elem.scrollIntoView();
+            //elem.scrollIntoView();
             
         } catch (ex) {
             //
@@ -498,7 +500,7 @@ class CustomUI {
               element.setAttribute("open", isOpen);
               } else {
                 element.removeAttribute("open");
-                element.scrollIntoView();
+                //element.scrollIntoView();
               
               }
             }

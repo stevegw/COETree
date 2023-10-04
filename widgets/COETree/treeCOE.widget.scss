@@ -34,7 +34,6 @@
   --spacing : 2.0rem; // line height of text
   --radius  : 10px; // radius of markers
   overflow : scroll !important;
-  overflow-x: hidden;
  
 }
 
@@ -126,6 +125,11 @@
   background-color : transparent;
 
 }
+.tree-container {
+
+  overflow : scroll;
+
+}
 .tree-uicontainer {
 
   background-color : transparent;
@@ -133,6 +137,7 @@
   flex-direction : column;
   position : fixed; //Allowed values: static, absolute, fixed, relative, sticky, initial, inherit;  
   z-index:  900 !important;
+
 
 }
 
@@ -173,7 +178,7 @@
   border-style: solid;
   background-color : rgba(29,67,156,0.85);
   //overflow-x : scroll;
-  overflow-y : scroll;
+
   z-index:  900 !important;
 
   border-top-left-radius: 12px;
@@ -212,12 +217,13 @@
 	width : 42px;   
 	height : 42px;
   background-color : rgba(29,67,156,0.85);
+  padding-right: 5px;
 }
 
 .tb-highlightbutton   {
   align-content: flex-end;
-	width : 32px;   
-	height : 32px;
+	width : 42px;   
+	height : 42px;
   background-color : rgba(29,67,156,0.85);
 }
 
