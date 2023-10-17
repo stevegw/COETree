@@ -42,6 +42,7 @@ class CustomUI {
         this.TreePanel;
         this.ContentContainer;
         this.TreeContainer;
+        this.FilterContainer;
         this.treemap = new Map();
         this.treeCollapsed = false;
 
@@ -125,7 +126,7 @@ class CustomUI {
         ExpandCollapseButton.src = "extensions/images/treeCOE_expand.png";
     
         ExpandCollapseButton.addEventListener("click",  () => { 
-            this.expandCollapse();
+            //this.expandCollapse();
         });
 
 
@@ -159,7 +160,7 @@ class CustomUI {
             this.close();
         });
 
-        ToolbarContainer.appendChild(ExpandCollapseButton);
+        //ToolbarContainer.appendChild(ExpandCollapseButton);
         ToolbarContainer.appendChild(ItemLabel);
         if (this.metadata.hilitemodel === "true") {
           ToolbarContainer.appendChild(HilightButton);
@@ -174,22 +175,25 @@ class CustomUI {
         this.TreeContainer.style.height = this.height ;//this.height+ "px";
         this.TreeContainer.style.top = "110px";
 
-        var FilterContainer = document.createElement('div');
-        FilterContainer.id = 'filter-toolbar--container';  
-        FilterContainer.className = 'filter-toolbarcontainer';
-        FilterContainer.style.width = this.width;
-        FilterContainer.style.height = "32px";
-        FilterContainer.style.padding = "2px";
+        this.FilterContainer = document.createElement('div');
+        this.FilterContainer.id = 'filter-toolbar--container';  
+        this.FilterContainer.className = 'filter-toolbarcontainer';
+        this.FilterContainer.style.width = this.width;
+        this.FilterContainer.style.height = "32px";
+        this.FilterContainer.style.padding = "2px";
 
         // Get the input element and add an event listener
         var input = document.createElement("input");
-        input.id = 'search-input';  
+        input.id = 'search-input';
+        input.style.width = '100px';
+        input.style.marginRight = '5px';
+        input.className = 'filter-input';  
 
         input.addEventListener("input", function(evt) {
           console.log("input=" + this.value );
         });
 
-        FilterContainer.appendChild(input);
+        this.FilterContainer.appendChild(input);
 
 
 
@@ -265,7 +269,7 @@ class CustomUI {
 
         });
 
-        FilterContainer.appendChild(searchButton);
+        this.FilterContainer.appendChild(searchButton);
 
         // Ideas on tree creation found https://iamkate.com/code/tree-views/
         //
@@ -288,7 +292,7 @@ class CustomUI {
 
         //Append the div to the higher level div 
         this.TreePanel.appendChild(ToolbarContainer);
-        this.TreePanel.appendChild(FilterContainer);
+        this.TreePanel.appendChild(this.FilterContainer);
         this.TreePanel.appendChild(this.TreeContainer);
 
         this.UIContainer.appendChild(this.TreePanel); 
@@ -305,9 +309,11 @@ class CustomUI {
 
       if (this.treeCollapsed) {
         this.TreePanel.appendChild(this.TreeContainer);
+        this.TreePanel.appendChild(this.FilterContainer);
         this.treeCollapsed = false;
       } else {
         this.TreePanel.removeChild(this.TreeContainer);
+        this.TreePanel.removeChild(this.FilterContainer);
         this.treeCollapsed = true;
       }
       

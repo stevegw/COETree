@@ -1,5 +1,14 @@
 // https://iamkate.com/code/tree-views/
 
+
+
+$mainColor: rgb(0, 0, 0 , 0.6);
+$mainBackground-color: rgb(255, 255, 255, 0.6);
+$mainSelected-backgroundColor: rgb(238, 242, 22,0.8);
+$mainNode-color: rgb(23, 23, 17);
+$mainPanel-borderColor: rgb(39, 39, 36);
+$mainText-color: rgb(0, 0, 0 );
+
 .treecoeElement {
 	display: block;
 	height: 100%;
@@ -12,7 +21,7 @@
 	width: 198px;
 	height: 54px;
 	border-radius: 5px;
-	background-color: #DDDDDD;
+	background-color: $mainBackground-color;
 	padding: 3px;
 	opacity: 0.5;
 }
@@ -26,8 +35,8 @@
 
 
 .itemselected  {
-	background: rgb(8, 0, 0) !important;
-	color: rgb(252, 252, 252) !important;
+	background: $mainSelected-backgroundColor !important;
+	color: $mainBackground-color;
  }
 
 .tree{
@@ -41,7 +50,7 @@
   display      : block;
   position     : relative;
   padding-left : calc(2 * var(--spacing) - var(--radius) - 2px);
-  color:rgb(255, 255, 255);
+  color: $mainText-color;
   margin: 10px 0;
 }
 
@@ -53,14 +62,14 @@
 }
 
 .tree ul li{
-  border-left : 2px solid #ddd;
+  border-left : 2px solid $mainBackground-color;
   white-space: nowrap;
 }
 
 // Sub Items
 .tree ul li:last-child{
   border-color : transparent;
-  color:rgb(255, 255, 255);
+  color:$mainNode-color;
 }
 
 
@@ -105,14 +114,14 @@
   width         : calc(2 * var(--radius));
   height        : calc(2 * var(--radius));
   border-radius : 50%;
-  background    : rgb(7, 75, 193);
+  background    : $mainNode-color;
 }
 
 .tree summary::before{
   content     : '+';
   z-index     : 1;
-  background  : #387EF5;
-  color       : #fff;
+  background  : $mainNode-color;
+  color       : $mainBackground-color;
   line-height : calc(2 * var(--radius) - 2px);
   text-align  : center;
 }
@@ -141,32 +150,41 @@
 
 }
 
+// rgba(29,67,156,0.85);
 .tree-toolbarcontainer  {
 	display:flex;
   flex: auto;
   justify-content: space-between;
   border-style: solid;
   border : rgba(0,0,0,0.25);
-  background-color:  rgba(29,67,156,0.85);
+  background-color:    $mainBackground-color;
   z-Index :  910;
   padding-top: 2px;
 }
 
+// rgba(29,67,156,0.85);
 .filter-toolbarcontainer  {
 	display:flex;
   flex: auto;
   //justify-content: space-between;
   border-style: solid;
   border : rgba(0,0,0,0.25);
-  background-color:  rgba(29,67,156,0.85);
+  background-color: $mainBackground-color;
   z-Index :  910;
 }
+//.filter-input {
+//
+//  
+// 
+//}
 
+// rgba(29,67,156,0.85);
 .tb-searchbutton   {
   align-content: flex-end;
 	width : 32px;   
 	height : 32px;
-  background-color : rgba(29,67,156,0.85);
+  background-color: $mainNode-color;
+
 }
 
 
@@ -176,55 +194,62 @@
   flex-direction: column;
   border  : rgba(0,0,0,0.1);
   border-style: solid;
-  background-color : rgba(29,67,156,0.85);
+  background-color : $mainBackground-color;
   //overflow-x : scroll;
 
   z-index:  900 !important;
 
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
-  border-style: solid;
+  //border-top-left-radius: 12px;
+  //border-top-right-radius: 12px;
+  //border-bottom-left-radius: 12px;
+  //bottom-right-radius: 12px;
+  border-style: none;
   border-top-width: 3px;
   border-bottom-width: 3px;
   border-left-width: 3px;
   border-right-width: 3px;
-  border-color:  rgba(243,194,20,1) !important; 
+  border-color:  $mainPanel-borderColor !important; 
 
 
 
 
 }
+
+//#fff;
 
 // Top label 
 .tb-itemlabel   {
 	font-size : 14px; 
   padding-left: 5px;
-  color       : #fff;
+  color       : #080000;
 
 
 }
+
+//rgba(29,67,156,0.85);
  .expandbutton   {
   align-content: flex-start;
-  height : 42px;
-  width : 42px;
-  background-color : rgba(29,67,156,0.85);
+  height : 32px;
+  width : 32px;
+  background-color : $mainNode-color;
 
 }
+
+//rgba(29,67,156,0.85);
 .tb-closebutton   {
   align-content: flex-end;
-	width : 42px;   
-	height : 42px;
-  background-color : rgba(29,67,156,0.85);
+	width : 32px;   
+	height : 32px;
+  background-color : $mainNode-color;
   padding-right: 5px;
 }
 
+//rgba(29,67,156,0.85);
 .tb-highlightbutton   {
   align-content: flex-end;
-	width : 42px;   
-	height : 42px;
-  background-color : rgba(29,67,156,0.85);
+	width : 32px;   
+	height : 32px;
+  background-color : $mainBackground-color;
 }
 
 .collapsetree {
