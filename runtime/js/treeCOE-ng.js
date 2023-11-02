@@ -26,6 +26,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
         leftoffsetField : '@',
         selectedvalueField : '=',
         treefrommodelmetadataField: '=',
+        checkeditemsField: '=',
         delegateField: '='
       },
       template: '<div></div>',

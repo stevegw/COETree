@@ -118,7 +118,16 @@
             //{label: 'Auto'    , value: "Auto"}
             ]
 
-        },     
+        },  
+        {
+          name: 'checkeditems',
+          label: 'Checked Items',
+          datatype: 'json',
+          default: {},
+          isBindingTarget: false,
+          isBindingSource: true,
+          showInput: false
+        },
         {
           name: 'modelname',
           label: 'model name',
@@ -197,6 +206,10 @@
           label: 'Clicked'
         },
         {
+          name: 'checked',
+          label: 'Item Checked changed'
+        },
+        {
           name: 'completed',
           label: 'Completed action'
         },
@@ -218,7 +231,7 @@
       },
 
       runtimeTemplate: function (props) {
-        var tmpl = '<div ng-treecoe  incomingdata-field="me.incomingdata"  selectedvalue-field="me.selectedvalue"   treefrommodelmetadata-field="me.treefrommodelmetadata"  autolaunch-field={{me.autolaunch}} displaypropertyname-field={{me.displaypropertyname}}  uniquenesspropertyname-field={{me.uniquenesspropertyname}} width-field={{me.width}} height-field={{me.height}} topoffset-field={{me.topoffset}} leftoffset-field={{me.leftoffset}} hilitemodel-field={{me.hilitemodel}} modelname-field={{me.modelname}} metadatauniqueness-field={{me.metadatauniqueness}}   delegate-field="delegate"></div>' ; //original-field="me.original" markedup-field="me.markedup" delegate-field="delegate"></div>';
+        var tmpl = '<div ng-treecoe  incomingdata-field="me.incomingdata"  selectedvalue-field="me.selectedvalue"   treefrommodelmetadata-field="me.treefrommodelmetadata"  autolaunch-field={{me.autolaunch}} displaypropertyname-field={{me.displaypropertyname}}  uniquenesspropertyname-field={{me.uniquenesspropertyname}} width-field={{me.width}} height-field={{me.height}} topoffset-field={{me.topoffset}} leftoffset-field={{me.leftoffset}} hilitemodel-field={{me.hilitemodel}} modelname-field={{me.modelname}} metadatauniqueness-field={{me.metadatauniqueness}}  checkeditems-field="me.checkeditems"    delegate-field="delegate"></div>' ; //original-field="me.original" markedup-field="me.markedup" delegate-field="delegate"></div>';
         return tmpl;
       }
     };

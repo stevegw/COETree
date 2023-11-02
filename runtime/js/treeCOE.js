@@ -26,6 +26,7 @@ class CustomUI {
     previousSelection;
     treemap;
     treeCollapsed;
+    checkedItems;
 
 
     constructor(  width, height , topoffset , leftoffset , data , metadata ) {
@@ -45,6 +46,7 @@ class CustomUI {
         this.FilterContainer;
         this.treemap = new Map();
         this.treeCollapsed = false;
+        this.checkedItems = new Map();
 
 
         // console.log("Data IN="+ JSON.stringify(data));
@@ -404,6 +406,8 @@ class CustomUI {
           var row = data[j];
           var li = document.createElement('li');
 
+
+
          if (this.metadata.uniquenesspropertyname === "Auto") {
            this.tagIndex = row[this.metadata.displaypropertyname] + this.index; 
          } else if (this.metadata.uniquenesspropertyname === "Occurrence.ID")  {
@@ -428,35 +432,57 @@ class CustomUI {
           li.setAttribute("displayvalue", row[this.metadata.displaypropertyname] );
 
           li.innerHTML  = "&nbsp;&nbsp;"+row[this.metadata.displaypropertyname];
-
-          // if (row[this.metadata.displaypropertyname] === "CABLING.ASM") {
-
-          //   li.style.display = "none" ;
-
-          // }
           li.addEventListener('click',(e)=>{
          
           console.log("Event click target textContent="+ e.target.id);
           if (e.target.id != "")  {
               // e.stopPropagation();
-              let selected = e.target.firstChild.nodeValue;
-              selected = selected.replace( /[\r\n]+/gm, "" );
-              selected = selected.trim();
-              this.setSelected(e);
-              if (this.currentEvent != e.target.id) {
-                this.currentEvent = e.target.id;
-                //let occur =  e.target.id.replace(/_/g, "/");
-                let occur =  this.treemap.get(this.currentEvent);
+              if (e.target.id.endsWith('checkbox') ) {
+                console.log("Event checkbox target textContent="+ e.target.id);
+                var value = e.target.id.replace('checkbox', '');
+                  if (!this.checkedItems.has(value) && e.target.checked === true ) {
+                    this.checkedItems.set(value, this.treemap.get(value));
+                  } else if (this.checkedItems.has(value) && e.target.checked === false )  {
+                    this.checkedItems.delete(value);
+                  }
+                  
+                  var chkArray = Array.from(this.checkedItems);
+                  this.metadata.vuforiaScope.checkeditemsField = JSON.stringify(chkArray);
 
-                this.metadata.findOccurences(occur);
+                  // and let everyone know
+                  this.metadata.vuforiaScope.$parent.fireEvent('checked');
+                  this.metadata.vuforiaScope.$parent.$applyAsync();
+
+
+
+              } else {
+
+                let selected = e.target.firstChild.nodeValue;
+                selected = selected.replace( /[\r\n]+/gm, "" );
+                selected = selected.trim();
+                this.setSelected(e);
+                if (this.currentEvent != e.target.id) {
+                  this.currentEvent = e.target.id;
+                  //let occur =  e.target.id.replace(/_/g, "/");
+                  let occur =  this.treemap.get(this.currentEvent);
+                  this.metadata.findOccurences(occur);
+                }
               }
            }
           });
+
+          var checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.style.margin = '2px';
+          checkbox.setAttribute("id", key+"checkbox" );
+
           // var nodes = row.nodes;
           var nodes = row['Components'];
           if(nodes && nodes.length) {
             this.createSublist(li, nodes);
           }
+
+          li.appendChild(checkbox);
           ul.appendChild(li);
         }
         details.appendChild(ul);
