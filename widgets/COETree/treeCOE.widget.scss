@@ -49,7 +49,7 @@ $mainText-color: rgb(0, 0, 0 );
 .tree li{
   display      : block;
   position     : relative;
-  padding-left : calc(2 * var(--spacing) - var(--radius) - 2px);
+  padding-left : calc(2.5 * var(--spacing) - var(--radius) - 2px);
   color: $mainText-color;
   margin: 10px 0;
 }

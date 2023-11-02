@@ -408,6 +408,8 @@ class CustomUI {
 
 
 
+
+
          if (this.metadata.uniquenesspropertyname === "Auto") {
            this.tagIndex = row[this.metadata.displaypropertyname] + this.index; 
          } else if (this.metadata.uniquenesspropertyname === "Occurrence.ID")  {
@@ -425,14 +427,24 @@ class CustomUI {
 
           let key = "treemapkey"+ this.index;
           this.treemap.set(key, this.tagIndex );
-          //console.log("Treemap key="+ key + "  index=" + this.tagIndex  );
-          // this.tagIndex = this.tagIndex.replace(/\//g, "_");
-          //li.setAttribute("id", this.tagIndex );
+
           li.setAttribute("id", key );
           li.setAttribute("displayvalue", row[this.metadata.displaypropertyname] );
+          //li.style.paddingLeft = '35px';
+          //li.innerHTML  = "&nbsp;&nbsp;"+row[this.metadata.displaypropertyname];
 
-          li.innerHTML  = "&nbsp;&nbsp;"+row[this.metadata.displaypropertyname];
+          var checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.style.margin = '2px';
+          checkbox.setAttribute("id", key+"checkbox" );
+          li.appendChild(checkbox);
+
+          var textNode = document.createTextNode( row[this.metadata.displaypropertyname]);
+
+          li.appendChild(textNode);
+          //li.innerHTML  = row[this.metadata.displaypropertyname];
           li.addEventListener('click',(e)=>{
+          //textNode.addEventListener('click',(e)=>{
          
           console.log("Event click target textContent="+ e.target.id);
           if (e.target.id != "")  {
@@ -457,7 +469,7 @@ class CustomUI {
 
               } else {
 
-                let selected = e.target.firstChild.nodeValue;
+                let selected = e.target.lastChild.nodeValue;
                 selected = selected.replace( /[\r\n]+/gm, "" );
                 selected = selected.trim();
                 this.setSelected(e);
@@ -471,10 +483,7 @@ class CustomUI {
            }
           });
 
-          var checkbox = document.createElement('input');
-          checkbox.type = 'checkbox';
-          checkbox.style.margin = '2px';
-          checkbox.setAttribute("id", key+"checkbox" );
+
 
           // var nodes = row.nodes;
           var nodes = row['Components'];
@@ -482,7 +491,7 @@ class CustomUI {
             this.createSublist(li, nodes);
           }
 
-          li.appendChild(checkbox);
+         // li.appendChild(checkbox);
           ul.appendChild(li);
         }
         details.appendChild(ul);
