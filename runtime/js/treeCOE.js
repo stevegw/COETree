@@ -469,7 +469,7 @@ class CustomUI {
 
               } else {
 
-                let selected = e.target.lastChild.nodeValue;
+                let selected = e.target.lastChild.textContent;
                 selected = selected.replace( /[\r\n]+/gm, "" );
                 selected = selected.trim();
                 this.setSelected(e);
@@ -553,6 +553,17 @@ class CustomUI {
         }
 
       }
+
+      buildCheckItems (modelName, checkedItems , checkedItemValue ) {
+
+        // let metadatauniqueness = this.metadata.metadatauniqueness ;
+        // PTC.Metadata.fromId('model-1').then( (metadata) => {
+        //   var displayName = metadata.find(metadatauniqueness).like('BOLT');
+        // });
+
+
+      
+      } 
 
       setElementInTree( array ) {
 
