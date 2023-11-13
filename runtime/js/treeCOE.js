@@ -26,7 +26,7 @@ class CustomUI {
     previousSelection;
     treemap;
     treeCollapsed;
-    checkedItems;
+    checkedItemsMap;
 
 
     constructor(  width, height , topoffset , leftoffset , data , metadata ) {
@@ -46,7 +46,7 @@ class CustomUI {
         this.FilterContainer;
         this.treemap = new Map();
         this.treeCollapsed = false;
-        this.checkedItems = new Map();
+        this.checkedItemsMap = new Map();
 
 
         // console.log("Data IN="+ JSON.stringify(data));
@@ -218,8 +218,6 @@ class CustomUI {
             Array.prototype.slice.call(document.querySelectorAll("[open='true']")).forEach(function (element) {
               // remove the selected class
 
-              //element.removeAttribute('open');
-
               try {
                 while (element) {
                   //element = element.parentNode;
@@ -258,6 +256,13 @@ class CustomUI {
 
               }
             });
+
+
+
+
+
+
+
 
 
 
@@ -452,18 +457,20 @@ class CustomUI {
               if (e.target.id.endsWith('checkbox') ) {
                 console.log("Event checkbox target textContent="+ e.target.id);
                 var value = e.target.id.replace('checkbox', '');
-                  if (!this.checkedItems.has(value) && e.target.checked === true ) {
-                    this.checkedItems.set(value, this.treemap.get(value));
-                  } else if (this.checkedItems.has(value) && e.target.checked === false )  {
-                    this.checkedItems.delete(value);
+                  if (!this.checkedItemsMap.has(value) && e.target.checked === true ) {
+                    this.checkedItemsMap.set(value, this.treemap.get(value));
+                  } else if (this.checkedItemsMap.has(value) && e.target.checked === false )  {
+                    this.checkedItemsMap.delete(value);
                   }
                   
-                  var chkArray = Array.from(this.checkedItems);
-                  this.metadata.vuforiaScope.checkeditemsField = JSON.stringify(chkArray);
+                  // var chkArray = Array.from(this.checkedItemsMap);
+                  // this.metadata.vuforiaScope.checkeditemsField = JSON.stringify(chkArray);
 
-                  // and let everyone know
-                  this.metadata.vuforiaScope.$parent.fireEvent('checked');
-                  this.metadata.vuforiaScope.$parent.$applyAsync();
+                  // // // and let everyone know
+                  // this.metadata.vuforiaScope.$parent.fireEvent('checked');
+                  // this.metadata.vuforiaScope.$parent.$applyAsync();
+
+                  this.metadata.checkedOccurences(this.checkedItemsMap) ;
 
 
 
@@ -476,6 +483,7 @@ class CustomUI {
                 if (this.currentEvent != e.target.id) {
                   this.currentEvent = e.target.id;
                   //let occur =  e.target.id.replace(/_/g, "/");
+
                   let occur =  this.treemap.get(this.currentEvent);
                   this.metadata.findOccurences(occur);
                 }
@@ -554,16 +562,6 @@ class CustomUI {
 
       }
 
-      buildCheckItems (modelName, checkedItems , checkedItemValue ) {
-
-        // let metadatauniqueness = this.metadata.metadatauniqueness ;
-        // PTC.Metadata.fromId('model-1').then( (metadata) => {
-        //   var displayName = metadata.find(metadatauniqueness).like('BOLT');
-        // });
-
-
-      
-      } 
 
       setElementInTree( array ) {
 
@@ -611,6 +609,7 @@ class CustomUI {
                 // console.log("Possible issue in getElementsStartsWith  "+ ex); 
               }
               queryElement.classList.add('itemselected');
+              queryElement.scrollIntoView();
 
               if (this.metadata.hilitemodel === "true") {
 
@@ -647,6 +646,8 @@ class CustomUI {
         }
         return items;
       }
+
+      
 }
 
 
@@ -756,6 +757,67 @@ class Metadata {
 
   }
 
+
+  checkedOccurences = function (checkedItemsMap) {
+    console.log("Using Model name:"+this.modelName + " getting Checked occurences ");
+
+    let mu = this.metadatauniqueness;
+    let mn = this.modelName;
+    let vs = this.vuforiaScope;
+
+    if (mu === "Part ID Path") {
+
+      let checkArry = [];
+      checkedItemsMap.forEach(function(value, key) {
+        let pathObj = { model:mn, path:value}; 
+        checkArry.push(pathObj);
+
+      });
+      console.log("checkArry:" + JSON.stringify(checkArry));
+
+      vs.checkeditemsField = checkArry;
+      // and let everyone know
+      vs.$parent.fireEvent('checked');
+      vs.$parent.$applyAsync();
+     
+
+
+
+
+    } else {
+      PTC.Metadata.fromId(this.modelName).then((mdata) => {
+  
+        let checkArry = [];
+        checkedItemsMap.forEach(function(value, key) {
+          console.log(key, value);
+          var occuranceItems = mdata.find(mu).sameAs(value);
+  
+          if (occuranceItems._selectedPaths.length > 0)  {
+    
+            let idpath = occuranceItems._selectedPaths[0]; //always pick the first - we dont support multi-select
+            console.log("checkedOccurences modelname:" + mn +" path:" + idpath);
+            let pathObj = { model:mn, path:idpath}; 
+            checkArry.push(pathObj);
+    
+          } else {
+    
+            console.log('Nothing found in Metadata when searching for : ' + value );
+    
+          }
+  
+        });
+  
+        console.log("checkArry:" + JSON.stringify(checkArry));
+        vs.checkeditemsField = checkArry;
+        // and let everyone know
+        vs.$parent.fireEvent('checked');
+        vs.$parent.$applyAsync();
+    })
+
+    }
+
+
+  }
 
   findOccurences = function(searchText) {
   
@@ -870,6 +932,12 @@ class Metadata {
   
   // }
 
+  hiliteSelected = function () {
+
+    let elements = document.getElementsByClassName("itemselected");
+
+
+  }
 
   setColor = function (items,  tmlrenderer) {
     items.forEach(function (item) {

@@ -94,11 +94,11 @@
           options: [
             
             //{label: 'PartId'      , value: "PartId"},
-            {label: 'PartName'      , value: "PartName"},
+            //{label: 'PartName'      , value: "PartName"},
             //{label: 'PVTreeId'      , value: "PVTreeId"},
-            {label: 'Part ID Path'      , value: "Part ID Path"},
+            //{label: 'PVTreeId'      , value: "PVTreeId"},
             {label: 'Occurrence ID'      , value: "Occurrence.ID"},
-            {label: 'partusesoccurrence_objectid' ,    value: "partusesoccurrence_objectid"}
+            //{label: 'partusesoccurrence_objectid' ,    value: "partusesoccurrence_objectid"}
             //{label: 'Auto'    , value: "Auto"}
             ]
         }, 
@@ -113,8 +113,9 @@
           editor: 'select',
           options: [
             {label: 'Part ID Path'      , value: "Part ID Path"},
-            {label: 'PartName'      , value: "PartName"},
+            //{label: 'PartName'      , value: "PartName"},
             {label: 'partusesoccurrence_objectid' ,    value: "partusesoccurrence_objectid"},
+            //{label: 'PVTreeId'      , value: "PVTreeId"}
             //{label: 'Auto'    , value: "Auto"}
             ]
 
@@ -195,7 +196,7 @@
         },
         {
           name: 'dataviamodeldata',
-          label: 'Get structure data from Metadata'
+          label: 'Generate structure from Metadata'
         }
       ],
 
