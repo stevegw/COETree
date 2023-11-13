@@ -130,6 +130,15 @@
           showInput: false
         },
         {
+          name: 'searcheditems',
+          label: 'Searched result Items',
+          datatype: 'json',
+          default: {},
+          isBindingTarget: false,
+          isBindingSource: true,
+          showInput: false
+        },
+        {
           name: 'modelname',
           label: 'model name',
           datatype: 'string',
@@ -211,6 +220,10 @@
           label: 'Item Checked changed'
         },
         {
+          name: 'searchfor',
+          label: 'Items searched for'
+        },
+        {
           name: 'completed',
           label: 'Completed action'
         },
@@ -222,7 +235,7 @@
       ],
 
       dependencies: {
-        files         : ['js/treeCOE-ng.js','js/treeCOE.js', 'images/treeCOE_close.png' ,'images/treeCOE_expand.png' , 'images/treeCOE_hilightgreen.png' , 'images/treeCOE_hilightyellow.png' , 'images/treeCOE_hilightred.png'  ],
+        files         : ['js/treeCOE-ng.js','js/treeCOE.js', 'images/treeCOE_close.png' ,'images/treeCOE_expand.png' , 'images/treeCOE_search.png' , 'images/treeCOE_clearsearch.png' ,'images/treeCOE_hilightgreen.png' , 'images/treeCOE_hilightyellow.png' , 'images/treeCOE_hilightred.png'  ],
         angularModules: ['treecoe-ng']
       },
 
@@ -232,7 +245,7 @@
       },
 
       runtimeTemplate: function (props) {
-        var tmpl = '<div ng-treecoe  incomingdata-field="me.incomingdata"  selectedvalue-field="me.selectedvalue"   treefrommodelmetadata-field="me.treefrommodelmetadata"  autolaunch-field={{me.autolaunch}} displaypropertyname-field={{me.displaypropertyname}}  uniquenesspropertyname-field={{me.uniquenesspropertyname}} width-field={{me.width}} height-field={{me.height}} topoffset-field={{me.topoffset}} leftoffset-field={{me.leftoffset}} hilitemodel-field={{me.hilitemodel}} modelname-field={{me.modelname}} metadatauniqueness-field={{me.metadatauniqueness}}  checkeditems-field="me.checkeditems"    delegate-field="delegate"></div>' ; //original-field="me.original" markedup-field="me.markedup" delegate-field="delegate"></div>';
+        var tmpl = '<div ng-treecoe  incomingdata-field="me.incomingdata"  selectedvalue-field="me.selectedvalue"   treefrommodelmetadata-field="me.treefrommodelmetadata"  autolaunch-field={{me.autolaunch}} displaypropertyname-field={{me.displaypropertyname}}  uniquenesspropertyname-field={{me.uniquenesspropertyname}} width-field={{me.width}} height-field={{me.height}} topoffset-field={{me.topoffset}} leftoffset-field={{me.leftoffset}} hilitemodel-field={{me.hilitemodel}} modelname-field={{me.modelname}} metadatauniqueness-field={{me.metadatauniqueness}}  checkeditems-field="me.checkeditems"   searcheditems-field="me.searcheditems"   delegate-field="delegate"></div>' ; //original-field="me.original" markedup-field="me.markedup" delegate-field="delegate"></div>';
         return tmpl;
       }
     };

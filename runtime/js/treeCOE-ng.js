@@ -27,6 +27,7 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
         selectedvalueField : '=',
         treefrommodelmetadataField: '=',
         checkeditemsField: '=',
+        searcheditemsField: '=',
         delegateField: '='
       },
       template: '<div></div>',

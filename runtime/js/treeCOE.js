@@ -257,14 +257,19 @@ class CustomUI {
               }
             });
 
+            
 
+            let searchedforMap = new Map();
 
+            attributeElements.forEach(element => {
 
+              let value = this.treemap.get(element.id);
+              console.log("selected treeitem value=" + value); 
+              searchedforMap.set(element.id, value);
+              
+            });
 
-
-
-
-
+            this.metadata.checkedOccurences(searchedforMap , "searchfor") ;
 
           } else {
 
@@ -277,6 +282,25 @@ class CustomUI {
         });
 
         this.FilterContainer.appendChild(searchButton);
+
+
+
+        var clearsearchButton = document.createElement('img');
+        clearsearchButton.id = 'searchButton';  
+        clearsearchButton.className = 'tb-searchbutton';
+        clearsearchButton.src = "extensions/images/treeCOE_clearsearch.png";
+        clearsearchButton.addEventListener("click",  () => { 
+            // find all the elements in your channel list and loop over them
+            const allElements = document.querySelectorAll('li');
+            allElements.forEach((element) => {
+              element.classList.remove('itemselected');
+            });
+            this.metadata.checkedOccurences(new Map() , "searchfor") ;
+
+        });
+        this.FilterContainer.appendChild(clearsearchButton);
+
+
 
         // Ideas on tree creation found https://iamkate.com/code/tree-views/
         //
@@ -470,7 +494,7 @@ class CustomUI {
                   // this.metadata.vuforiaScope.$parent.fireEvent('checked');
                   // this.metadata.vuforiaScope.$parent.$applyAsync();
 
-                  this.metadata.checkedOccurences(this.checkedItemsMap) ;
+                  this.metadata.checkedOccurences(this.checkedItemsMap , "checked") ;
 
 
 
@@ -491,14 +515,11 @@ class CustomUI {
            }
           });
 
-
-
           // var nodes = row.nodes;
           var nodes = row['Components'];
           if(nodes && nodes.length) {
             this.createSublist(li, nodes);
           }
-
          // li.appendChild(checkbox);
           ul.appendChild(li);
         }
@@ -511,16 +532,6 @@ class CustomUI {
         allElements.forEach((element) => {
           element.classList.remove('itemselected');
         });
-
-        Array.prototype.slice.call(document.querySelectorAll("[open='true']")).forEach(function(element){
-          // remove the selected class
-
-          //element.removeAttribute('open');
-          
-        });
-
-
-
         // add the selected class to the element that was clicked
         try {
 
@@ -758,7 +769,7 @@ class Metadata {
   }
 
 
-  checkedOccurences = function (checkedItemsMap) {
+  checkedOccurences = function (checkedItemsMap , selectionType) {
     console.log("Using Model name:"+this.modelName + " getting Checked occurences ");
 
     let mu = this.metadatauniqueness;
@@ -773,15 +784,18 @@ class Metadata {
         checkArry.push(pathObj);
 
       });
+
       console.log("checkArry:" + JSON.stringify(checkArry));
-
-      vs.checkeditemsField = checkArry;
-      // and let everyone know
-      vs.$parent.fireEvent('checked');
+      
+      if (selectionType === "checked") {
+        // and let everyone know
+        vs.checkeditemsField = checkArry;
+        vs.$parent.fireEvent('checked');
+      } else if (selectionType === "searchfor") {
+        vs.searcheditemsField = checkArry;
+        vs.$parent.fireEvent('searchfor');
+      }
       vs.$parent.$applyAsync();
-     
-
-
 
 
     } else {
@@ -795,7 +809,7 @@ class Metadata {
           if (occuranceItems._selectedPaths.length > 0)  {
     
             let idpath = occuranceItems._selectedPaths[0]; //always pick the first - we dont support multi-select
-            console.log("checkedOccurences modelname:" + mn +" path:" + idpath);
+            console.log("searched or checked Occurences modelname:" + mn +" path:" + idpath);
             let pathObj = { model:mn, path:idpath}; 
             checkArry.push(pathObj);
     
@@ -808,9 +822,15 @@ class Metadata {
         });
   
         console.log("checkArry:" + JSON.stringify(checkArry));
-        vs.checkeditemsField = checkArry;
-        // and let everyone know
-        vs.$parent.fireEvent('checked');
+        
+        if (selectionType === "checked") {
+          // and let everyone know
+          vs.checkeditemsField = checkArry;
+          vs.$parent.fireEvent('checked');
+        } else if (selectionType === "searchfor") {
+          vs.searcheditemsField = checkArry;
+          vs.$parent.fireEvent('searchfor');
+        }
         vs.$parent.$applyAsync();
     })
 
