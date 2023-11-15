@@ -300,6 +300,31 @@ class CustomUI {
         });
         this.FilterContainer.appendChild(clearsearchButton);
 
+        var clearcheckedButton = document.createElement('img');
+        clearcheckedButton.id = 'searchButton';  
+        clearcheckedButton.className = 'tb-searchbutton';
+        clearcheckedButton.src = "extensions/images/treeCOE_clearchecked.png";
+        clearcheckedButton.addEventListener("click",  () => { 
+            // find all the elements in your channel list and loop over them
+            const allElements = document.querySelectorAll('li');
+            allElements.forEach((element) => {
+              element.classList.remove('itemselected');
+            });
+            this.metadata.checkedOccurences(new Map() , "searchfor") ;
+
+
+
+
+            this.checkedItemsMap.forEach(function(value, key) {
+             let checkedElement =  document.getElementById(key+"checkbox");
+             checkedElement.checked= false;
+      
+            });
+            this.checkedItemsMap = new Map();
+            this.metadata.checkedOccurences(new Map() , "checked") ;
+
+        });
+        this.FilterContainer.appendChild(clearcheckedButton);
 
 
         // Ideas on tree creation found https://iamkate.com/code/tree-views/
@@ -374,6 +399,10 @@ class CustomUI {
       while (this.UIContainer.hasChildNodes()) {
         this.UIContainer.removeChild(this.UIContainer.firstChild);
       }
+
+      this.metadata.vuforiaScope.$parent.fireEvent('closed');
+      this.metadata.vuforiaScope.$parent.$applyAsync();
+
     
     }
 

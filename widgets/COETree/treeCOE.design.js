@@ -224,6 +224,10 @@
           label: 'Items searched for'
         },
         {
+          name: 'closed',
+          label: 'Close action'
+        },
+        {
           name: 'completed',
           label: 'Completed action'
         },
@@ -235,7 +239,7 @@
       ],
 
       dependencies: {
-        files         : ['js/treeCOE-ng.js','js/treeCOE.js', 'images/treeCOE_close.png' ,'images/treeCOE_expand.png' , 'images/treeCOE_search.png' , 'images/treeCOE_clearsearch.png' ,'images/treeCOE_hilightgreen.png' , 'images/treeCOE_hilightyellow.png' , 'images/treeCOE_hilightred.png'  ],
+        files         : ['js/treeCOE-ng.js','js/treeCOE.js', 'images/treeCOE_close.png' ,'images/treeCOE_expand.png' , 'images/treeCOE_search.png' , 'images/treeCOE_clearsearch.png' ,'images/treeCOE_clearchecked.png' ,'images/treeCOE_hilightgreen.png' , 'images/treeCOE_hilightyellow.png' , 'images/treeCOE_hilightred.png'  ],
         angularModules: ['treecoe-ng']
       },
 
