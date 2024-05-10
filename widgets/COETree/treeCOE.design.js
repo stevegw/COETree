@@ -1,11 +1,11 @@
 // This widget definition will get combined into combined-widgets.js file along with all other widget definitions
 // use of anonymous func ensures nothing here leaks into global scope
 (function() {
-  function twxtreecoe() {
+  function wdgtreecoe() {
     return {
       // Required, this will be used as the top level tag when it's dropped on the Canvas
       // use a custom prefix to so the name won't collide with other widgets
-      elementTag: 'txw-treecoe',
+      elementTag: 'wdg-treecoe',
 
       // Text displayed for the widget in the Palette
       label: 'Tree COE',
@@ -243,10 +243,14 @@
         angularModules: ['treecoe-ng']
       },
 
-      // HTML to render when the widget is dropped on the Canvas
+      //HTML to render when the widget is dropped on the Canvas
       designTemplate: function () {
-        return '<div class="treecoeWidget"></div>';
+        return '<div class="treecoeWidget" style="display:none"></div>';
       },
+
+      // designTemplate: function () {
+      //   return '<div class="treecoeWidget">{{me.op}}</div>';
+      // },
 
       runtimeTemplate: function (props) {
         var tmpl = '<div ng-treecoe  incomingdata-field="me.incomingdata"  selectedvalue-field="me.selectedvalue"   treefrommodelmetadata-field="me.treefrommodelmetadata"  autolaunch-field={{me.autolaunch}} displaypropertyname-field={{me.displaypropertyname}}  uniquenesspropertyname-field={{me.uniquenesspropertyname}} width-field={{me.width}} height-field={{me.height}} topoffset-field={{me.topoffset}} leftoffset-field={{me.leftoffset}} hilitemodel-field={{me.hilitemodel}} modelname-field={{me.modelname}} metadatauniqueness-field={{me.metadatauniqueness}}  checkeditems-field="me.checkeditems"   searcheditems-field="me.searcheditems"   delegate-field="delegate"></div>' ; //original-field="me.original" markedup-field="me.markedup" delegate-field="delegate"></div>';
@@ -257,6 +261,6 @@
 
   // registers the widget in Studio so that it gets displayed in the Widget Palette, it will only show up in the
   // Widget Palette for views that this widget is registered for (as determined by category property)
-  twxAppBuilder.widget('twxtreecoe', twxtreecoe);
+  twxAppBuilder.widget('wdg-treecoe', wdgtreecoe);
 
 }());
