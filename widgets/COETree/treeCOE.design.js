@@ -97,6 +97,7 @@
             //{label: 'PartName'      , value: "PartName"},
             //{label: 'PVTreeId'      , value: "PVTreeId"},
             //{label: 'PVTreeId'      , value: "PVTreeId"},
+            {label: 'Part ID Path'      , value: "Part ID Path"},
             {label: 'Occurrence ID'      , value: "Occurrence.ID"},
             //{label: 'partusesoccurrence_objectid' ,    value: "partusesoccurrence_objectid"}
             //{label: 'Auto'    , value: "Auto"}
