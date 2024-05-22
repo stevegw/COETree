@@ -48,12 +48,12 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
           console.log('do the custom activities here');
           if (scope.data.tree != undefined) {
             try {
-              scope.data.customUI.close();
+              scope.data.tree.customUI.close();
             }catch(ex) {
                 // ignore
             }
           }
-          if (!scope.data.disabled) {
+          if (!scope.data.disabled && Object.keys( scope.incomingdataField).length > 0  ) {
             scope.data.tree = new TreeCOE(scope,scope.incomingdataField , scope.widthField, scope.heightField , scope.topoffsetField, scope.leftoffsetField, scope.renderer , scope.modelnameField , scope.displaypropertynameField,  scope.uniquenesspropertynameField , scope.metadatauniquenessField , scope.hilitemodelField );
             console.log('New Tree Created');
           } else {
